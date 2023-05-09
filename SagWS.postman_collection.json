@@ -141,7 +141,7 @@
 								},
 								{
 									"key": "activo",
-									"value": "S",
+									"value": "N",
 									"type": "default"
 								}
 							]
@@ -365,7 +365,7 @@
 			"name": "Rancho",
 			"item": [
 				{
-					"name": "GetAll",
+					"name": "GetAllRanchos",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -480,6 +480,33 @@
 								"ws",
 								"rancho",
 								"editarRancho"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "GetAllUsuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/usuario/getAllUsuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"usuario",
+								"getAllUsuarios"
 							]
 						}
 					},

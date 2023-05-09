@@ -87,7 +87,7 @@ public class LoginController implements Initializable {
                     Gson gson = new Gson();
                     
                     Usuario user = gson.fromJson(dataJson.get("respuesta").toString(), Usuario.class);
-                   
+
                     HashMap<String,Object> context = new HashMap<String, Object> ();
                     context.put("mac", JavaUtils.getMAC());
                     context.put("usuario",user);

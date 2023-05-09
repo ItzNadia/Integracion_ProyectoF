@@ -10,37 +10,42 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormCatalogoController">
    <children>
-      <Label fx:id="lbl_idCategoria" layoutX="47.0" layoutY="76.0" text="Id Catalogo: ">
+      <Label fx:id="lbl_idCategoria" layoutX="48.0" layoutY="89.0" prefHeight="22.0" prefWidth="105.0" text="Id Categoría: ">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_nombre" layoutX="47.0" layoutY="124.0" text="Nombre:">
+      <Label fx:id="lbl_nombre" layoutX="48.0" layoutY="137.0" text="Nombre:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_activo" layoutX="47.0" layoutY="178.0" text="Activo:">
+      <Label fx:id="lbl_activo" layoutX="48.0" layoutY="191.0" text="Activo:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_idCatalogo" layoutX="155.0" layoutY="71.0" promptText="Id Catalogo">
+      <TextField fx:id="txt_idCatalogo" layoutX="155.0" layoutY="35.0" promptText="Id Catálogo">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="txt_nombre" layoutX="155.0" layoutY="119.0" promptText="Nombre">
+      <TextField fx:id="txt_idCategoria" layoutX="156.0" layoutY="84.0" promptText="Id Categoría">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="txt_activo" layoutX="155.0" layoutY="173.0" promptText="Activo">
+      <TextField fx:id="txt_nombre" layoutX="156.0" layoutY="132.0" promptText="Nombre">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="btn_guardar" layoutX="59.0" layoutY="241.0" mnemonicParsing="false" onAction="#guardarCatalogo" text="Guardar">
+      <TextField fx:id="txt_activo" layoutX="156.0" layoutY="186.0" promptText="Activo">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btn_guardar" layoutX="60.0" layoutY="254.0" mnemonicParsing="false" onAction="#guardarCatalogo" text="Guardar">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -52,7 +57,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn_cerrar" layoutX="220.0" layoutY="241.0" mnemonicParsing="false" onAction="#cerrar" text="Cerrar">
+      <Button fx:id="btn_cerrar" layoutX="221.0" layoutY="254.0" mnemonicParsing="false" onAction="#cerrar" text="Cerrar">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -64,5 +69,10 @@
             </ImageView>
          </graphic>
       </Button>
+      <Label fx:id="lbl_idCatalogo" layoutX="47.0" layoutY="40.0" text="Id Catálogo: ">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

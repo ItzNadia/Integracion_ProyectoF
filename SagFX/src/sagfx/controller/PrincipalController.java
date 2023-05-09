@@ -36,6 +36,8 @@ public class PrincipalController implements Initializable {
     private MenuItem mi_usuarios;
     @FXML
     private MenuItem mi_categoria;
+    
+    HashMap<String, Object> context;
 
     /**
      * Initializes the controller class.
@@ -46,6 +48,7 @@ public class PrincipalController implements Initializable {
     }
 
     public void setData(HashMap<String, Object> context){
+        this.context= context;
         System.out.println(context);
     }
     
@@ -53,9 +56,8 @@ public class PrincipalController implements Initializable {
     private void abrirCategorias(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/CategoriasFXML.fxml"));
-            Parent principal;
-            principal = loader.load();
-            pnl_principal.setCenter(principal);
+            Parent categorias = loader.load();
+            pnl_principal.setCenter(categorias);
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
     }
