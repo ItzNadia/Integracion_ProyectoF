@@ -1,0 +1,491 @@
+{
+	"info": {
+		"_postman_id": "e3326abb-b7df-4c85-8c7d-0daf493162ec",
+		"name": "SagWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "usuario",
+									"value": "LuisZpt",
+									"type": "default"
+								},
+								{
+									"key": "contrasena",
+									"value": "wasd",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/sesion/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"sesion",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "RegistrarCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCategoria",
+									"value": "4",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "Prueba",
+									"type": "default"
+								},
+								{
+									"key": "activo",
+									"value": "N",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/categoria/registrarCategoria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"categoria",
+								"registrarCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/categoria/getAllCategorias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"categoria",
+								"getAllCategorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCategoria",
+									"value": "4",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "Drogas",
+									"type": "default"
+								},
+								{
+									"key": "activo",
+									"value": "S",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/categoria/editarCategoria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"categoria",
+								"editarCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editarEstatusCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCategoria",
+									"value": "4",
+									"type": "default"
+								},
+								{
+									"key": "activo",
+									"value": "N",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/categoria/editarEstatusCategoria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"categoria",
+								"editarEstatusCategoria"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Catalogo",
+			"item": [
+				{
+					"name": "RegistrarCatalogo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCatalogo",
+									"value": "103",
+									"type": "default"
+								},
+								{
+									"key": "idCategoria",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "Suspendido",
+									"type": "default"
+								},
+								{
+									"key": "activo",
+									"value": "S",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/catalogo/registrarCatalogo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"catalogo",
+								"registrarCatalogo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCatalogo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCatalogo",
+									"value": "103",
+									"type": "default"
+								},
+								{
+									"key": "idCategoria",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "ReSuspendido",
+									"type": "default"
+								},
+								{
+									"key": "activo",
+									"value": "N",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/catalogo/editarCatalogo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"catalogo",
+								"editarCatalogo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarEstatusCatalogo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCatalogo",
+									"value": "103",
+									"type": "default"
+								},
+								{
+									"key": "activo",
+									"value": "S",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/catalogo/editarEstatusCatalogo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"catalogo",
+								"editarEstatusCatalogo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCatalogosByCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/catalogo/getCatalogosByCategoria/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"catalogo",
+								"getCatalogosByCategoria",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rancho",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/rancho/getAllRanchos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"rancho",
+								"getAllRanchos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Prueba",
+									"type": "default"
+								},
+								{
+									"key": "direccion",
+									"value": "Gaïa",
+									"type": "default"
+								},
+								{
+									"key": "nombreEncargado",
+									"value": "UnaIccel",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/rancho/registrarRancho",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"rancho",
+								"registrarRancho"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "PruebaEdit",
+									"type": "default"
+								},
+								{
+									"key": "direccion",
+									"value": "Gaïa",
+									"type": "default"
+								},
+								{
+									"key": "nombreEncargado",
+									"value": "Nadia Itzel",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/rancho/editarRancho",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"rancho",
+								"editarRancho"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

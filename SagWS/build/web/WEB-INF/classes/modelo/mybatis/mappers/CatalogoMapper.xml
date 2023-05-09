@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Catalogo">
+    <select id="getCatalogosByCategoria" resultType="modelo.pojos.Catalogo" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getCatalogosByCategoria(#{id, jdbcType=INTEGER,mode=IN})}
+    </select>
+    
+    <insert id="registrarCatalogo" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_registrarCatalogo(
+            #{idCatalogo, jdbcType=INTEGER,mode=IN},
+            #{idCategoria, jdbcType=INTEGER,mode=IN},
+            #{nombre, jdbcType=VARCHAR,mode=IN},
+            #{activo, jdbcType=VARCHAR,mode=IN})}
+    </insert>
+    
+    <update id="editarCatalogo" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarCatalogo(
+            #{idCatalogo, jdbcType=INTEGER,mode=IN},
+            #{idCategoria, jdbcType=INTEGER,mode=IN},
+            #{nombre, jdbcType=VARCHAR,mode=IN},
+            #{activo, jdbcType=VARCHAR,mode=IN})}
+    </update>
+    
+    <update id="editarEstatusCatalogo" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarEstatusCatalogo(
+            #{idCatalogo, jdbcType=INTEGER,mode=IN},
+            #{activo, jdbcType=VARCHAR,mode=IN})}
+    </update>
+</mapper>

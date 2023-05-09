@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED" >
+                <!--<property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://127.0.0.1:1433;instanceName=MSSQLSERVER;db=peliculas"/>-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/sag?serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="wasd"/>
+                <property name="poolMaximumActiveConnections" value="50"/>
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <mappers>
+       <mapper resource="modelo/mybatis/mappers/SesionMapper.xml"/>
+       <mapper resource="modelo/mybatis/mappers/CategoriaMapper.xml"/>
+       <mapper resource="modelo/mybatis/mappers/CatalogoMapper.xml"/>
+       <mapper resource="modelo/mybatis/mappers/RanchoMapper.xml"/>
+    </mappers>
+</configuration>
