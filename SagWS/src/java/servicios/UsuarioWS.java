@@ -28,14 +28,14 @@ public class UsuarioWS {
     }
 
     @GET
-    @Path("getAllUsers")
+    @Path("getAllUsuarios")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Usuario>getAllUsers(){
     List<Usuario> list = new ArrayList<Usuario>();
     SqlSession conn=null;
     try{
         conn=MyBatisUtil.getSession();
-        list=conn.selectList("Usuario.getAllUsers");
+        list=conn.selectList("Usuario.getAllUsuarios");
     }catch(Exception ex){
         ex.printStackTrace();
     }finally{
@@ -57,7 +57,9 @@ public class UsuarioWS {
             @FormParam("usuario") String usuario,
             @FormParam("contrasena") String contrasena,
             @FormParam("idRol") Integer idRol,
-            @FormParam("idEstatus") Integer idEstatus){
+            @FormParam("idEstatus") Integer idEstatus,
+            @FormParam("idRancho") Integer idRancho,
+            @FormParam("idUsuarioAlta") Integer idUsuarioAlta){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
         try{
@@ -70,6 +72,8 @@ public class UsuarioWS {
             param.put("contrasena", JavaUtils.hashString(contrasena.toUpperCase()));
             param.put("idRol", idRol);
             param.put("idEstatus", idEstatus);
+            param.put("idRancho", idRancho);
+            param.put("idUsuarioAlta", idUsuarioAlta);
             
             conn.insert("Usuario.registrarUsuario", param);
             conn.commit();
@@ -100,7 +104,7 @@ public class UsuarioWS {
             @FormParam("idRol") Integer idRol,
             @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idRancho") Integer idRancho,
-            @FormParam("usuarioEditor") Integer usuarioEditor){
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
         try{
@@ -115,13 +119,13 @@ public class UsuarioWS {
             param.put("idRol", idRol);
             param.put("idEstatus", idEstatus);
             param.put("idRancho", idRancho);
-            param.put("usuarioEditor", usuarioEditor);
+            param.put("idUsuarioEditor", idUsuarioEditor);
             
             conn.update("Usuario.editarUsuario", param);
             conn.commit();
             
             res.setError(false);
-            res.setMensaje("Usuario editado correctamente");
+            res.setMensaje("¡Usuario editado correctamente!");
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
@@ -132,18 +136,20 @@ public class UsuarioWS {
         return res;
     }
     
-    @PUT
+    @POST
     @Path("editarEstatusUsuario")
     @Produces(MediaType.APPLICATION_JSON)
     public Respuesta editarEstatusUsuario(
             @FormParam("idUsuario") Integer idUsuario,
-            @FormParam("idEstatus") Integer idEstatus){
+            @FormParam("idEstatus") Integer idEstatus,
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
         try{
             HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idUsuario", idUsuario);
             param.put("idEstatus", idEstatus);
+            param.put("idUsuarioEditor", idUsuarioEditor);
             
             conn.update("Usuario.editarEstatusUsuario", param);
             conn.commit();
@@ -153,7 +159,7 @@ public class UsuarioWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar el estatus usuario......");
+            res.setMensaje("Error al editar el estatus usuario...");
         }finally{
             conn.close();
         }

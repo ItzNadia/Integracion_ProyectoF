@@ -162,8 +162,8 @@ CREATE TABLE IF NOT EXISTS hatosTraspaso(
 
 CREATE TABLE IF NOT EXISTS movimiento(
 	idMovimiento INT NOT NULL AUTO_INCREMENT,
-	cantidadVenta DOUBLE NOT NULL,
-	tipo BOOLEAN NOT NULL, -- TRUE = Ingreso ; FALSE = Egresos --
+	cantidadVenta DECIMAL(12,2) NOT NULL,
+	tipo VARCHAR(50) NOT NULL,
 	concepto VARCHAR(100) NOT NULL,
 	fecha DATE NOT NULL,
 	observacion VARCHAR(200) NOT NULL,
@@ -178,7 +178,8 @@ CREATE TABLE IF NOT EXISTS movimiento(
 	FOREIGN KEY (idUsuarioEditor) REFERENCES usuario(idUsuario));
 
 INSERT INTO rancho(nombre, direccion, nombreEncargado, fechaAlta, idUsuarioAlta) VALUES
-("Rancho de los Admins", "En tu corazón <3", "Admins", "2023-04-22", 1);
+("Reino de los Admins", "En tu corazón <3", "Admins", "2023-04-22", 1),
+("La granjita", "Calle granjita #1234", "Otis", "2023-05-11", 2);
 
 INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (1, NULL, "Estatus actividad","S"),
@@ -231,6 +232,11 @@ INSERT INTO cria(idHatoMadre, sexo, fechaNacimiento, idRaza, idEstatus, observac
 (5, "H", "2023-02-11", 307, 101, "Vaca negra", 1, "2023-04-22", 1),
 (10, "H", "2023-01-22", 307, 101, "Vaca marron con manchas blancas", 1, "2023-04-22", 2),
 (11, "M", "2023-02-07", 307, 101, "Vaca blanca con manchas marrones", 1, "2023-04-22", 2);
+
+INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observacion, idRancho, fechaAlta, idUsuarioAlta) VALUES
+(5000000, "Ingreso", "Ingreso para inciciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, CURDATE(), 1),
+(-20000, "Egreso", "Pago nominas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, CURDATE(), 2),
+(5000, "Ingreso", "Venta de productos láctos", "2023-04-22", "Al menos recuperamos con esto", 1, CURDATE(), 2);
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -424,6 +430,30 @@ CREATE OR REPLACE VIEW consultasmedicasfullinfo AS
 
 -- ############################################################################################################################################## --
 
+CREATE OR REPLACE VIEW movimientosfullinfo AS
+	SELECT
+		m.idMovimiento,
+		m.cantidadVenta,
+		m.tipo,
+		m.concepto,
+		m.fecha,
+		m.observacion,
+		m.idRancho,
+		r.nombre AS rancho,
+		m.fechaAlta,
+		m.idUsuarioAlta,
+		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
+		m.fechaEdicion,
+		m.idUsuarioEditor,
+		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
+	FROM movimiento m
+		INNER JOIN rancho r ON m.idRancho=r.idRancho
+		INNER JOIN usuario ua ON m.idUsuarioAlta=ua.idUsuario
+		LEFT JOIN usuario ue ON m.idUsuarioEditor=ue.idUsuario
+	ORDER BY m.fecha DESC;
+
+-- ############################################################################################################################################## --
+
 --      PROCEDIMIENTOS ALMACENADOS                                                                                                                --
 
 -- ############################################################################################################################################## --
@@ -487,10 +517,11 @@ END$$
 
 CREATE PROCEDURE sp_editarEstatusUsuario(
 	IN idUsuario INT,
-	IN idEstatus INT)
+	IN idEstatus INT,
+	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE usuario u
-	SET u.idEstatus=idEstatus
+	SET u.idEstatus=idEstatus, u.fechaEdicion=CURDATE(), u.idUsuarioEditor=idUsuarioEditor
 	WHERE u.idUsuario=idUsuario;
 END$$
 
@@ -648,10 +679,11 @@ END$$
 
 CREATE PROCEDURE sp_editarEstatusLote(
 	IN idLote INT,
-	IN idEstatus INT)
+	IN idEstatus INT,
+	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE lote l
-	SET l.idEstatus=idEstatus
+	SET l.idEstatus=idEstatus, l.fechaEdicion=CURDATE(), l.idUsuarioEditor=idUsuarioEditor
 	WHERE l.idLote=idLote;
 END$$
 
@@ -700,10 +732,11 @@ END$$
 
 CREATE PROCEDURE sp_editarEstatusHato(
 	IN idHato INT,
-	IN idEstatus INT)
+	IN idEstatus INT,
+	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE hato h
-	SET h.idEstatus=idEstatus
+	SET h.idEstatus=idEstatus, h.fechaEdicion=CURDATE(), h.idUsuarioEditor=idUsuarioEditor
 	WHERE h.idHato=idHato;
 END$$
 
@@ -711,10 +744,11 @@ END$$
 
 CREATE PROCEDURE sp_bajaHato(
 	IN idHato INT,
-	IN motivoBaja VARCHAR(500))
+	IN motivoBaja VARCHAR(500),
+	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE hato h
-	SET h.idEstatus=102, h.fechaBaja=CURDATE(), h.motivoBaja=motivoBaja
+	SET h.idEstatus=102, h.fechaBaja=CURDATE(), h.motivoBaja=motivoBaja, h.fechaEdicion=CURDATE(), h.idUsuarioEditor=idUsuarioEditor
 	WHERE h.idHato=idHato;
 END$$
 
@@ -763,10 +797,11 @@ END$$
 
 CREATE PROCEDURE sp_editarEstatusCria(
 	IN idCria INT,
-	IN idEstatus INT)
+	IN idEstatus INT,
+	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE cria c
-	SET c.idEstatus=idEstatus
+	SET c.idEstatus=idEstatus, c.fechaEdicion=CURDATE(), c.idUsuarioEditor=idUsuarioEditor
 	WHERE c.idCria=idCria;
 END$$
 
