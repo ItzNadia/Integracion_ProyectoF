@@ -19,10 +19,13 @@
          <children>
             <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Código">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="77.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código" />
+            <TextField fx:id="txt_busqueda" layoutX="77.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font></TextField>
             <Button fx:id="btn_buscar" layoutX="518.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarCategoria" text="Buscar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -32,7 +35,7 @@
                   </ImageView>
                </graphic>
                <font>
-                  <Font size="14.0" />
+                  <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Button>
             <Button fx:id="btn_limpiar" layoutX="624.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
@@ -43,9 +46,9 @@
                      </image>
                   </ImageView>
                </graphic>
-               <font>
-                  <Font size="14.0" />
-               </font>
+                <font>
+                    <Font name="Lucida Sans Unicode" size="14.0" />
+                </font>
             </Button>
          </children>
       </Pane>
@@ -55,7 +58,7 @@
                <children>
                   <Text layoutX="19.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categorías">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="Lucida Sans Unicode" size="14.0" />
                      </font>
                   </Text>
                   <Pane fx:id="pnl_categoriaBotones" layoutX="-2.0" layoutY="28.0" prefHeight="55.0" prefWidth="763.0">
@@ -69,12 +72,12 @@
                               </ImageView>
                            </graphic>
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
                         <Button fx:id="btn_editarCategoria" layoutX="144.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarCategoria" text="Editar">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -93,12 +96,12 @@
                               </ImageView>
                            </graphic>
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
                         <Button fx:id="btn_desactivarCategoria" layoutX="364.0" layoutY="13.0" mnemonicParsing="false" onAction="#desactivarCategoria" text="Desactivar">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -123,7 +126,7 @@
                <children>
                   <Text layoutX="16.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catálogos">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="Lucida Sans Unicode" size="14.0" />
                      </font>
                   </Text>
                   <Pane fx:id="pnl_catalogoBotones" layoutX="-1.0" layoutY="27.0" onDragDetected="#editarCatalogo" prefHeight="55.0" prefWidth="763.0">
@@ -137,12 +140,12 @@
                               </ImageView>
                            </graphic>
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
                         <Button fx:id="btn_editarCatalogo" layoutX="144.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarCatalogo" text="Editar">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -154,7 +157,7 @@
                         </Button>
                         <Button fx:id="btn_activarCatalogo" layoutX="250.0" layoutY="13.0" mnemonicParsing="false" onAction="#activarCatalogo" text="Activar">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -165,9 +168,9 @@
                            </graphic>
                         </Button>
                         <Button fx:id="btn_desactivarCatalogo" layoutX="364.0" layoutY="13.0" mnemonicParsing="false" onAction="#desactivarCatalogo" text="Desactivar">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
+                            <font>
+                                <Font name="Lucida Sans Unicode" size="14.0" />
+                            </font>
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" onDragDetected="#desactivarCatalogo" pickOnBounds="true" preserveRatio="true">
                                  <image>

@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         {CALL sag.sp_getAllCategorias()}
     </select>
     
-    <select id="getCategoriaById" resultType="modelo.pojos.Categoria" statementType="CALLABLE" parameterType="int">
+    <select id="getCategoriaById" resultType="modelo.pojos.Categoria" statementType="CALLABLE" parameterType="map">
         {CALL sag.sp_getCategoriaById(#{idCategoria, jdbcType=INTEGER,mode=IN})}
     </select>
     
