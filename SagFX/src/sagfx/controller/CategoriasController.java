@@ -32,6 +32,7 @@ import sagfx.api.requests.Requests;
 import sagfx.model.Catalogo;
 import sagfx.model.Categoria;
 import sagfx.utils.Alerta;
+import sagfx.utils.Window;
 
 public class CategoriasController implements Initializable {
 
@@ -100,11 +101,12 @@ public class CategoriasController implements Initializable {
 
     @FXML
     private void buscarCategoria(ActionEvent event) {
-        if (this.validarNumero(this.txt_busqueda.getText())) {
+        this.getCategoriaById();
+        /*if (this.validarNumero(this.txt_busqueda.getText())) {
             new Alerta("Debug", "Sí es un número we");
         } else {
             new Alerta("Debug", "Nmms a esto llamas número?");
-        }
+        }*/
     }
 
     @FXML
@@ -228,6 +230,40 @@ public class CategoriasController implements Initializable {
             //con el add agrega los elementos a la tabla
             tbl_catalogo.getItems().add(e);
         });
+    }
+
+    private void getCategoriaById() {
+        if (this.validarNumero(this.txt_busqueda.getText()) && !this.txt_busqueda.getText().equals("")) {
+            try {
+                String respuesta = "";
+                this.tbl_categoria.getItems().clear();
+                this.tbl_catalogo.getItems().clear();
+
+                HashMap<String, Object> params = new LinkedHashMap<>();
+                params.put("idCategoria", this.txt_busqueda.getText());
+
+                respuesta = Requests.post("/categoria/getCategoriaById", params);
+                JSONObject dataJson = new JSONObject(respuesta);
+
+                if (!(Boolean) dataJson.get("error")) {
+                    Gson gson = new Gson();
+
+                    Categoria categoria = gson.fromJson(dataJson.get("respuesta").toString(), Categoria.class);
+
+                    tcl_categoriaIdCategoria.setCellValueFactory(new PropertyValueFactory<>("idCategoria"));
+                    tcl_categoriaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+                    tcl_categoriaActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+
+                    tbl_categoria.getItems().add(categoria);
+                } else {
+                    new Alerta("Debug", dataJson.getString("mensaje"));
+                }
+            } catch (JSONException ex) {
+                Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            new Alerta("Debug", "Identificador de categoría no válido");
+        }
     }
 
     private void formCategoria(boolean isNew) {
