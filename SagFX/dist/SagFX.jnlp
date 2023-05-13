@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SagFX.jar" size="143466" download="eager" />
+    <jar href="SagFX.jar" size="143866" download="eager" />
     <jar href="lib\gson-2.8.2.jar" size="232932" download="eager" />
     <jar href="lib\java-json.jar" size="84697" download="eager" />
   </resources>
