@@ -534,6 +534,13 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_getCategoriaById(IN idCategoria INT)
+BEGIN
+	SELECT * FROM categoriasfullinfo c WHERE c.idCategoria = idCategoria;
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_registrarCategoria(
 	IN idCategoria INT,
 	IN nombre VARCHAR(50),

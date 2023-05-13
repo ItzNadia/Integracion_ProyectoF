@@ -15,6 +15,7 @@ import modelo.mybatis.MyBatisUtil;
 import modelo.pojos.Categoria;
 import modelo.pojos.Respuesta;
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 
 @Path("categoria")
 public class CategoriaWS {
@@ -42,6 +43,29 @@ public class CategoriaWS {
         }
     }
         return list;
+    }
+
+    @POST
+    @Path("getCategoriaById")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta getCategoriaById(
+            @FormParam("idCategoria") Integer idCategoria){
+        Respuesta res = new Respuesta();
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            Categoria c = conn.selectOne("Categoria.getCategoriaById", idCategoria);
+            
+            res.setRespuesta(new JSONObject(c));
+            res.setError(false);
+            res.setMensaje("¡Categoría encontrada!");
+        }catch(Exception e){
+            e.printStackTrace();
+            res.setError(true);
+            res.setMensaje("Categoría no encontrada...");
+        }finally{
+            conn.close();
+        }
+        return res;
     }
 
     @POST

@@ -93,7 +93,7 @@
 					"response": []
 				},
 				{
-					"name": "GetAll",
+					"name": "GetAllCategorias",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -158,6 +158,38 @@
 								"ws",
 								"categoria",
 								"editarCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoriaById",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCategoria",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/categoria/getCategoriaById",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"categoria",
+								"getCategoriaById"
 							]
 						}
 					},
@@ -387,7 +419,7 @@
 					"response": []
 				},
 				{
-					"name": "Registrar",
+					"name": "RegistrarRancho",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -507,6 +539,207 @@
 								"ws",
 								"usuario",
 								"getAllUsuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Ingrid Yadelí",
+									"type": "default"
+								},
+								{
+									"key": "apellidoPaterno",
+									"value": "López",
+									"type": "default"
+								},
+								{
+									"key": "apellidoMaterno",
+									"value": "Águilar",
+									"type": "default"
+								},
+								{
+									"key": "celular",
+									"value": "2281345788",
+									"type": "default"
+								},
+								{
+									"key": "usuario",
+									"value": "Yayis",
+									"type": "default"
+								},
+								{
+									"key": "contrasena",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "idRol",
+									"value": "202",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/usuario/registrarUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"usuario",
+								"registrarUsuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idUsuario",
+									"value": "3",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "Ingrid Yadelí",
+									"type": "default"
+								},
+								{
+									"key": "apellidoPaterno",
+									"value": "López",
+									"type": "default"
+								},
+								{
+									"key": "apellidoMaterno",
+									"value": "Águilar",
+									"type": "default"
+								},
+								{
+									"key": "celular",
+									"value": "2281345788",
+									"type": "default"
+								},
+								{
+									"key": "usuario",
+									"value": "Yayis",
+									"type": "default"
+								},
+								{
+									"key": "contrasena",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "idRol",
+									"value": "202",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/usuario/editarUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"usuario",
+								"editarUsuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarEstatusUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idUsuario",
+									"value": "4",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "102",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/usuario/editarEstatusUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"usuario",
+								"editarEstatusUsuario"
 							]
 						}
 					},
