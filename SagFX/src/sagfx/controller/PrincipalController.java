@@ -38,6 +38,8 @@ public class PrincipalController implements Initializable {
     private MenuItem mi_categoria;
     
     HashMap<String, Object> context;
+    @FXML
+    private MenuItem mi_rancho;
 
     /**
      * Initializes the controller class.
@@ -63,4 +65,16 @@ public class PrincipalController implements Initializable {
     }
    
     }
+
+    @FXML
+    private void abrirRanchos(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/RanchosFXML.fxml"));
+            Parent ranchos = loader.load();
+            pnl_principal.setCenter(ranchos);
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
+    
