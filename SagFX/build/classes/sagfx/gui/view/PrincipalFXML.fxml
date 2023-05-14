@@ -23,6 +23,7 @@
               <items>
                 <MenuItem fx:id="mi_usuarios" mnemonicParsing="false" text="Usuarios" />
               <MenuItem fx:id="mi_categoria" mnemonicParsing="false" onAction="#abrirCategorias" text="Categoria y Catalogos" />
+                  <MenuItem fx:id="mi_rancho" mnemonicParsing="false" onAction="#abrirRanchos" text="Ranchos" />
               </items>
             </Menu>
         </menus>

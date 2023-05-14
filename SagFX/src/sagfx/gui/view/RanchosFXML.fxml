@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.RanchosController">
+   <children>
+      <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="740.0">
+         <children>
+            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Código">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txt_busqueda" layoutX="77.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font></TextField>
+            <Button fx:id="btn_buscar" layoutX="518.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarRancho" text="Buscar">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/search.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn_limpiar" layoutX="624.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/clearfields.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+                <font>
+                    <Font name="Lucida Sans Unicode" size="14.0" />
+                </font>
+            </Button>
+         </children>
+      </Pane>
+      <SplitPane fx:id="spl_categoriaCatalogo" layoutY="61.0" orientation="VERTICAL" prefHeight="539.0" prefWidth="764.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="1029.0">
+               <children>
+                  <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranchos">
+                     <font>
+                        <Font name="Lucida Sans Unicode" size="18.0" />
+                     </font>
+                  </Text>
+                  <Pane fx:id="pnl_categoriaBotones" layoutX="-2.0" layoutY="28.0" prefHeight="55.0" prefWidth="763.0">
+                     <children>
+                        <Button fx:id="btn_nuevoRancho" layoutX="37.0" layoutY="13.0" mnemonicParsing="false" onAction="#registrarRancho" text="Nuevo">
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/add.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_editarRancho" layoutX="144.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarRancho" text="Editar">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/edit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tbl_ranchos" layoutY="83.0" onMouseClicked="#clickTableRanchos" prefHeight="454.0" prefWidth="763.0">
+                    <columns>
+                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="126.39998626708984" text="Nombre" />
+                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="139.20001983642578" text="Dirección" />
+                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="99.2000732421875" text="Encargado" />
+                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="85.5999755859375" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="97.60000610351562" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_ranchoFechaEdicion" prefWidth="89.60003662109375" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="127.20001220703125" text="Usuario Edición" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</Pane>
