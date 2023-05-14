@@ -60,7 +60,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_nombreEncagradoRancho" layoutX="142.0" layoutY="206.0" prefHeight="32.0" prefWidth="206.0" promptText="Encargado">
+      <TextField fx:id="txt_nombreEncargadoRancho" layoutX="142.0" layoutY="206.0" prefHeight="32.0" prefWidth="206.0" promptText="Encargado">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>

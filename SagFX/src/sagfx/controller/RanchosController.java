@@ -79,8 +79,12 @@ public class RanchosController implements Initializable {
     private TableColumn<Rancho, String> tcl_ranchoFechaEdicion;
     @FXML
     private TableColumn<Rancho, String> tcl_ranchoUsuarioEdicion;
+    @FXML
+    private TableColumn<Rancho, Integer> tcl_idRancho;
     
     private Rancho rancho = null;
+    HashMap<String, Object> context;
+
 
     /**
      * Initializes the controller class.
@@ -93,6 +97,7 @@ public class RanchosController implements Initializable {
 
     @FXML
     private void limpiarBusqueda(ActionEvent event) {
+        this.txt_busqueda.setText("");
     }
     
     @FXML
@@ -124,7 +129,7 @@ public class RanchosController implements Initializable {
         };
 
         List<Rancho> listRanchos = gson.fromJson(respuesta, token.getType());
-
+        tcl_idRancho.setCellValueFactory(new PropertyValueFactory<>("idRancho"));
         tcl_ranchoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tcl_ranchoDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         tcl_ranchoEncargado.setCellValueFactory(new PropertyValueFactory<>("nombreEncargado"));
@@ -144,7 +149,7 @@ public class RanchosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormRanchoFXML.fxml"));
             Parent formRancho = loader.load();
             FormRanchoController ctrl = loader.getController();
-            ctrl.setData(this.rancho, isNew);
+            ctrl.setData(context, this.rancho, isNew);
             Scene scene = new Scene(formRancho);
             stage.setScene(scene);
             if (isNew) {
@@ -163,7 +168,10 @@ public class RanchosController implements Initializable {
     private void clickTableRanchos(MouseEvent event) {
         if (tbl_ranchos.getSelectionModel().getSelectedItem() != null) {
             rancho = tbl_ranchos.getSelectionModel().getSelectedItem();
-            this.cargarRanchos();
         }
+    }
+    
+    public void setData(HashMap<String, Object> context){
+        this.context= context;
     }
 }

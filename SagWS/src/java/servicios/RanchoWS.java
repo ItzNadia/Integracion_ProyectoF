@@ -69,7 +69,7 @@ public class RanchoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("No se registrar crear el rancho...");
+            res.setMensaje("No se pudo registrar el rancho...");
         }finally{
             conn.close();
         }

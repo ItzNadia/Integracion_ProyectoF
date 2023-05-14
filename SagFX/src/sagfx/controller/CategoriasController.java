@@ -283,7 +283,7 @@ public class CategoriasController implements Initializable {
 
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(sarefx.controller.CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sagfx.controller.CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

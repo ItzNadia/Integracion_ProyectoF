@@ -9,11 +9,6 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Ganado">
-            <items>
-              <MenuItem fx:id="mi_administrarGanado" mnemonicParsing="false" text="AdministrarGanado" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Movimientos">
             <items>
               <MenuItem fx:id="mi_ingresosEgresos" mnemonicParsing="false" text="Ingresos/Egresos" />
