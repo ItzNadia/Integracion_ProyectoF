@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.RanchosController">
+<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.RanchosController">
    <children>
       <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="740.0">
          <children>
@@ -52,7 +52,7 @@
             </Button>
          </children>
       </Pane>
-      <SplitPane fx:id="spl_categoriaCatalogo" layoutY="61.0" orientation="VERTICAL" prefHeight="539.0" prefWidth="764.0">
+      <SplitPane fx:id="spl_categoriaCatalogo" layoutY="61.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="1029.0">
                <children>
@@ -89,15 +89,16 @@
                         </Button>
                      </children>
                   </Pane>
-                  <TableView fx:id="tbl_ranchos" layoutY="83.0" onMouseClicked="#clickTableRanchos" prefHeight="454.0" prefWidth="763.0">
+                  <TableView fx:id="tbl_ranchos" layoutY="83.0" onMouseClicked="#clickTableRanchos" prefHeight="517.0" prefWidth="799.0">
                     <columns>
-                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="126.39998626708984" text="Nombre" />
-                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="139.20001983642578" text="Dirección" />
-                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="99.2000732421875" text="Encargado" />
-                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="85.5999755859375" text="Fecha Alta" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="97.60000610351562" text="Usuario Alta" />
-                        <TableColumn fx:id="tcl_ranchoFechaEdicion" prefWidth="89.60003662109375" text="Fecha Edición" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="127.20001220703125" text="Usuario Edición" />
+                        <TableColumn fx:id="tcl_idRancho" prefWidth="75.0" text="Id Rancho" />
+                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="92.800048828125" text="Nombre" />
+                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="114.4000244140625" text="Dirección" />
+                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="102.39996337890625" text="Encargado" />
+                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="82.39996337890625" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="100.79998779296875" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_ranchoFechaEdicion" prefWidth="84.79998779296875" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="142.4000244140625" text="Usuario Edición" />
                     </columns>
                   </TableView>
                </children>
