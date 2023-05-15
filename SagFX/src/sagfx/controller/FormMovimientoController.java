@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sagfx.controller;
 
 import java.net.URL;
@@ -11,43 +16,49 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
-import sagfx.model.Catalogo;
-import sagfx.model.Categoria;
+import sagfx.model.Movimiento;
+import sagfx.model.Rancho;
 import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
-public class FormCatalogoController implements Initializable {
+/**
+ * FXML Controller class
+ *
+ * @author nait0
+ */
+public class FormMovimientoController implements Initializable {
 
-    @FXML
-    private Label lbl_idCategoria;
-    @FXML
-    private Label lbl_nombre;
-    @FXML
-    private Label lbl_activo;
-    @FXML
-    private TextField txt_idCatalogo;
-    @FXML
-    private TextField txt_nombre;
     @FXML
     private Button btn_guardar;
     @FXML
     private Button btn_cerrar;
     @FXML
-    private TextField txt_idCategoria;
+    private Label lbl_cantidad;
     @FXML
-    private Label lbl_idCatalogo;
+    private TextField txt_cantidad;
     @FXML
-    private CheckBox chb_activo;
-   
-    Categoria categoria = null;
-    Catalogo catalogo = null;
+    private Label lbl_tipo;
+    @FXML
+    private TextField txt_concepto;
+    @FXML
+    private Label lbl_celular;
+    @FXML
+    private TextField txt_fecha;
+    @FXML
+    private Label lbl_observaciones;
+    @FXML
+    private TextArea txt_observaciones;
+    @FXML
+    private CheckBox chb_movimiento;
+    
+    Movimiento movimiento = null;
     Boolean isNew = false;
-
-
+    HashMap<String, Object> context;
 
     /**
      * Initializes the controller class.
@@ -57,32 +68,12 @@ public class FormCatalogoController implements Initializable {
         // TODO
     }    
     
-    public void setData(Categoria categoria, Catalogo catalogo, Boolean isNew){
-        this.categoria = categoria;
-        this.catalogo = catalogo;
+    public void setData(HashMap<String, Object> context, Movimiento movimiento, Boolean isNew) {
+        this.context = context;
+        this.movimiento = movimiento;
         this.isNew = isNew;
-        this.cargarCatalogo();
+        //this.cargarMovimiento();
     }
-    
-    public void cargarCatalogo(){
-        if(!isNew){
-            this.txt_idCatalogo.setText(catalogo.getIdCatalogo().toString());
-            this.txt_idCategoria.setText(catalogo.getIdCategoria().toString());
-            this.txt_nombre.setText(catalogo.getNombre());
-            if (!isNew) {
-                if ("S".equals(catalogo.getActivo())) {
-                this.chb_activo.setText("Sí");
-                this.chb_activo.setSelected(true);
-            } else {
-                this.chb_activo.setText("No");
-                this.chb_activo.setSelected(false);
-            }
-            }else{
-                this.txt_idCategoria.setText(categoria.getIdCategoria().toString());
-            }
-        }   
-    }
-
 
     @FXML
     private void cerrar(ActionEvent event) {
@@ -90,12 +81,13 @@ public class FormCatalogoController implements Initializable {
     }
 
     @FXML
-    private void guardarCatalogo(ActionEvent event) {
+    private void guardarMovimiento(ActionEvent event) {
         if(validar()){
             try {
                 HashMap<String,Object> catalogo = new HashMap<String, Object> ();
-                catalogo.put("idCatalogo", this.txt_idCatalogo.getText());
-                catalogo.put("idCategoria", this.txt_idCategoria.getText());
+                movimiento.put("cantidad", this.txt_cantidad.getText());
+                movimiento.put("concepto", this.txt_concepto.getText());
+                
                 catalogo.put("nombre", this.txt_nombre.getText());
                 if (this.chb_activo.isSelected()) {
                     catalogo.put("activo", "S");
@@ -127,20 +119,21 @@ public class FormCatalogoController implements Initializable {
             new Alerta("Advertencia", "Favor de ingresar datos faltantes");
         }
     }
+
+    @FXML
+    private void checkMovimiento(ActionEvent event) {
+        if (this.chb_movimiento.isSelected()) {
+            this.chb_movimiento.setText("Ingreso");
+        } else {
+            this.chb_movimiento.setText("Egreso");
+        }
+    }
     
     private boolean validar(){
-        if(!this.txt_idCatalogo.getText().isEmpty() && !this.txt_idCategoria.getText().isEmpty() && !this.txt_nombre.getText().isEmpty()){
+        if(!this.txt_cantidad.getText().isEmpty() && !this.txt_concepto.getText().isEmpty() && !this.txt_fecha.getText().isEmpty() && !this.txt_observaciones.getText().isEmpty()){
             return true;
         }
         return false;
     }
-
-    @FXML
-    private void checkActivo(ActionEvent event) {
-        if (this.chb_activo.isSelected()) {
-            this.chb_activo.setText("Sí");
-        } else {
-            this.chb_activo.setText("No");
-        }
-    }
+    
 }

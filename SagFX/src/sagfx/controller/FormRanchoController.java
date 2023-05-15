@@ -45,13 +45,13 @@ public class FormRanchoController implements Initializable {
     @FXML
     private TextArea txt_direccionRancho;
     @FXML
-    private Label lbl_nombreRancho1;
-    @FXML
     private TextField txt_nombreEncargadoRancho;
     
     Rancho rancho = null;
     Boolean isNew = false;
     HashMap<String, Object> context;
+    @FXML
+    private Label lbl_nombreEncargadoRancho;
     
     /**
      * Initializes the controller class.
@@ -92,8 +92,10 @@ public class FormRanchoController implements Initializable {
                 JSONObject dataJson = new JSONObject(respuesta);
 
                 if((boolean)dataJson.get("error")){
+                    Window.close(event);
                     new Alerta("Error", dataJson.get("mensaje").toString());
                 }else{
+                    Window.close(event);
                     new Alerta("Hecho", dataJson.get("mensaje").toString());
                 }
             } catch (JSONException ex) {

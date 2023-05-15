@@ -52,13 +52,6 @@ public class RanchosController implements Initializable {
     private SplitPane spl_categoriaCatalogo;
     @FXML
     private Pane pnl_categoriaBotones;
-    private TableView<Catalogo> tbl_catalogo;
-    private TableColumn<Catalogo, Integer> tcl_catalogoIdCatalogo;
-    private TableColumn<Catalogo, String> tcl_catalogoNombre;
-    private TableColumn<Catalogo, String> tcl_catalogoActivo;
-
-    private Categoria categoria = null;
-    private Catalogo catalogo = null;
     @FXML
     private Button btn_nuevoRancho;
     @FXML

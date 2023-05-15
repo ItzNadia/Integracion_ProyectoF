@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.json.JSONException;
@@ -36,9 +37,12 @@ public class FormCategoriaController implements Initializable {
     private Button btn_guardar;
     @FXML
     private Button btn_cerrar;
+    @FXML
+    private CheckBox chb_activo;
 
     Categoria categoria = null;
     Boolean isNew = false;
+    
 
     /**
      * Initializes the controller class.
@@ -56,7 +60,13 @@ public class FormCategoriaController implements Initializable {
 
     public void cargarCategoria() {
         if (!isNew) {
-            this.txt_activo.setText(categoria.getActivo());
+            if ("S".equals(categoria.getActivo())) {
+            this.chb_activo.setText("Sí");
+            this.chb_activo.setSelected(true);
+        } else {
+            this.chb_activo.setText("No");
+            this.chb_activo.setSelected(false);
+        }
             this.txt_idCategoria.setText(categoria.getIdCategoria().toString());
             this.txt_nombre.setText(categoria.getNombre());
         }
@@ -69,7 +79,11 @@ public class FormCategoriaController implements Initializable {
                 HashMap<String, Object> categoria = new HashMap<String, Object>();
                 categoria.put("idCategoria", this.txt_idCategoria.getText());
                 categoria.put("nombre", this.txt_nombre.getText());
-                categoria.put("activo", this.txt_activo.getText());
+                if (this.chb_activo.isSelected()) {
+                    categoria.put("activo", "S");
+                } else {
+                    categoria.put("activo", "N");
+                }
                 String respuesta;
 
                 if (isNew) {
@@ -81,8 +95,10 @@ public class FormCategoriaController implements Initializable {
                 JSONObject dataJson = new JSONObject(respuesta);
 
                 if((boolean)dataJson.get("error")){
+                    Window.close(event);
                     new Alerta("Error", dataJson.get("mensaje").toString());
                 }else{
+                    Window.close(event);
                     new Alerta("Hecho", dataJson.get("mensaje").toString());
                 }
             } catch (JSONException ex) {
@@ -100,9 +116,18 @@ public class FormCategoriaController implements Initializable {
     }
 
     private boolean validar() {
-        if (!this.txt_idCategoria.getText().isEmpty() && !this.txt_nombre.getText().isEmpty() && !this.txt_activo.getText().isEmpty()) {
+        if (!this.txt_idCategoria.getText().isEmpty() && !this.txt_nombre.getText().isEmpty()) {
             return true;
         }
         return false;
+    }
+
+    @FXML
+    private void checkActivo(ActionEvent event) {
+        if (this.chb_activo.isSelected()) {
+            this.chb_activo.setText("Sí");
+        } else {
+            this.chb_activo.setText("No");
+        }
     }
 }

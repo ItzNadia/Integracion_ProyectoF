@@ -52,7 +52,7 @@
             </Button>
          </children>
       </Pane>
-      <SplitPane fx:id="spl_movimientos" layoutY="61.0" orientation="VERTICAL" prefHeight="486.0" prefWidth="1107.0">
+      <SplitPane fx:id="spl_usuarios" layoutY="61.0" orientation="VERTICAL" prefHeight="486.0" prefWidth="1107.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="945.0">
                <children>

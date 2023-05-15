@@ -13,20 +13,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.RanchosController">
+<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="534.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.RanchosController">
    <children>
-      <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="740.0">
+      <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="1082.0">
          <children>
-            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Código">
+            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Búsqueda">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="77.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+            <TextField fx:id="txt_busqueda" layoutX="88.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
-            <Button fx:id="btn_buscar" layoutX="518.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarRancho" text="Buscar">
+            <Button fx:id="btn_buscar" layoutX="373.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarRancho" text="Buscar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -38,7 +38,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btn_limpiar" layoutX="624.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
+            <Button fx:id="btn_limpiar" layoutX="504.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -52,18 +52,13 @@
             </Button>
          </children>
       </Pane>
-      <SplitPane fx:id="spl_categoriaCatalogo" layoutY="61.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0">
+      <SplitPane fx:id="spl_ranchos" layoutY="61.0" orientation="VERTICAL" prefHeight="497.0" prefWidth="1099.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="1029.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="599.0" prefWidth="1044.0">
                <children>
-                  <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranchos">
-                     <font>
-                        <Font name="Lucida Sans Unicode" size="18.0" />
-                     </font>
-                  </Text>
-                  <Pane fx:id="pnl_categoriaBotones" layoutX="-2.0" layoutY="28.0" prefHeight="55.0" prefWidth="763.0">
+                  <Pane fx:id="pnl_ranchosBotones" layoutX="1.0" layoutY="4.0" prefHeight="55.0" prefWidth="1094.0">
                      <children>
-                        <Button fx:id="btn_nuevoRancho" layoutX="37.0" layoutY="13.0" mnemonicParsing="false" onAction="#registrarRancho" text="Nuevo">
+                        <Button fx:id="btn_nuevoRancho" layoutX="187.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarRancho" text="Nuevo">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -75,7 +70,7 @@
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_editarRancho" layoutX="144.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarRancho" text="Editar">
+                        <Button fx:id="btn_editarRancho" layoutX="307.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarRancho" text="Editar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -87,18 +82,23 @@
                               </ImageView>
                            </graphic>
                         </Button>
+                        <Text layoutX="23.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranchos">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="18.0" />
+                           </font>
+                        </Text>
                      </children>
                   </Pane>
-                  <TableView fx:id="tbl_ranchos" layoutY="83.0" onMouseClicked="#clickTableRanchos" prefHeight="517.0" prefWidth="799.0">
+                  <TableView fx:id="tbl_ranchos" layoutX="-3.0" layoutY="66.0" onMouseClicked="#clickTableRanchos" prefHeight="427.0" prefWidth="1106.0">
                     <columns>
                         <TableColumn fx:id="tcl_idRancho" prefWidth="75.0" text="Id Rancho" />
                       <TableColumn fx:id="tcl_ranchoNombre" prefWidth="92.800048828125" text="Nombre" />
-                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="114.4000244140625" text="Dirección" />
-                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="102.39996337890625" text="Encargado" />
-                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="82.39996337890625" text="Fecha Alta" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="100.79998779296875" text="Usuario Alta" />
-                        <TableColumn fx:id="tcl_ranchoFechaEdicion" prefWidth="84.79998779296875" text="Fecha Edición" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="142.4000244140625" text="Usuario Edición" />
+                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="182.39996337890625" text="Dirección" />
+                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="94.40005493164062" text="Encargado" />
+                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="193.86666870117188" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="134.13336181640625" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_ranchoFechaEdicion" prefWidth="150.93341064453125" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="180.5333251953125" text="Usuario Edición" />
                     </columns>
                   </TableView>
                </children>
