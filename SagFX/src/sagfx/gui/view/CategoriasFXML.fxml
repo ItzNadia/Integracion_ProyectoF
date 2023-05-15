@@ -17,16 +17,16 @@
    <children>
       <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="740.0">
          <children>
-            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Búsqueda">
+            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Búscar categoría">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="104.0" layoutY="9.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+            <TextField fx:id="txt_busqueda" layoutX="136.0" layoutY="9.0" prefHeight="36.0" prefWidth="244.0" promptText="Id o nombre">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
-            <Button fx:id="btn_buscar" layoutX="370.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarCategoria" text="Buscar">
+            <Button fx:id="btn_buscar" layoutX="408.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarCategoria" text="Buscar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -38,7 +38,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btn_limpiar" layoutX="483.0" layoutY="12.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
+            <Button fx:id="btn_limpiar" layoutX="533.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -65,11 +65,11 @@
                         </Text>
                      </children>
                   </Pane>
-                  <TableView fx:id="tbl_categoria" layoutY="56.0" onMouseClicked="#clickTableCategorias" prefHeight="211.0" prefWidth="764.0">
+                  <TableView fx:id="tbl_categoria" layoutY="56.0" onMouseClicked="#clickTableCategorias" prefHeight="470.0" prefWidth="763.0">
                     <columns>
                       <TableColumn fx:id="tcl_categoriaIdCategoria" prefWidth="107.199980199337" text="Id Categoría" />
                       <TableColumn fx:id="tcl_categoriaNombre" prefWidth="468.80005645751953" text="Nombre" />
-                        <TableColumn fx:id="tcl_categoriaActivo" minWidth="0.0" prefWidth="169.0" text="Activo" />
+                        <TableColumn fx:id="tcl_categoriaActivo" minWidth="0.0" prefWidth="183.0" text="Activo" />
                     </columns>
                   </TableView>
                   <Button fx:id="btn_nuevaCategoria" layoutX="138.0" layoutY="13.0" mnemonicParsing="false" onAction="#registrarCategoria" text="Nueva">
@@ -181,11 +181,11 @@
                         </Text>
                      </children>
                   </Pane>
-                  <TableView fx:id="tbl_catalogo" layoutY="56.0" onMouseClicked="#clickTableCatalogos" prefHeight="222.0" prefWidth="763.0">
+                  <TableView fx:id="tbl_catalogo" layoutY="56.0" onMouseClicked="#clickTableCatalogos" prefHeight="470.0" prefWidth="763.0">
                      <columns>
                         <TableColumn fx:id="tcl_catalogoIdCatalogo" prefWidth="107.199980199337" text="Id Catálogo" />
                         <TableColumn fx:id="tcl_catalogoNombre" prefWidth="468.7999954223633" text="Nombre" />
-                        <TableColumn fx:id="tcl_catalogoActivo" minWidth="0.0" prefWidth="166.0" text="Activo" />
+                        <TableColumn fx:id="tcl_catalogoActivo" minWidth="0.0" prefWidth="185.0" text="Activo" />
                      </columns>
                   </TableView>
                </children>

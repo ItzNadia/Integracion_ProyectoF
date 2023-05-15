@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Catalogo;
 import sagfx.model.Categoria;
-import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
 public class FormCatalogoController implements Initializable {
@@ -42,12 +41,10 @@ public class FormCatalogoController implements Initializable {
     private Label lbl_idCatalogo;
     @FXML
     private CheckBox chb_activo;
-   
+
     Categoria categoria = null;
     Catalogo catalogo = null;
     Boolean isNew = false;
-
-
 
     /**
      * Initializes the controller class.
@@ -55,34 +52,30 @@ public class FormCatalogoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
-    public void setData(Categoria categoria, Catalogo catalogo, Boolean isNew){
+    }
+
+    public void setData(Categoria categoria, Catalogo catalogo, Boolean isNew) {
         this.categoria = categoria;
         this.catalogo = catalogo;
         this.isNew = isNew;
         this.cargarCatalogo();
     }
-    
-    public void cargarCatalogo(){
-        if(!isNew){
+
+    public void cargarCatalogo() {
+        this.txt_idCategoria.setText(categoria.getIdCategoria().toString());
+        if (!isNew) {
             this.txt_idCatalogo.setText(catalogo.getIdCatalogo().toString());
-            this.txt_idCategoria.setText(catalogo.getIdCategoria().toString());
             this.txt_nombre.setText(catalogo.getNombre());
-            if (!isNew) {
-                if ("S".equals(catalogo.getActivo())) {
+            if (catalogo.getActivo().equals("S")) {
                 this.chb_activo.setText("Sí");
                 this.chb_activo.setSelected(true);
             } else {
                 this.chb_activo.setText("No");
                 this.chb_activo.setSelected(false);
             }
-            }else{
-                this.txt_idCategoria.setText(categoria.getIdCategoria().toString());
-            }
-        }   
+            txt_idCatalogo.editableProperty().set(false);
+        }
     }
-
 
     @FXML
     private void cerrar(ActionEvent event) {
@@ -91,9 +84,9 @@ public class FormCatalogoController implements Initializable {
 
     @FXML
     private void guardarCatalogo(ActionEvent event) {
-        if(validar()){
+        if (validar()) {
             try {
-                HashMap<String,Object> catalogo = new HashMap<String, Object> ();
+                HashMap<String, Object> catalogo = new HashMap<String, Object>();
                 catalogo.put("idCatalogo", this.txt_idCatalogo.getText());
                 catalogo.put("idCategoria", this.txt_idCategoria.getText());
                 catalogo.put("nombre", this.txt_nombre.getText());
@@ -103,33 +96,32 @@ public class FormCatalogoController implements Initializable {
                     catalogo.put("activo", "N");
                 }
                 String respuesta;
-                
-                if(isNew){
+
+                if (isNew) {
                     respuesta = Requests.post("/catalogo/registrarCatalogo", catalogo);
-                }else{
+                } else {
                     respuesta = Requests.post("/catalogo/editarCatalogo", catalogo);
                 }
-                
+
                 JSONObject dataJson = new JSONObject(respuesta);
-                
-                if((boolean)dataJson.get("error")){
-                    Window.close(event);
-                    new Alerta("Error", dataJson.get("mensaje").toString());
+
+                if ((boolean) dataJson.get("error")) {
+                    Window.alertaError(dataJson.get("mensaje").toString());
                 }else{
                     Window.close(event);
-                    new Alerta("Hecho", dataJson.get("mensaje").toString());
+                    Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }
             } catch (JSONException ex) {
                 Logger.getLogger(FormCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
-                new Alerta("Error", "Error, verifique la información en intente nuevamente");
+                Window.alertaError("Error, verifique la información en intente nuevamente");
             }
-        }else{
-            new Alerta("Advertencia", "Favor de ingresar datos faltantes");
+        } else {
+            Window.alertaAdvertencia("Favor de ingresar datos faltantes");
         }
     }
-    
-    private boolean validar(){
-        if(!this.txt_idCatalogo.getText().isEmpty() && !this.txt_idCategoria.getText().isEmpty() && !this.txt_nombre.getText().isEmpty()){
+
+    private boolean validar() {
+        if (!this.txt_idCatalogo.getText().isEmpty() && !this.txt_idCategoria.getText().isEmpty() && !this.txt_nombre.getText().isEmpty()) {
             return true;
         }
         return false;

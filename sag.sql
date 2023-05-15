@@ -238,13 +238,13 @@ INSERT INTO cria(idHatoMadre, sexo, fechaNacimiento, idRaza, idEstatus, observac
 (5, "H", "2023-02-11", 307, 101, "Vaca negra", 1, "2023-04-22", 1),
 (10, "H", "2023-01-22", 307, 101, "Vaca marron con manchas blancas", 1, "2023-04-22", 2),
 (11, "M", "2023-02-07", 307, 101, "Vaca blanca con manchas marrones", 1, "2023-04-22", 2),
-(17, "H", "2023-02-07", 307, 101, "Cococabraaaa JR", 1, "2023-04-22", 3);
+(17, "H", "2023-02-07", 307, 101, "Cococabraaaa JR", 2, "2023-04-22", 3);
 
 INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
-(5000000, "Ingreso", "Ingreso para inciciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, "2023-04-22", 1),
-(-20000, "Egreso", "Pago nominas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, "2023-04-23", 2),
-(5000, "Ingreso", "Venta de productos láctos", "2023-04-22", "Al menos recuperamos con esto", 1, "2023-04-21", 2),
-(5000000, "Ingreso", "Ingreso para inciciar el rancho", "2023-04-22", "Ingreso inicial", 2, "2023-05-14", 3);
+(5000000, "Ingreso", "Ingreso para iniciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, "2023-04-22", 1),
+(-20000, "Egreso", "Pago nóminas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, "2023-04-23", 2),
+(5000, "Ingreso", "Venta de productos lácteos", "2023-04-22", "Al menos recuperamos con esto", 1, "2023-04-21", 2),
+(5000000, "Ingreso", "Ingreso para iniciar el rancho", "2023-04-22", "Ingreso inicial", 2, "2023-05-14", 3);
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -956,7 +956,7 @@ END$$
 
 CREATE PROCEDURE sp_buscarMovimientos(IN idRancho INT, IN busqueda VARCHAR(100))
 BEGIN
-	SELECT * FROM movimientosfullinfo m WHERE m.idConsultaMedica=busqueda OR LOCATE(busqueda, m.concepto) AND m.idRancho=idRancho;
+	SELECT * FROM movimientosfullinfo m WHERE m.idMovimiento=busqueda OR LOCATE(busqueda, m.concepto) AND m.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --

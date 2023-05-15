@@ -67,7 +67,7 @@ public class RanchoWS {
     @POST
     @Path("registrarRancho")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta registrarCategoria(
+    public Respuesta registrarRancho(
             @FormParam("nombre") String nombre,
             @FormParam("direccion") String direccion,
             @FormParam("nombreEncargado") String nombreEncargado,
@@ -99,7 +99,7 @@ public class RanchoWS {
     @POST
     @Path("editarRancho")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta editarCategoria(
+    public Respuesta editarRancho(
             @FormParam("idRancho") Integer idRancho,
             @FormParam("nombre") String nombre,
             @FormParam("direccion") String direccion,

@@ -90,9 +90,6 @@ public class CategoriasController implements Initializable {
     private Categoria categoria = null;
     private Catalogo catalogo = null;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -101,7 +98,7 @@ public class CategoriasController implements Initializable {
 
     @FXML
     private void buscarCategoria(ActionEvent event) {
-        this.getCategoriaById();
+        this.buscarCategoria();
         /*if (this.validarNumero(this.txt_busqueda.getText())) {
             new Alerta("Debug", "Sí es un número we");
         } else {
@@ -124,7 +121,7 @@ public class CategoriasController implements Initializable {
         if (this.categoria != null) {
             this.formCategoria(false); //Como estoy editando es false, si fuera nuevo seria true
         } else {
-            new Alerta("Advertencia", "Debe seleccionar una categoría");
+            Window.alertaAdvertencia("Debe seleccionar una categoría");
         }
     }
 
@@ -144,7 +141,7 @@ public class CategoriasController implements Initializable {
         if (this.categoria != null) {
             this.formCatalogo(true); // editar = false, nuevo = true
         } else {
-            new Alerta("Advertencia", "Debe seleccionar una categoria");
+            Window.alertaAdvertencia("Debe seleccionar una categoría");
         }
     }
 
@@ -153,7 +150,7 @@ public class CategoriasController implements Initializable {
         if (this.catalogo != null) {
             this.formCatalogo(false); // editar = false, nuevo = true
         } else {
-            new Alerta("Advertencia", "Debe seleccionar un catalogo");
+            Window.alertaAdvertencia("Debe seleccionar un catalogo");
         }
     }
 
@@ -186,6 +183,8 @@ public class CategoriasController implements Initializable {
         String respuesta = "";
         tbl_categoria.getItems().clear();
         tbl_catalogo.getItems().clear();
+        this.categoria = null;
+        this.catalogo = null;
 
         respuesta = Requests.get("/categoria/getAllCategorias/");
         Gson gson = new Gson();
@@ -212,6 +211,7 @@ public class CategoriasController implements Initializable {
         String respuesta = "";
 
         tbl_catalogo.getItems().clear();
+        this.catalogo = null;
         respuesta = Requests.get("/catalogo/getCatalogosByCategoria/" + categoria.getIdCategoria());
         Gson gson = new Gson();
 
@@ -232,37 +232,36 @@ public class CategoriasController implements Initializable {
         });
     }
 
-    private void getCategoriaById() {
-        if (this.validarNumero(this.txt_busqueda.getText()) && !this.txt_busqueda.getText().equals("")) {
-            try {
-                String respuesta = "";
-                this.tbl_categoria.getItems().clear();
-                this.tbl_catalogo.getItems().clear();
+    public void buscarCategoria() {
+        String respuesta = "";
+        this.tbl_catalogo.getItems().clear();
+        this.tbl_categoria.getItems().clear();
+        this.categoria = null;
+        this.catalogo = null;
 
-                HashMap<String, Object> params = new LinkedHashMap<>();
-                params.put("idCategoria", this.txt_busqueda.getText());
+        HashMap<String, Object> params = new LinkedHashMap<>();
+        params.put("busqueda", this.txt_busqueda.getText());
 
-                respuesta = Requests.post("/categoria/getCategoriaById", params);
-                JSONObject dataJson = new JSONObject(respuesta);
+        respuesta = Requests.post("/categoria/buscarCategorias", params);
+        Gson gson = new Gson();
 
-                if (!(Boolean) dataJson.get("error")) {
-                    Gson gson = new Gson();
+        //Definimos u  TypeToken que representa una lista de objetos Categoria
+        TypeToken<List<Categoria>> token = new TypeToken<List<Categoria>>() {
+        };
 
-                    Categoria categoria = gson.fromJson(dataJson.get("respuesta").toString(), Categoria.class);
+        //Utilizamos el método fromJson() de la clase Gson para convertir el JSON en una lista de objetos
+        List<Categoria> listCatalogo = gson.fromJson(respuesta, token.getType());
 
-                    tcl_categoriaIdCategoria.setCellValueFactory(new PropertyValueFactory<>("idCategoria"));
-                    tcl_categoriaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-                    tcl_categoriaActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+        if (listCatalogo.size() > 0) {
+            tcl_catalogoIdCatalogo.setCellValueFactory(new PropertyValueFactory<>("idCatalogo"));
+            tcl_catalogoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            tcl_catalogoActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
 
-                    tbl_categoria.getItems().add(categoria);
-                } else {
-                    new Alerta("Debug", dataJson.getString("mensaje"));
-                }
-            } catch (JSONException ex) {
-                Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            listCatalogo.forEach(e -> {
+                tbl_categoria.getItems().add(e);
+            });
         } else {
-            new Alerta("Debug", "Identificador de categoría no válido");
+            Window.alertaInformacion("No se encontraron datos coincidentes...");
         }
     }
 
@@ -313,83 +312,72 @@ public class CategoriasController implements Initializable {
     private void cambiarActivoCategoria(String activo) {
         if (this.categoria != null) {
             if (!this.categoria.getActivo().equals(activo)) {
-                try {
-                    HashMap<String, Object> estatus = new LinkedHashMap<>();
-                    estatus.put("idCategoria", categoria.getIdCategoria());
-                    estatus.put("activo", activo);
-                    String act = "'" + this.categoria.getNombre() + "' ";
-
-                    if (activo.equals("N")) {
-                        act += "desactivada";
-                    } else {
-                        act += "activada";
-                    }
-
-                    if (!(Boolean) (new JSONObject(Requests.post("/categoria/editarEstatusCategoria", estatus))).get("error")) {
-                        this.cargarCategorias();
-                        new Alerta("¡Hecho!", "Categoría " + act + " correctamente");
-                    } else {
-                        new Alerta("Advertencia", "Categoría " + act + " correctamente");
-                    }
-                } catch (JSONException ex) {
-                    Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+                String msj = "activar";
+                if (activo.equals("N")) {
+                    msj = "desactivar";
                 }
-                this.categoria = null;
+
+                if (Window.alertaConfirmacion("Realmente desea " + msj + " la categoría: '" + this.categoria.getNombre() + "'")) {
+                    try {
+                        HashMap<String, Object> estatus = new LinkedHashMap<>();
+                        estatus.put("idCategoria", categoria.getIdCategoria());
+                        estatus.put("activo", activo);
+
+                        JSONObject respuesta = new JSONObject(Requests.post("/categoria/editarEstatusCategoria", estatus));
+
+                        if (!(Boolean) respuesta.get("error")) {
+                            this.cargarCategorias();
+                        }
+                        Window.alertaInformacion(respuesta.getString("mensaje"));
+                    } catch (JSONException ex) {
+                        Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else {
-                String con = null;
                 if (this.categoria.getActivo().equals("S")) {
-                    con = "activada";
+                    Window.alertaAdvertencia("La categoria ya se encuentra activada");
                 } else {
-                    con = "desactivada";
+                    Window.alertaAdvertencia("La categoria ya se encuentra desactivada");
                 }
-                new Alerta("Alerta", "La categoria ya se encuentra " + con);
             }
         } else {
-            new Alerta("Alerta", "Debe seleccionar una categoría");
+            Window.alertaAdvertencia("Debe seleccionar una categoría");
         }
-
     }
 
     private void cambiarActivoCatalogo(String activo) {
         if (this.catalogo != null) {
             if (!this.catalogo.getActivo().equals(activo)) {
-                try {
-                    HashMap<String, Object> estatus = new LinkedHashMap<>();
-                    estatus.put("idCatalogo", catalogo.getIdCatalogo());
-                    estatus.put("activo", activo);
-                    String act = "'" + this.catalogo.getNombre() + "' ";
-
-                    if (activo.equals("N")) {
-                        act += "desactivado";
-                    } else {
-                        act += "activado";
-                    }
-
-                    if (!(Boolean) (new JSONObject(Requests.post("/catalogo/editarEstatusCatalogo", estatus))).get("error")) {
-                        this.cargarCatalogos();
-                        new Alerta("¡Hecho!", "Catálogo " + act + " correctamente");
-                    } else {
-                        new Alerta("Advertencia", "Catálogo " + act + " correctamente");
-                    }
-                } catch (JSONException ex) {
-                    Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+                String msj = "activar";
+                if (activo.equals("N")) {
+                    msj = "desactivar";
                 }
-                this.catalogo = null;
+
+                if (Window.alertaConfirmacion("Realmente desea " + msj + " el catálogo: '" + this.catalogo.getNombre() + "'")) {
+                    try {
+                        HashMap<String, Object> estatus = new LinkedHashMap<>();
+                        estatus.put("idCatalogo", catalogo.getIdCatalogo());
+                        estatus.put("activo", activo);
+
+                        JSONObject respuesta = new JSONObject(Requests.post("/catalogo/editarEstatusCatalogo", estatus));
+
+                        if (!(Boolean) respuesta.get("error")) {
+                            this.cargarCatalogos();
+                        }
+                        Window.alertaInformacion(respuesta.getString("mensaje"));
+                    } catch (JSONException ex) {
+                        Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else {
-                String con = null;
                 if (this.catalogo.getActivo().equals("S")) {
-                    con = "activado";
+                    Window.alertaAdvertencia("El catálogo ya se encuentra activado");
                 } else {
-                    con = "desactivado";
+                    Window.alertaAdvertencia("El catálogo ya se encuentra desactivado");
                 }
-                new Alerta("Alerta", "El catálogo ya se encuentra " + con);
             }
         } else {
-            new Alerta("Alerta", "Debe seleccionar un catálogo");
+            Window.alertaAdvertencia("Debe seleccionar un catálogo");
         }
-    }
-
-    public boolean validarNumero(String cadena) {
-        return cadena.matches("[0-9]*");
     }
 }

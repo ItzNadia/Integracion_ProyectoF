@@ -11,22 +11,22 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormCatalogoController">
    <children>
-      <Label fx:id="lbl_idCatalogo" layoutX="51.0" layoutY="81.0" text="Id Catálogo: ">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txt_idCatalogo" layoutX="156.0" layoutY="76.0" promptText="Id Catálogo">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </TextField>
       <Label fx:id="lbl_idCategoria" layoutX="48.0" layoutY="30.0" prefHeight="22.0" prefWidth="105.0" text="Id Categoría: ">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="txt_idCategoria" layoutX="156.0" layoutY="25.0" promptText="Id Categoría">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </TextField>
+      <Label fx:id="lbl_idCatalogo" layoutX="51.0" layoutY="81.0" text="Id Catálogo: ">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_idCatalogo" layoutX="156.0" layoutY="76.0" promptText="Id Catálogo">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -46,7 +46,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <CheckBox fx:id="chb_activo" layoutX="156.0" layoutY="191.0" mnemonicParsing="false" onAction="#checkActivo" text="Sí">
+      <CheckBox fx:id="chb_activo" layoutX="156.0" layoutY="191.0" mnemonicParsing="false" onAction="#checkActivo" selected="true" text="Sí">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>

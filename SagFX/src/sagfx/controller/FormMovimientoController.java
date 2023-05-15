@@ -22,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Movimiento;
-import sagfx.model.Rancho;
 import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
@@ -84,22 +83,25 @@ public class FormMovimientoController implements Initializable {
     private void guardarMovimiento(ActionEvent event) {
         if(validar()){
             try {
-                HashMap<String,Object> catalogo = new HashMap<String, Object> ();
-                movimiento.put("cantidad", this.txt_cantidad.getText());
-                movimiento.put("concepto", this.txt_concepto.getText());
-                
-                catalogo.put("nombre", this.txt_nombre.getText());
-                if (this.chb_activo.isSelected()) {
-                    catalogo.put("activo", "S");
+                HashMap<String,Object> movimiento = new HashMap<String, Object> ();
+                movimiento.put("cantidadVenta", this.txt_cantidad.getText());
+                if (this.chb_movimiento.isSelected()) {
+                    movimiento.put("tipo", "Ingreso");
                 } else {
-                    catalogo.put("activo", "N");
+                    movimiento.put("tipo", "Egreso");
                 }
+                movimiento.put("concepto", this.txt_concepto.getText());
+                movimiento.put("fecha", this.txt_fecha.getText());
+                movimiento.put("observaciones", this.txt_observaciones.getText());
+                //movimiento.put("idRancho", );
+                //movimiento.put("idUsuarioAlta", );
+                
                 String respuesta;
                 
                 if(isNew){
-                    respuesta = Requests.post("/catalogo/registrarCatalogo", catalogo);
+                    respuesta = Requests.post("/movimiento/registrarMovimiento", movimiento);
                 }else{
-                    respuesta = Requests.post("/catalogo/editarCatalogo", catalogo);
+                    respuesta = Requests.post("/movimiento/editarMovimiento", movimiento);
                 }
                 
                 JSONObject dataJson = new JSONObject(respuesta);
