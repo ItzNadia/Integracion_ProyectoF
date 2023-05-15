@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="1107.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.UsuariosController">
+   <children>
+      <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="1081.0">
+         <children>
+            <Label fx:id="lbl_busqueda" layoutX="26.0" layoutY="17.0" text="Búsqueda">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txt_busqueda" layoutX="122.0" layoutY="9.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font></TextField>
+            <Button fx:id="btn_buscar" layoutX="402.0" layoutY="12.0" mnemonicParsing="false" onAction="#buscarUsuario" text="Buscar">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/search.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn_limpiar" layoutX="508.0" layoutY="12.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/clearfields.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+                <font>
+                    <Font name="Lucida Sans Unicode" size="14.0" />
+                </font>
+            </Button>
+         </children>
+      </Pane>
+      <SplitPane fx:id="spl_movimientos" layoutY="61.0" orientation="VERTICAL" prefHeight="486.0" prefWidth="1107.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="945.0">
+               <children>
+                  <Pane fx:id="pnl_usuarioBotones" layoutX="-2.0" layoutY="2.0" prefHeight="55.0" prefWidth="1105.0">
+                     <children>
+                        <Text fx:id="lbl_usuarios" layoutX="36.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuarios y Permisos">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="18.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="btn_nuevoUsuario" layoutX="287.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarUsuario" text="Nuevo">
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/add.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_editarUsuario" layoutX="407.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarUsuario" text="Editar">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/edit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btn_editarUsuario1" layoutX="518.0" layoutY="12.0" mnemonicParsing="false" onAction="#activarUsuario" text="Activar">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/alta.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btn_desactivar" layoutX="629.0" layoutY="12.0" mnemonicParsing="false" onAction="#desactivarUsuario" text="Desactivar">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/down.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tbl_usuarios" layoutY="62.0" onMouseClicked="#clickTableUsuarios" prefHeight="426.0" prefWidth="1106.0">
+                    <columns>
+                        <TableColumn fx:id="tcl_idUsuario" prefWidth="75.0" text="Id Usuario" />
+                      <TableColumn fx:id="tcl_nombre" prefWidth="92.800048828125" text="Nombre" />
+                        <TableColumn fx:id="tcl_apellidoPaterno" prefWidth="100.26670837402344" text="Apellido Paterno" />
+                        <TableColumn fx:id="tcl_apellidoMaterno" prefWidth="121.06671142578125" text="Apellido Materno" />
+                        <TableColumn fx:id="tcl_celular" prefWidth="70.93328857421875" text="Celular" />
+                        <TableColumn fx:id="tcl_usuario" prefWidth="89.5999755859375" text="Usuario" />
+                        <TableColumn fx:id="tcl_rol" prefWidth="60.79998779296875" text="Rol" />
+                        <TableColumn fx:id="tcl_estatus" prefWidth="71.7333984375" text="Estatus" />
+                        <TableColumn fx:id="tcl_fechaAlta" prefWidth="87.7332763671875" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_usuarioAlta" prefWidth="103.20001220703125" text="Usuario Alta" />
+                        <TableColumn prefWidth="114.13323974609375" text="Fecha Edición" />
+                        <TableColumn prefWidth="120.0" text="Usuario Edicion" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</Pane>

@@ -17,12 +17,12 @@
    <children>
       <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="740.0">
          <children>
-            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Código">
+            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Búsqueda">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="77.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+            <TextField fx:id="txt_busqueda" layoutX="89.0" layoutY="9.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
@@ -52,18 +52,13 @@
             </Button>
          </children>
       </Pane>
-      <SplitPane fx:id="spl_categoriaCatalogo" dividerPositions="0.5" layoutY="61.0" orientation="VERTICAL" prefHeight="539.0" prefWidth="764.0">
+      <SplitPane fx:id="spl_categoriaCatalogo" dividerPositions="0.459992556754745" layoutY="61.0" orientation="VERTICAL" prefHeight="539.0" prefWidth="764.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="763.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="763.0">
                <children>
-                  <Text layoutX="19.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categorías">
-                     <font>
-                        <Font name="Lucida Sans Unicode" size="14.0" />
-                     </font>
-                  </Text>
-                  <Pane fx:id="pnl_categoriaBotones" layoutX="-2.0" layoutY="28.0" prefHeight="55.0" prefWidth="763.0">
+                  <Pane fx:id="pnl_categoriaBotones" layoutX="-2.0" layoutY="1.0" prefHeight="55.0" prefWidth="763.0">
                      <children>
-                        <Button fx:id="btn_nuevaCategoria" layoutX="37.0" layoutY="13.0" mnemonicParsing="false" onAction="#registrarCategoria" text="Nueva">
+                        <Button fx:id="btn_nuevaCategoria" layoutX="193.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarCategoria" text="Nueva">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -75,7 +70,7 @@
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_editarCategoria" layoutX="144.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarCategoria" text="Editar">
+                        <Button fx:id="btn_editarCategoria" layoutX="303.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarCategoria" text="Editar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -87,7 +82,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="btn_activarCategoria" layoutX="250.0" layoutY="13.0" mnemonicParsing="false" onAction="#activarCategoria" text="Activar">
+                        <Button fx:id="btn_activarCategoria" layoutX="414.0" layoutY="12.0" mnemonicParsing="false" onAction="#activarCategoria" text="Activar">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -99,7 +94,7 @@
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_desactivarCategoria" layoutX="364.0" layoutY="13.0" mnemonicParsing="false" onAction="#desactivarCategoria" text="Desactivar">
+                        <Button fx:id="btn_desactivarCategoria" layoutX="532.0" layoutY="12.0" mnemonicParsing="false" onAction="#desactivarCategoria" text="Desactivar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -113,25 +108,25 @@
                         </Button>
                      </children>
                   </Pane>
-                  <TableView fx:id="tbl_categoria" layoutY="83.0" onMouseClicked="#clickTableCategorias" prefHeight="186.0" prefWidth="764.0">
+                  <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categorías">
+                     <font>
+                        <Font name="Lucida Sans Unicode" size="18.0" />
+                     </font>
+                  </Text>
+                  <TableView fx:id="tbl_categoria" layoutY="51.0" onMouseClicked="#clickTableCategorias" prefHeight="195.0" prefWidth="764.0">
                     <columns>
                       <TableColumn fx:id="tcl_categoriaIdCategoria" prefWidth="107.199980199337" text="Id Categoría" />
                       <TableColumn fx:id="tcl_categoriaNombre" prefWidth="468.80005645751953" text="Nombre" />
-                        <TableColumn fx:id="tcl_categoriaActivo" minWidth="0.0" prefWidth="169.0" text="Activo" />
+                        <TableColumn fx:id="tcl_categoriaActivo" minWidth="0.0" prefWidth="184.0" text="Activo" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <Text layoutX="16.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catálogos">
-                     <font>
-                        <Font name="Lucida Sans Unicode" size="14.0" />
-                     </font>
-                  </Text>
-                  <Pane fx:id="pnl_catalogoBotones" layoutX="-1.0" layoutY="27.0" onDragDetected="#editarCatalogo" prefHeight="55.0" prefWidth="763.0">
+                  <Pane fx:id="pnl_catalogoBotones" layoutX="-1.0" onDragDetected="#editarCatalogo" prefHeight="55.0" prefWidth="763.0">
                      <children>
-                        <Button fx:id="btn_nuevoCatalogo" layoutX="37.0" layoutY="13.0" mnemonicParsing="false" onAction="#registrarCatalogo" text="Nueva">
+                        <Button fx:id="btn_nuevoCatalogo" layoutX="190.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarCatalogo" text="Nueva">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -143,7 +138,7 @@
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_editarCatalogo" layoutX="144.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarCatalogo" text="Editar">
+                        <Button fx:id="btn_editarCatalogo" layoutX="303.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarCatalogo" text="Editar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -155,7 +150,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="btn_activarCatalogo" layoutX="250.0" layoutY="13.0" mnemonicParsing="false" onAction="#activarCatalogo" text="Activar">
+                        <Button fx:id="btn_activarCatalogo" layoutX="408.0" layoutY="12.0" mnemonicParsing="false" onAction="#activarCatalogo" text="Activar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -167,7 +162,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="btn_desactivarCatalogo" layoutX="364.0" layoutY="13.0" mnemonicParsing="false" onAction="#desactivarCatalogo" text="Desactivar">
+                        <Button fx:id="btn_desactivarCatalogo" layoutX="521.0" layoutY="12.0" mnemonicParsing="false" onAction="#desactivarCatalogo" text="Desactivar">
                             <font>
                                 <Font name="Lucida Sans Unicode" size="14.0" />
                             </font>
@@ -179,13 +174,18 @@
                               </ImageView>
                            </graphic>
                         </Button>
+                        <Text layoutX="17.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catálogos">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="18.0" />
+                           </font>
+                        </Text>
                      </children>
                   </Pane>
-                  <TableView fx:id="tbl_catalogo" layoutY="81.0" onMouseClicked="#clickTableCatalogos" prefHeight="186.0" prefWidth="763.0">
+                  <TableView fx:id="tbl_catalogo" layoutY="51.0" onMouseClicked="#clickTableCatalogos" prefHeight="236.0" prefWidth="763.0">
                      <columns>
                         <TableColumn fx:id="tcl_catalogoIdCatalogo" prefWidth="107.199980199337" text="Id Catálogo" />
                         <TableColumn fx:id="tcl_catalogoNombre" prefWidth="468.7999954223633" text="Nombre" />
-                        <TableColumn fx:id="tcl_catalogoActivo" minWidth="0.0" prefWidth="166.0" text="Activo" />
+                        <TableColumn fx:id="tcl_catalogoActivo" minWidth="0.0" prefWidth="183.19989013671875" text="Activo" />
                      </columns>
                   </TableView>
                </children>
