@@ -9,9 +9,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormRanchoController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormRanchoController">
    <children>
       <Label fx:id="lbl_nombreRancho" layoutX="42.0" layoutY="49.0" text="Nombre:">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_direccionRancho" layoutX="42.0" layoutY="98.0" text="Dirección:">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_nombreRancho1" layoutX="46.0" layoutY="211.0" text="Encargado:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -21,7 +31,17 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="btn_guardar" layoutX="54.0" layoutY="269.0" mnemonicParsing="false" onAction="#guardarRancho" text="Guardar">
+      <TextArea fx:id="txt_direccionRancho" layoutX="142.0" layoutY="98.0" prefHeight="84.0" prefWidth="206.0" promptText="Dirección">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </TextArea>
+      <TextField fx:id="txt_nombreEncargadoRancho" layoutX="142.0" layoutY="206.0" prefHeight="32.0" prefWidth="206.0" promptText="Encargado">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btn_guardar" layoutX="84.0" layoutY="269.0" mnemonicParsing="false" onAction="#guardarRancho" text="Guardar">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -33,7 +53,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn_cerrar" layoutX="238.0" layoutY="269.0" mnemonicParsing="false" onAction="#cerrar" text="Cerrar">
+      <Button fx:id="btn_cerrar" layoutX="232.0" layoutY="269.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="32.0" prefWidth="94.0" text="Cerrar">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -45,25 +65,5 @@
             </ImageView>
          </graphic>
       </Button>
-      <Label fx:id="lbl_direccionRancho" layoutX="42.0" layoutY="98.0" text="Dirección:">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="txt_direccionRancho" layoutX="142.0" layoutY="98.0" prefHeight="84.0" prefWidth="206.0" promptText="Dirección">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </TextArea>
-      <Label fx:id="lbl_nombreRancho1" layoutX="46.0" layoutY="211.0" text="Encargado:">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txt_nombreEncargadoRancho" layoutX="142.0" layoutY="206.0" prefHeight="32.0" prefWidth="206.0" promptText="Encargado">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </TextField>
    </children>
 </Pane>

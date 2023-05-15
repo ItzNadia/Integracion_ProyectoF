@@ -390,4 +390,12 @@ public class CategoriasController implements Initializable {
     public boolean validarNumero(String cadena) {
         return cadena.matches("[0-9]*");
     }
+
+    @FXML
+    private void desactivarCatalogo(MouseEvent event) {
+    }
+
+    @FXML
+    private void editarCatalogo(MouseEvent event) {
+    }
 }

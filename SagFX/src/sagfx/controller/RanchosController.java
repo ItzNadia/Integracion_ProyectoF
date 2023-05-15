@@ -49,17 +49,6 @@ public class RanchosController implements Initializable {
     @FXML
     private Button btn_limpiar;
     @FXML
-    private SplitPane spl_categoriaCatalogo;
-    @FXML
-    private Pane pnl_categoriaBotones;
-    private TableView<Catalogo> tbl_catalogo;
-    private TableColumn<Catalogo, Integer> tcl_catalogoIdCatalogo;
-    private TableColumn<Catalogo, String> tcl_catalogoNombre;
-    private TableColumn<Catalogo, String> tcl_catalogoActivo;
-
-    private Categoria categoria = null;
-    private Catalogo catalogo = null;
-    @FXML
     private Button btn_nuevoRancho;
     @FXML
     private Button btn_editarRancho;
@@ -81,10 +70,13 @@ public class RanchosController implements Initializable {
     private TableColumn<Rancho, String> tcl_ranchoUsuarioEdicion;
     @FXML
     private TableColumn<Rancho, Integer> tcl_idRancho;
-    
+    @FXML
+    private SplitPane spl_ranchos;
+    @FXML
+    private Pane pnl_ranchosBotones;
+
     private Rancho rancho = null;
     HashMap<String, Object> context;
-
 
     /**
      * Initializes the controller class.
