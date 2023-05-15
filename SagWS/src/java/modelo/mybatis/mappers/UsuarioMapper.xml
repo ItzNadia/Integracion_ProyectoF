@@ -8,6 +8,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         {CALL sag.sp_getAllUsuarios()}
     </select>
     
+    <select id="getUsuariosByIdRancho" resultType="modelo.pojos.Usuario" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getUsuariosByIdRancho(
+            #{idRancho, jdbcType=INTEGER,mode=IN})}
+    </select>
+    
+    <select id="buscarUsuarios" resultType="modelo.pojos.Usuario" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_buscarUsuarios(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
     <insert id="registrarUsuario" parameterType="map" statementType="CALLABLE">
         {CALL sag.sp_registrarUsuario(
             #{nombre, jdbcType=VARCHAR,mode=IN},

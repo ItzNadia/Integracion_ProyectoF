@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS movimiento(
 	tipo VARCHAR(50) NOT NULL,
 	concepto VARCHAR(100) NOT NULL,
 	fecha DATE NOT NULL,
-	observacion VARCHAR(200) NOT NULL,
+	observaciones VARCHAR(200) NOT NULL,
 	idRancho INT NOT NULL,
 	fechaAlta DATE NOT NULL,
 	idUsuarioAlta INT NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS movimiento(
 
 INSERT INTO rancho(nombre, direccion, nombreEncargado, fechaAlta, idUsuarioAlta) VALUES
 ("Reino de los Admins", "En tu corazón <3", "Admins", "2023-04-22", 1),
-("La granjita", "Calle granjita #1234", "Otis", "2023-05-11", 2);
+("La Mancha", "Allá por Palmas de Abajo", "Yadelí", "2023-05-11", 2);
 
 INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (1, NULL, "Estatus actividad","S"),
@@ -199,14 +199,20 @@ INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 
 INSERT INTO usuario(nombre, apellidoPaterno, apellidoMaterno, celular, usuario, contrasena, idRol, idEstatus, idRancho, fechaAlta, idUsuarioAlta) VALUES 
 ("Luis Enrique", "Zapata", "Lopez", "2281345788", "LuisZpt", "B5997B3AAA94FB20F581FFE549FE79F2F5F9DCF61BCE39B033A2A7556A82180633BE1320E64D3B4B03DA9B7A56BD5E8C5B51CF1C99C7F543AF36B0ED9E116D8A", 201, 101, 1, "2023-04-22", 1),
-("Nadia Itzel", "Bravo", "Guevara", "2288511209", "nJinxx", "EA259C7DBC4C2C92E891C20A40006F5F54E4161514566503FFB41839BE29DC97CD2CEE3A3FEE2BA0942D068837A9CF9C9FFFD2C985D160AA2507E73AAD174F7C", 201, 101, 1, "2023-04-22", 1);
+("Nadia Itzel", "Bravo", "Guevara", "2288511209", "nJinxx", "EA259C7DBC4C2C92E891C20A40006F5F54E4161514566503FFB41839BE29DC97CD2CEE3A3FEE2BA0942D068837A9CF9C9FFFD2C985D160AA2507E73AAD174F7C", 201, 101, 1, "2023-04-22", 1),
+("Ingrid Yadelí", "López", "Aguilar", "2841001284", "Yayes", "EA259C7DBC4C2C92E891C20A40006F5F54E4161514566503FFB41839BE29DC97CD2CEE3A3FEE2BA0942D068837A9CF9C9FFFD2C985D160AA2507E73AAD174F7C", 201, 101, 2, "2023-05-14", 1);
 
 INSERT INTO lote(nombre, descripcion, idEstatus, idRancho, fechaAlta, idUsuarioAlta) VALUES
 ("Crianza", "Hatos listos para criar", 101, 1, "2023-04-22", 1),
 ("Engorda", "Hatos que deben comer muuucho", 101, 1, "2023-04-22", 1),
 ("Cuarentena", "Hatos enfermos", 101, 1, "2023-04-22", 2),
 ("Pasteo", "Hatos que requieren pastear", 101, 1, "2023-04-22", 2),
-("Reproducción", "Hatos candidatos para procrear", 101, 1, "2023-04-22", 2);
+("Reproducción", "Hatos candidatos para procrear", 101, 1, "2023-04-22", 2),
+("Crianza", "Hatos listos para criar", 101, 2, "2023-05-14", 3),
+("Venta", "Hatos para vender", 101, 2, "2023-05-14", 3),
+("Cuarentena", "Hatos enfermos", 101, 2, "2023-05-14", 3),
+("Pasteo", "Hatos que requieren pastear", 101, 2, "2023-05-14", 3),
+("Reproducción", "Hatos candidatos para procrear", 101, 2, "2023-05-14", 3);
 
 INSERT INTO hato(diio, idRaza, idLote, sexo, idEstatus, descripcion, idRancho, fechaAlta, idUsuarioAlta) VALUES
 ("Q02RE09AD10P2", 301, 2, "H", 101, "Vaca blanca de manchas negras", 1, "2023-04-22", 2),
@@ -222,21 +228,23 @@ INSERT INTO hato(diio, idRaza, idLote, sexo, idEstatus, descripcion, idRancho, f
 ("1R2JMG0M43RES", 306, 5, "H", 101, "Vaca marrón con rayas blancas", 1, "2023-04-22", 1),
 ("34G033G0MSZFQ", 307, 2, "H", 101, "Vaca blanca con puntos marrones", 1, "2023-04-22", 1),
 ("1249GE99298FS", 307, 2, "H", 101, "Vaca marrón con manchas negras y blancas", 1, "2023-04-22", 2),
-("124H8RGR923RA", 301, 2, "M", 101, "Vaca gris", 1, "2023-04-22", 2),
-("DH45HNVZFZEW3", 301, 4, "M", 101, "Vaca pequeña color blanco", 1, "2023-04-22", 1),
-("0ID12R3I91RGD", 303, 5, "H", 101, "Vaca blanca", 1, "2023-04-22", 2),
-("21T38129NUIEN", 306, 1, "H", 101, "Cococabraaaa", 1, "2023-04-22", 2);
+("124H8RGR923RA", 301, 2, "M", 101, "Vaca gris", 2, "2023-04-22", 3),
+("DH45HNVZFZEW3", 301, 4, "M", 101, "Vaca pequeña color blanco", 2, "2023-04-22", 3),
+("0ID12R3I91RGD", 303, 5, "H", 101, "Vaca blanca", 2, "2023-04-22", 3),
+("21T38129NUIEN", 306, 1, "H", 101, "Cococabraaaa", 2, "2023-04-22", 3);
 
 INSERT INTO cria(idHatoMadre, sexo, fechaNacimiento, idRaza, idEstatus, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
 (1, "M", "2023-03-01", 307, 101, "Vaca negra con manchas blancas", 1, "2023-04-22", 1),
 (5, "H", "2023-02-11", 307, 101, "Vaca negra", 1, "2023-04-22", 1),
 (10, "H", "2023-01-22", 307, 101, "Vaca marron con manchas blancas", 1, "2023-04-22", 2),
-(11, "M", "2023-02-07", 307, 101, "Vaca blanca con manchas marrones", 1, "2023-04-22", 2);
+(11, "M", "2023-02-07", 307, 101, "Vaca blanca con manchas marrones", 1, "2023-04-22", 2),
+(17, "H", "2023-02-07", 307, 101, "Cococabraaaa JR", 1, "2023-04-22", 3);
 
-INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observacion, idRancho, fechaAlta, idUsuarioAlta) VALUES
-(5000000, "Ingreso", "Ingreso para inciciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, CURDATE(), 1),
-(-20000, "Egreso", "Pago nominas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, CURDATE(), 2),
-(5000, "Ingreso", "Venta de productos láctos", "2023-04-22", "Al menos recuperamos con esto", 1, CURDATE(), 2);
+INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
+(5000000, "Ingreso", "Ingreso para inciciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, "2023-04-22", 1),
+(-20000, "Egreso", "Pago nominas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, "2023-04-23", 2),
+(5000, "Ingreso", "Venta de productos láctos", "2023-04-22", "Al menos recuperamos con esto", 1, "2023-04-21", 2),
+(5000000, "Ingreso", "Ingreso para inciciar el rancho", "2023-04-22", "Ingreso inicial", 2, "2023-05-14", 3);
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -296,7 +304,7 @@ CREATE OR REPLACE VIEW catalogosfullinfo AS
 		c.activo
 	FROM catalogo c
 		INNER JOIN catalogo ca ON c.idCategoria=ca.idCatalogo
-	WHERE !ISNULL(c.idCategoria);
+	WHERE NOT ISNULL(c.idCategoria);
 
 -- ############################################################################################################################################## --
 
@@ -437,7 +445,7 @@ CREATE OR REPLACE VIEW movimientosfullinfo AS
 		m.tipo,
 		m.concepto,
 		m.fecha,
-		m.observacion,
+		m.observaciones,
 		m.idRancho,
 		r.nombre AS rancho,
 		m.fechaAlta,
@@ -473,6 +481,20 @@ END$$
 CREATE PROCEDURE sp_getAllUsuarios()
 BEGIN
 	SELECT * FROM usuariosfullinfo;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getUsuariosByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM usuariosfullinfo u WHERE u.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarUsuarios(IN idRancho INT, IN busqueda VARCHAR(70))
+BEGIN
+	SELECT * FROM usuariosfullinfo u WHERE u.idUsuario=busqueda OR LOCATE(busqueda, CONCAT(u.nombre, " ", u.apellidoPaterno, " ", u.apellidoMaterno)) AND u.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -534,9 +556,9 @@ END$$
 
 -- ############################################################################################################################################## --
 
-CREATE PROCEDURE sp_getCategoriaById(IN idCategoria INT)
+CREATE PROCEDURE sp_buscarCategorias(IN busqueda VARCHAR(50))
 BEGIN
-	SELECT * FROM categoriasfullinfo c WHERE c.idCategoria = idCategoria;
+	SELECT * FROM categoriasfullinfo c WHERE c.idCategoria=busqueda OR LOCATE(busqueda, c.nombre);
 END$$
 
 -- ############################################################################################################################################## --
@@ -623,6 +645,13 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_buscarRanchos(IN busqueda VARCHAR(200))
+BEGIN
+	SELECT * FROM ranchosfullinfo r WHERE r.idRancho=busqueda OR LOCATE(busqueda, r.nombre);
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_registrarRancho(
 	IN nombre VARCHAR(200),
 	IN direccion VARCHAR(200),
@@ -652,6 +681,20 @@ END$$
 CREATE PROCEDURE sp_getAllLotes()
 BEGIN
 	SELECT * FROM lotesfullinfo;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getLotesByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM lotesfullinfo l WHERE l.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarLotes(IN idRancho INT, IN busqueda VARCHAR(100))
+BEGIN
+	SELECT * FROM lotesfullinfo l WHERE l.idLote=busqueda OR LOCATE(busqueda, l.nombre) AND l.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -699,6 +742,20 @@ END$$
 CREATE PROCEDURE sp_getAllHatos()
 BEGIN
 	SELECT * FROM hatosfullinfo;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getHatosByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM hatosfullinfo h WHERE h.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarHatos(IN idRancho INT, IN busqueda VARCHAR(106))
+BEGIN
+	SELECT * FROM hatosfullinfo h WHERE h.idHato=busqueda OR LOCATE(busqueda, h.diio) AND h.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -768,6 +825,20 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_getCriasByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM criasfullinfo c WHERE c.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarCrias(IN idRancho INT, IN idCria INT)
+BEGIN
+	SELECT * FROM criasfullinfo c WHERE c.idCria=idCria AND c.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_registrarCria(
 	IN idHatoMadre INT,
 	IN sexo VARCHAR(1),
@@ -821,6 +892,20 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_getConsultasMedicasByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM consultasmedicasfullinfo c WHERE c.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarConsultasMedicas(IN idRancho INT, IN busqueda VARCHAR(30))
+BEGIN
+	SELECT * FROM consultasmedicasfullinfo c WHERE c.idConsultaMedica=busqueda OR LOCATE(busqueda, c.fechaAtencion) AND c.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_registrarConsultaMedica(
 	IN idHato INT,
 	IN idCria INT,
@@ -851,6 +936,59 @@ BEGIN
 	UPDATE consultaMedica cm
 	SET cm.idHato=idHato, cm.idCria=idCria, cm.nombreVeterinario=nombreVeterinario, cm.fechaAtencion=fechaAtencion, cm.observaciones=observaciones, cm.motivoAtencion=motivoAtencion, cm.idRancho=idRancho, cm.fechaEdicion=CURDATE(), cm.idUsuarioEditor=idUsuarioEditor
 	WHERE cm.idConsultaMedica=idConsultaMedica;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getAllMovimientos()
+BEGIN
+	SELECT * FROM movimientosfullinfo;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getMovimientosByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM movimientosfullinfo m WHERE m.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarMovimientos(IN idRancho INT, IN busqueda VARCHAR(100))
+BEGIN
+	SELECT * FROM movimientosfullinfo m WHERE m.idConsultaMedica=busqueda OR LOCATE(busqueda, m.concepto) AND m.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_registrarMovimiento(
+	IN cantidadVenta DECIMAL(12,2),
+	IN tipo VARCHAR(50),
+	IN concepto VARCHAR(100),
+	IN fecha DATE,
+	IN observaciones VARCHAR(200),
+	IN idRancho INT,
+	IN idUsuarioAlta INT)
+BEGIN
+	INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
+	(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, CURDATE(), idUsuarioAlta);
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_editarMovimiento(
+	IN idMovimiento INT,
+	IN cantidadVenta DECIMAL(12,2),
+	IN tipo VARCHAR(50),
+	IN concepto VARCHAR(100),
+	IN fecha DATE,
+	IN observaciones VARCHAR(250),
+	IN idRancho INT,
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE movimiento m
+	SET m.cantidadVenta=cantidadVenta, m.tipo=tipo, m.concepto=concepto, m.fecha=fecha, m.observaciones=observaciones, m.idRancho=idRancho, m.fechaEdicion=CURDATE(), m.idUsuarioEditor=idUsuarioEditor
+	WHERE m.idMovimiento=idMovimiento;
 END$$
 
 

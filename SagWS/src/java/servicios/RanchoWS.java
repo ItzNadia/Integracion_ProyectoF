@@ -28,12 +28,32 @@ public class RanchoWS {
     @GET
     @Path("getAllRanchos")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Rancho>getAllCategorias(){
+    public List<Rancho> getAllRanchos(){
     List<Rancho> list = new ArrayList<Rancho>();
     SqlSession conn=null;
     try{
         conn=MyBatisUtil.getSession();
         list=conn.selectList("Rancho.getAllRanchos");
+    }catch(Exception ex){
+        ex.printStackTrace();
+    }finally{
+        if(conn!=null){
+            conn.close();
+        }
+    }
+        return list;
+    }
+    
+    @POST
+    @Path("buscarRanchos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Rancho> buscarRanchos(
+            @FormParam("busqueda") String busqueda){
+    List<Rancho> list = new ArrayList<Rancho>();
+    SqlSession conn=null;
+    try{
+        conn=MyBatisUtil.getSession();
+        list=conn.selectList("Rancho.buscarRanchos", busqueda);
     }catch(Exception ex){
         ex.printStackTrace();
     }finally{

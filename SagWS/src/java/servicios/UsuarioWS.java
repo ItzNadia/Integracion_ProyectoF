@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import modelo.mybatis.MyBatisUtil;
 import modelo.pojos.Respuesta;
@@ -43,6 +43,48 @@ public class UsuarioWS {
             conn.close();
         }
     }
+        return list;
+    }
+
+    @GET
+    @Path("getUsuariosByIdRancho/{idRancho}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Usuario> getUsuariosByIdRancho(@PathParam("idRancho") Integer idRancho){
+    List<Usuario> list = new ArrayList<Usuario>();
+    SqlSession conn=null;
+    try{
+        conn=MyBatisUtil.getSession();
+        list=conn.selectList("Usuario.getUsuariosByIdRancho", idRancho);
+    }catch(Exception ex){
+        ex.printStackTrace();
+    }finally{
+        if(conn!=null){
+            conn.close();
+        }
+    }
+        return list;
+    }
+
+    @POST
+    @Path("buscarUsuarios")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Usuario> buscarUsuarios(
+            @FormParam("idRancho") String idRancho,
+            @FormParam("busqueda") String busqueda){
+        List<Usuario> list = new ArrayList<Usuario>();
+        SqlSession conn = null;
+        try{
+            HashMap<String,Object> param = new HashMap<String, Object>();
+            param.put("idRancho", idRancho);
+            param.put("busqueda", busqueda);
+            
+            conn = MyBatisUtil.getSession();
+            list = conn.selectList("Usuario.buscarUsuarios", param);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            conn.close();
+        }
         return list;
     }
     
