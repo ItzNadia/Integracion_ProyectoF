@@ -5,23 +5,18 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="745.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.PrincipalController">
+<BorderPane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="745.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.PrincipalController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar fx:id="mb_opciones" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Ganado">
-            <items>
-              <MenuItem fx:id="mi_administrarGanado" mnemonicParsing="false" text="AdministrarGanado" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Movimientos">
             <items>
-              <MenuItem fx:id="mi_ingresosEgresos" mnemonicParsing="false" text="Ingresos/Egresos" />
+              <MenuItem fx:id="mi_movimientos" mnemonicParsing="false" onAction="#abrirMovimientos" text="Ingresos/Egresos" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Administración">
               <items>
-                <MenuItem fx:id="mi_usuarios" mnemonicParsing="false" text="Usuarios" />
+                <MenuItem fx:id="mi_usuarios" mnemonicParsing="false" onAction="#abrirUsuarios" text="Usuarios" />
               <MenuItem fx:id="mi_categoria" mnemonicParsing="false" onAction="#abrirCategorias" text="Categoria y Catalogos" />
                   <MenuItem fx:id="mi_rancho" mnemonicParsing="false" onAction="#abrirRanchos" text="Ranchos" />
               </items>
