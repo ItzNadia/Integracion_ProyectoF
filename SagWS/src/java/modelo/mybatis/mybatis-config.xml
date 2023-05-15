@@ -25,5 +25,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
        <mapper resource="modelo/mybatis/mappers/CatalogoMapper.xml"/>
        <mapper resource="modelo/mybatis/mappers/RanchoMapper.xml"/>
        <mapper resource="modelo/mybatis/mappers/UsuarioMapper.xml"/>
+       <mapper resource="modelo/mybatis/mappers/MovimientoMapper.xml"/>
     </mappers>
 </configuration>

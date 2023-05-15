@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/modelo/mybatis/mappers/RanchoMapper.xml</file>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/modelo/mybatis/mappers/MovimientoMapper.xml</file>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/modelo/pojos/Movimiento.java</file>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/servicios/UsuarioWS.java</file>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/modelo/mybatis/mappers/UsuarioMapper.xml</file>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/modelo/pojos/Usuario.java</file>
-            <file>file:/C:/Users/Zazhex/Desktop/Integracion_ProyectoF/Integracion_ProyectoF/SagWS/src/java/servicios/MovimientoWS.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

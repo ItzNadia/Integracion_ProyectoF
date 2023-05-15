@@ -16,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Categoria;
-import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
 public class FormCategoriaController implements Initializable {
@@ -42,7 +41,6 @@ public class FormCategoriaController implements Initializable {
 
     Categoria categoria = null;
     Boolean isNew = false;
-    
 
     /**
      * Initializes the controller class.
@@ -61,14 +59,15 @@ public class FormCategoriaController implements Initializable {
     public void cargarCategoria() {
         if (!isNew) {
             if ("S".equals(categoria.getActivo())) {
-            this.chb_activo.setText("Sí");
-            this.chb_activo.setSelected(true);
-        } else {
-            this.chb_activo.setText("No");
-            this.chb_activo.setSelected(false);
-        }
+                this.chb_activo.setText("Sí");
+                this.chb_activo.setSelected(true);
+            } else {
+                this.chb_activo.setText("No");
+                this.chb_activo.setSelected(false);
+            }
             this.txt_idCategoria.setText(categoria.getIdCategoria().toString());
             this.txt_nombre.setText(categoria.getNombre());
+            this.txt_idCategoria.editableProperty().set(false);
         }
     }
 
@@ -91,22 +90,21 @@ public class FormCategoriaController implements Initializable {
                 } else {
                     respuesta = Requests.post("/categoria/editarCategoria", categoria);
                 }
-                
+
                 JSONObject dataJson = new JSONObject(respuesta);
 
-                if((boolean)dataJson.get("error")){
+                if ((boolean) dataJson.get("error")) {
+                    Window.alertaError(dataJson.get("mensaje").toString());
+                } else {
                     Window.close(event);
-                    new Alerta("Error", dataJson.get("mensaje").toString());
-                }else{
-                    Window.close(event);
-                    new Alerta("Hecho", dataJson.get("mensaje").toString());
+                    Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }
             } catch (JSONException ex) {
                 Logger.getLogger(FormCategoriaController.class.getName()).log(Level.SEVERE, null, ex);
-                new Alerta("Error", "Error, verifique la información en intente nuevamente");
+                Window.alertaError("Error, verifique la información en intente nuevamente");
             }
         } else {
-            new Alerta("Advertencia", "Favor de ingresar datos faltantes");
+            Window.alertaAdvertencia("Favor de ingresar datos faltantes");
         }
     }
 

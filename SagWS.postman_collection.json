@@ -196,6 +196,38 @@
 					"response": []
 				},
 				{
+					"name": "buscarCategorias",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "busqueda",
+									"value": "r",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/categoria/buscarCategorias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"categoria",
+								"buscarCategorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "editarEstatusCategoria",
 					"request": {
 						"method": "POST",
@@ -397,6 +429,38 @@
 			"name": "Rancho",
 			"item": [
 				{
+					"name": "BuscarRanchos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "busqueda",
+									"value": "ad",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/rancho/buscarRanchos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"rancho",
+								"buscarRanchos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetAllRanchos",
 					"request": {
 						"method": "GET",
@@ -428,7 +492,7 @@
 							"urlencoded": [
 								{
 									"key": "nombre",
-									"value": "Prueba",
+									"value": "Palacio",
 									"type": "default"
 								},
 								{
@@ -438,12 +502,12 @@
 								},
 								{
 									"key": "nombreEncargado",
-									"value": "UnaIccel",
+									"value": "pstLuis",
 									"type": "default"
 								},
 								{
 									"key": "idUsuarioAlta",
-									"value": "2",
+									"value": "1",
 									"type": "default"
 								}
 							]
@@ -475,27 +539,27 @@
 							"urlencoded": [
 								{
 									"key": "idRancho",
-									"value": "2",
+									"value": "3",
 									"type": "default"
 								},
 								{
 									"key": "nombre",
-									"value": "PruebaEdit",
+									"value": "Palacio",
 									"type": "default"
 								},
 								{
 									"key": "direccion",
-									"value": "Gaïa",
+									"value": "Mementos",
 									"type": "default"
 								},
 								{
 									"key": "nombreEncargado",
-									"value": "Nadia Itzel",
+									"value": "pstLuisZpt",
 									"type": "default"
 								},
 								{
 									"key": "idUsuarioEditor",
-									"value": "1",
+									"value": "2",
 									"type": "default"
 								}
 							]
@@ -545,6 +609,29 @@
 					"response": []
 				},
 				{
+					"name": "getUsuariosByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/usuario/getUsuariosByIdRancho/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"usuario",
+								"getUsuariosByIdRancho",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "RegistrarUsuario",
 					"request": {
 						"method": "POST",
@@ -554,17 +641,17 @@
 							"urlencoded": [
 								{
 									"key": "nombre",
-									"value": "Ingrid Yadelí",
+									"value": "Kevin",
 									"type": "default"
 								},
 								{
 									"key": "apellidoPaterno",
-									"value": "López",
+									"value": "Zapata",
 									"type": "default"
 								},
 								{
 									"key": "apellidoMaterno",
-									"value": "Águilar",
+									"value": "López",
 									"type": "default"
 								},
 								{
@@ -574,12 +661,12 @@
 								},
 								{
 									"key": "usuario",
-									"value": "Yayis",
+									"value": "Kesvy",
 									"type": "default"
 								},
 								{
 									"key": "contrasena",
-									"value": "123456",
+									"value": "1234",
 									"type": "default"
 								},
 								{
@@ -594,7 +681,7 @@
 								},
 								{
 									"key": "idRancho",
-									"value": "1",
+									"value": "2",
 									"type": "default"
 								},
 								{
@@ -616,6 +703,43 @@
 								"ws",
 								"usuario",
 								"registrarUsuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "busqueda",
+									"value": "zap",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/usuario/buscarUsuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"usuario",
+								"buscarUsuarios"
 							]
 						}
 					},
@@ -671,7 +795,7 @@
 								},
 								{
 									"key": "idEstatus",
-									"value": "101",
+									"value": "102",
 									"type": "default"
 								},
 								{
@@ -681,7 +805,7 @@
 								},
 								{
 									"key": "idUsuarioEditor",
-									"value": "1",
+									"value": "2",
 									"type": "default"
 								}
 							]
@@ -713,17 +837,17 @@
 							"urlencoded": [
 								{
 									"key": "idUsuario",
-									"value": "4",
+									"value": "3",
 									"type": "default"
 								},
 								{
 									"key": "idEstatus",
-									"value": "102",
+									"value": "101",
 									"type": "default"
 								},
 								{
 									"key": "idUsuarioEditor",
-									"value": "2",
+									"value": "1",
 									"type": "default"
 								}
 							]
@@ -740,6 +864,200 @@
 								"ws",
 								"usuario",
 								"editarEstatusUsuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movimientos",
+			"item": [
+				{
+					"name": "getMovimientoByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/movimiento/getMovimientosByIdRancho/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"movimiento",
+								"getMovimientosByIdRancho",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarMovimiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cantidadVenta",
+									"value": "-300",
+									"type": "default"
+								},
+								{
+									"key": "tipo",
+									"value": "Egreso",
+									"type": "default"
+								},
+								{
+									"key": "concepto",
+									"value": "Compra cepillos para vacas",
+									"type": "default"
+								},
+								{
+									"key": "fecha",
+									"value": "2023-05-14",
+									"type": "default"
+								},
+								{
+									"key": "observaciones",
+									"value": "Cepillos para cepillar XD",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/movimiento/registrarMovimiento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"movimiento",
+								"registrarMovimiento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarMovimiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idMovimiento",
+									"value": "5",
+									"type": "default"
+								},
+								{
+									"key": "cantidadVenta",
+									"value": "-300",
+									"type": "default"
+								},
+								{
+									"key": "tipo",
+									"value": "Egreso",
+									"type": "default"
+								},
+								{
+									"key": "concepto",
+									"value": "Compra cepillos dientes",
+									"type": "default"
+								},
+								{
+									"key": "fecha",
+									"value": "2023-05-14",
+									"type": "default"
+								},
+								{
+									"key": "observaciones",
+									"value": "Cepillos para cepillar XD",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/movimiento/editarMovimiento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"movimiento",
+								"editarMovimiento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarMovimiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "busqueda",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/movimiento/buscarMovimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"movimiento",
+								"buscarMovimientos"
 							]
 						}
 					},
