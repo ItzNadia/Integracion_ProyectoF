@@ -26,7 +26,7 @@
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
-            <Button fx:id="btn_buscar" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarRancho" text="Buscar">
+            <Button fx:id="btn_buscar" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarMovimientos" text="Buscar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -96,6 +96,7 @@
                         <TableColumn fx:id="tcl_movimientoTipo" prefWidth="102.4000244140625" text="Tipo" />
                         <TableColumn fx:id="tcl_movimientoConcepto" prefWidth="135.20001220703125" text="Concepto" />
                         <TableColumn fx:id="tcl_movimientoFecha" prefWidth="87.20001220703125" text="Fecha" />
+                        <TableColumn fx:id="tcl_movimientoObservaciones" prefWidth="75.0" text="Observaciones" />
                         <TableColumn fx:id="tcl_movimientoRancho" prefWidth="91.20001220703125" text="Rancho" />
                         <TableColumn fx:id="tcl_movimientoFechaAlta" prefWidth="95.2000732421875" text="Fecha Alta" />
                         <TableColumn fx:id="tcl_movimientoUsuarioAlta" prefWidth="103.99993896484375" text="Usuario Alta" />
@@ -109,4 +110,3 @@
       </SplitPane>
    </children>
 </Pane>
-

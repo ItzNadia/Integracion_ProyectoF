@@ -29,8 +29,6 @@ public class PrincipalController implements Initializable {
     @FXML
     private BorderPane pnl_principal;
     @FXML
-    private MenuItem mi_administrarGanado;
-    @FXML
     private MenuItem mi_ingresosEgresos;
     @FXML
     private MenuItem mi_usuarios;
@@ -78,4 +76,30 @@ public class PrincipalController implements Initializable {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @FXML 
+        private void abrirMovimientos(ActionEvent event) { 
+            try { 
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/MovimientosFXML.fxml")); 
+                Parent movimientos = loader.load(); 
+                MovimientosController ctrl = loader.getController(); 
+                ctrl.setData(context); 
+                pnl_principal.setCenter(movimientos); 
+            } catch (IOException ex) { 
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex); 
+            } 
+        } 
+
+        @FXML 
+        private void abrirUsuarios(ActionEvent event) { 
+            try { 
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/UsuariosFXML.fxml")); 
+                Parent usuarios = loader.load(); 
+                UsuariosController ctrl = loader.getController(); 
+                ctrl.setData(context); 
+                pnl_principal.setCenter(usuarios); 
+            } catch (IOException ex) { 
+                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex); 
+            } 
+        } 
 }

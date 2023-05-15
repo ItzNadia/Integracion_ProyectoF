@@ -5,11 +5,18 @@
  */
 package sagfx.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -19,6 +26,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import sagfx.model.Usuario;
+import sagfx.utils.Alerta;
 
 /**
  * FXML Controller class
@@ -39,8 +49,6 @@ public class UsuariosController implements Initializable {
     private Button btn_buscar;
     @FXML
     private Button btn_limpiar;
-    @FXML
-    private SplitPane spl_movimientos;
     @FXML
     private Pane pnl_usuarioBotones;
     @FXML
@@ -75,6 +83,11 @@ public class UsuariosController implements Initializable {
     private TableColumn<?, ?> tcl_fechaAlta;
     @FXML
     private TableColumn<?, ?> tcl_usuarioAlta;
+    @FXML
+    private SplitPane spl_usuarios;
+    
+    HashMap<String, Object> context;
+    private Usuario usuario = null;
 
     /**
      * Initializes the controller class.
@@ -94,10 +107,16 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void registrarUsuario(ActionEvent event) {
+        this.formUsuario(true);
     }
 
     @FXML
     private void editarUsuario(ActionEvent event) {
+        if (this.usuario != null) {
+            this.formUsuario(false);
+        } else {
+            new Alerta("Advertencia", "Debe seleccionar un usuario");
+        }
     }
 
     @FXML
@@ -112,4 +131,28 @@ public class UsuariosController implements Initializable {
     private void clickTableUsuarios(MouseEvent event) {
     }
     
+    public void setData(HashMap<String, Object> context){
+        this.context= context;
+    }
+    
+    private void formUsuario(boolean isNew) {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormUsuarioFXML.fxml"));
+            Parent formUsuario = loader.load();
+            FormUsuarioController ctrl = loader.getController();
+            ctrl.setData(context, this.usuario, isNew);
+            Scene scene = new Scene(formUsuario);
+            stage.setScene(scene);
+            if (isNew) {
+                stage.setTitle("Nuevo Usuario");
+            } else {
+                stage.setTitle("Editar usuario: " + usuario.getNombre() + "'");
+            }
+
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

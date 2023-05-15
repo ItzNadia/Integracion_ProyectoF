@@ -281,7 +281,8 @@ public class CategoriasController implements Initializable {
                 stage.setTitle("Editar categoría: '" + categoria.getNombre() + "'");
             }
 
-            stage.show();
+            stage.showAndWait();
+            this.cargarCategorias();
         } catch (IOException ex) {
             Logger.getLogger(sagfx.controller.CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -302,7 +303,8 @@ public class CategoriasController implements Initializable {
                 stage.setTitle("Editar catalogo: '" + catalogo.getNombre() + "'");
             }
 
-            stage.show();
+            stage.showAndWait();
+            this.cargarCatalogos();
         } catch (IOException ex) {
             Logger.getLogger(sagfx.controller.CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
         }

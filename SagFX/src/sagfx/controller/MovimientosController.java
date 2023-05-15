@@ -5,20 +5,35 @@
  */
 package sagfx.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import sagfx.api.requests.Requests;
+import sagfx.model.Movimiento;
+import sagfx.utils.Alerta;
 
 /**
  * FXML Controller class
@@ -50,27 +65,33 @@ public class MovimientosController implements Initializable {
     @FXML
     private Text lbl_ingresosEgresos;
     @FXML
-    private TableView<?> tbl_movimientos;
+    private TableView<Movimiento> tbl_movimientos;
     @FXML
-    private TableColumn<?, ?> tcl_idMovimiento;
+    private TableColumn<Movimiento, Integer> tcl_idMovimiento;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoCantidad;
+    private TableColumn<Movimiento, Double> tcl_movimientoCantidad;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoTipo;
+    private TableColumn<Movimiento, String> tcl_movimientoTipo;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoConcepto;
+    private TableColumn<Movimiento, String> tcl_movimientoConcepto;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoFecha;
+    private TableColumn<Movimiento, String> tcl_movimientoFecha;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoRancho;
+    private TableColumn<Movimiento, String> tcl_movimientoRancho;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoFechaAlta;
+    private TableColumn<Movimiento, String> tcl_movimientoFechaAlta;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoUsuarioAlta;
+    private TableColumn<Movimiento, String> tcl_movimientoUsuarioAlta;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoFechaEdicion;
+    private TableColumn<Movimiento, String> tcl_movimientoFechaEdicion;
     @FXML
-    private TableColumn<?, ?> tcl_movimientoUsuarioEdicion;
+    private TableColumn<Movimiento, String> tcl_movimientoUsuarioEdicion;
+    @FXML
+    private TableColumn<Movimiento, String> tcl_movimientoObservaciones;
+    
+    private Movimiento movimiento = null;
+    HashMap<String, Object> context;
+
 
     /**
      * Initializes the controller class.
@@ -80,24 +101,90 @@ public class MovimientosController implements Initializable {
         // TODO
     }    
 
-    @FXML
-    private void buscarRancho(ActionEvent event) {
-    }
 
     @FXML
     private void limpiarBusqueda(ActionEvent event) {
+        this.txt_busqueda.setText("");
     }
 
     @FXML
     private void registrarMovimiento(ActionEvent event) {
+        this.formMovimiento(true);
     }
 
     @FXML
     private void editarMovimiento(ActionEvent event) {
+        if (this.movimiento != null) {
+            this.formMovimiento(false);
+        } else {
+            new Alerta("Advertencia", "Debe seleccionar un movimiento");
+        }
     }
 
     @FXML
     private void clickTableMovimientos(MouseEvent event) {
+        if (tbl_movimientos.getSelectionModel().getSelectedItem() != null) {
+            movimiento = tbl_movimientos.getSelectionModel().getSelectedItem();
+        }
+        
+    }
+    
+    @FXML
+    private void buscarMovimientos(ActionEvent event) {
+        
+    }
+    
+    public void setData(HashMap<String, Object> context){
+        this.context= context;
+    }
+    
+    private void formMovimiento(boolean isNew) {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormMovimientoFXML.fxml"));
+            Parent formMovimiento = loader.load();
+            FormMovimientoController ctrl = loader.getController();
+            ctrl.setData(context, this.movimiento, isNew);
+            Scene scene = new Scene(formMovimiento);
+            stage.setScene(scene);
+            if (isNew) {
+                stage.setTitle("Nuevo Movimiento");
+            } else {
+                stage.setTitle("Editar Movimiento");
+            }
+
+            stage.showAndWait();
+            this.cargarMovimientos();
+        } catch (IOException ex) {
+            Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void cargarMovimientos() {
+        String respuesta = "";
+        tbl_movimientos.getItems().clear();
+
+        respuesta = Requests.get("movimiento/getMovimientosByIdRancho/{idRancho}"); //REVISAAAAAR
+        Gson gson = new Gson();
+
+        TypeToken<List<Movimiento>> token = new TypeToken<List<Movimiento>>() {
+        };
+
+        List<Movimiento> listRanchos = gson.fromJson(respuesta, token.getType());
+        tcl_idMovimiento.setCellValueFactory(new PropertyValueFactory<>("idMovimiento"));
+        tcl_movimientoCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadVenta"));
+        tcl_movimientoTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        tcl_movimientoConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
+        tcl_movimientoFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        tcl_movimientoObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
+        tcl_movimientoFechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
+        tcl_movimientoUsuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
+        tcl_movimientoFechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
+        tcl_movimientoUsuarioEdicion.setCellValueFactory(new PropertyValueFactory<>("usuarioEditor"));
+
+        listRanchos.forEach(e -> {
+            tbl_movimientos.getItems().add(e);
+        });
     }
     
 }

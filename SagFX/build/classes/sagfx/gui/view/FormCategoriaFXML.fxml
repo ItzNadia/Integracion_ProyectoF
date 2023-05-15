@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -35,11 +36,6 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="txt_activo" layoutX="155.0" layoutY="173.0" promptText="Activo">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </TextField>
       <Button fx:id="btn_guardar" layoutX="59.0" layoutY="241.0" mnemonicParsing="false" onAction="#guardarCategoria" text="Guardar">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -64,5 +60,10 @@
             </ImageView>
          </graphic>
       </Button>
+      <CheckBox fx:id="chb_activo" layoutX="155.0" layoutY="178.0" mnemonicParsing="false" onAction="#checkActivo" text="Sí">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </CheckBox>
    </children>
 </Pane>
