@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="pnl_principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.MovimientosController">
+   <children>
+      <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="1084.0">
+         <children>
+            <Label fx:id="lbl_busqueda" layoutX="26.0" layoutY="17.0" text="Búsqueda">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txt_busqueda" layoutX="122.0" layoutY="9.0" prefHeight="36.0" prefWidth="291.0" promptText="Código">
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font></TextField>
+            <Button fx:id="btn_buscar" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarRancho" text="Buscar">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/search.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Lucida Sans Unicode" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn_limpiar" layoutX="533.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/clearfields.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+                <font>
+                    <Font name="Lucida Sans Unicode" size="14.0" />
+                </font>
+            </Button>
+         </children>
+      </Pane>
+      <SplitPane fx:id="spl_movimientos" layoutY="61.0" orientation="VERTICAL" prefHeight="506.0" prefWidth="1100.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="507.0" prefWidth="945.0">
+               <children>
+                  <Pane fx:id="pnl_movimientosBotones" layoutX="-2.0" layoutY="1.0" prefHeight="55.0" prefWidth="1098.0">
+                     <children>
+                        <Button fx:id="btn_nuevoMovimiento" layoutX="284.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarMovimiento" text="Nuevo">
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/add.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_editarMovimiento" layoutX="402.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarMovimiento" text="Editar">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/edit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Text fx:id="lbl_ingresosEgresos" layoutX="22.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresos y Egresos">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tbl_movimientos" layoutY="55.0" onMouseClicked="#clickTableMovimientos" prefHeight="450.0" prefWidth="1098.0">
+                    <columns>
+                        <TableColumn fx:id="tcl_idMovimiento" prefWidth="101.59999996423721" text="Id Movimiento" />
+                      <TableColumn fx:id="tcl_movimientoCantidad" prefWidth="109.5999755859375" text="Cantidad" />
+                        <TableColumn fx:id="tcl_movimientoTipo" prefWidth="102.4000244140625" text="Tipo" />
+                        <TableColumn fx:id="tcl_movimientoConcepto" prefWidth="135.20001220703125" text="Concepto" />
+                        <TableColumn fx:id="tcl_movimientoFecha" prefWidth="87.20001220703125" text="Fecha" />
+                        <TableColumn fx:id="tcl_movimientoRancho" prefWidth="91.20001220703125" text="Rancho" />
+                        <TableColumn fx:id="tcl_movimientoFechaAlta" prefWidth="95.2000732421875" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_movimientoUsuarioAlta" prefWidth="103.99993896484375" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_movimientoFechaEdicion" prefWidth="137.5999755859375" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_movimientoUsuarioEdicion" prefWidth="136.7999267578125" text="Usuario Edición" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</Pane>
+
