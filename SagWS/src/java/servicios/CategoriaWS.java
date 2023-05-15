@@ -29,7 +29,7 @@ public class CategoriaWS {
     @GET
     @Path("getAllCategorias")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Categoria>getAllCategorias(){
+    public List<Categoria> getAllCategorias(){
     List<Categoria> list = new ArrayList<Categoria>();
     SqlSession conn=null;
     try{
@@ -66,6 +66,24 @@ public class CategoriaWS {
             conn.close();
         }
         return res;
+    }
+
+    @POST
+    @Path("buscarCategorias")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Categoria> buscarCategorias(
+            @FormParam("busqueda") String busqueda){
+        List<Categoria> list = new ArrayList<Categoria>();
+        SqlSession conn = null;
+        try{
+            conn = MyBatisUtil.getSession();
+            list = conn.selectList("Categoria.buscarCategorias", busqueda);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            conn.close();
+        }
+        return list;
     }
 
     @POST

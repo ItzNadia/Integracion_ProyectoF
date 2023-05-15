@@ -8,6 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         {CALL sag.sp_getAllRanchos()}
     </select>
     
+    <select id="buscarRanchos" resultType="modelo.pojos.Rancho" parameterType="String" statementType="CALLABLE">
+        {CALL sag.sp_buscarRanchos(#{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
     <insert id="registrarRancho" parameterType="map" statementType="CALLABLE">
         {CALL sag.sp_registrarRancho(
             #{nombre, jdbcType=VARCHAR,mode=IN},

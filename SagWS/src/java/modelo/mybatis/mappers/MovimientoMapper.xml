@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Movimiento">
+    <select id="getMovimientosByIdRancho" resultType="modelo.pojos.Movimiento" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getMovimientosByIdRancho(
+            #{idRancho, jdbcType=INTEGER,mode=IN})}
+    </select>
+    
+    <select id="buscarMovimientos" resultType="modelo.pojos.Movimiento" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_buscarMovimientos(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
+    <insert id="registrarMovimiento" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_registrarMovimiento(
+            #{cantidadVenta, jdbcType=Double,mode=IN},
+            #{tipo, jdbcType=VARCHAR,mode=IN},
+            #{concepto, jdbcType=VARCHAR,mode=IN},
+            #{fecha, jdbcType=VARCHAR,mode=IN},
+            #{observaciones, jdbcType=VARCHAR,mode=IN},
+            #{idRancho, jdbcType=VARCHAR,mode=IN},
+            #{idUsuarioAlta, jdbcType=INTEGER,mode=IN})}
+    </insert>
+
+    <update id="editarMovimiento" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarMovimiento(
+            #{idMovimiento, jdbcType=INTEGER,mode=IN},
+            #{cantidadVenta, jdbcType=Double,mode=IN},
+            #{tipo, jdbcType=VARCHAR,mode=IN},
+            #{concepto, jdbcType=VARCHAR,mode=IN},
+            #{fecha, jdbcType=VARCHAR,mode=IN},
+            #{observaciones, jdbcType=VARCHAR,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+</mapper>

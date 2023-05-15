@@ -12,6 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         {CALL sag.sp_getCategoriaById(#{idCategoria, jdbcType=INTEGER,mode=IN})}
     </select>
     
+    <select id="buscarCategorias" resultType="modelo.pojos.Categoria" statementType="CALLABLE" parameterType="String">
+        {CALL sag.sp_buscarCategorias(#{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
     <insert id="registrarCategoria" parameterType="map" statementType="CALLABLE">
         {CALL sag.sp_registrarCategoria(
             #{idCategoria, jdbcType=INTEGER,mode=IN},
