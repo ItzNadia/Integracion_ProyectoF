@@ -132,13 +132,12 @@ public class MovimientosController implements Initializable {
 
     @FXML
     private void buscarMovimientos(ActionEvent event) {
-        this.cargarMovimientos();
-
         String respuesta = "";
         this.tbl_movimientos.getItems().clear();
         this.movimiento = null;
 
         HashMap<String, Object> params = new LinkedHashMap<>();
+        params.put("idRancho", ((Usuario)this.context.get("usuario")).getIdRancho());
         params.put("busqueda", this.txt_busqueda.getText());
 
         respuesta = Requests.post("/movimiento/buscarMovimientos", params);
@@ -166,14 +165,13 @@ public class MovimientosController implements Initializable {
                 tbl_movimientos.getItems().add(e);
             });
         } else {
-            //Window.alertaInformacion("No se encontraron datos coincidentes...");
-            this.cargarMovimientos();
+            Window.alertaInformacion("No se encontraron datos coincidentes...");
         }
     }
 
     public void setData(HashMap<String, Object> context) {
         this.context = context;
-        //System.out.println(((Usuario)this.context.get("usuario")).getNombre());
+        this.cargarMovimientos();
     }
 
     private void formMovimiento(boolean isNew) {
