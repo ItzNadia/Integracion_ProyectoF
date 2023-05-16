@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sagfx.controller;
 
 import java.net.URL;
@@ -25,11 +20,6 @@ import sagfx.model.Usuario;
 import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
-/**
- * FXML Controller class
- *
- * @author nait0
- */
 public class FormRanchoController implements Initializable {
 
     @FXML
@@ -46,12 +36,12 @@ public class FormRanchoController implements Initializable {
     private TextArea txt_direccionRancho;
     @FXML
     private TextField txt_nombreEncargadoRancho;
-    
-    Rancho rancho = null;
-    Boolean isNew = false;
-    HashMap<String, Object> context;
     @FXML
     private Label lbl_nombreEncargadoRancho;
+    
+    private Rancho rancho = null;
+    private Boolean isNew = false;
+    private HashMap<String, Object> context;
     
     /**
      * Initializes the controller class.
@@ -73,39 +63,36 @@ public class FormRanchoController implements Initializable {
         Usuario u = (Usuario)this.context.get("usuario");
         if (validar()) {
             try {
-                HashMap<String, Object> rancho = new HashMap<String, Object>();
-                rancho.put("idRancho", this.rancho.getIdRancho());
-                rancho.put("nombre", this.txt_nombreRancho.getText());
-                rancho.put("direccion", this.txt_direccionRancho.getText());
-                rancho.put("nombreEncargado", this.txt_nombreEncargadoRancho.getText());
+                HashMap<String, Object> param = new HashMap<String, Object>();
+                param.put("idRancho", this.rancho.getIdRancho());
+                param.put("nombre", this.txt_nombreRancho.getText());
+                param.put("direccion", this.txt_direccionRancho.getText());
+                param.put("nombreEncargado", this.txt_nombreEncargadoRancho.getText());
                 String respuesta;
-                System.out.println(rancho);
 
                 if (isNew) {
-                    rancho.put("idUsuarioAlta", u.getIdUsuario());
-                    respuesta = Requests.post("/rancho/registrarRancho", rancho);
+                    param.put("idUsuarioAlta", u.getIdUsuario());
+                    respuesta = Requests.post("/rancho/registrarRancho", param);
                 } else {
-                    rancho.put("idUsuarioEditor", u.getIdUsuario());
-                    respuesta = Requests.post("/rancho/editarRancho", rancho);
+                    param.put("idUsuarioEditor", u.getIdUsuario());
+                    respuesta = Requests.post("/rancho/editarRancho", param);
                 }
                 
                 JSONObject dataJson = new JSONObject(respuesta);
 
                 if((boolean)dataJson.get("error")){
-                    Window.close(event);
-                    new Alerta("Error", dataJson.get("mensaje").toString());
+                    Window.alertaError(dataJson.get("mensaje").toString());
                 }else{
                     Window.close(event);
-                    new Alerta("Hecho", dataJson.get("mensaje").toString());
+                    Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }
             } catch (JSONException ex) {
                 Logger.getLogger(FormCategoriaController.class.getName()).log(Level.SEVERE, null, ex);
-                new Alerta("Error", "Error, verifique la información en intente nuevamente");
+                Window.alertaError("Error, verifique la información en intente nuevamente");
             }
         } else {
-            new Alerta("Advertencia", "Favor de ingresar datos faltantes");
+            Window.alertaAdvertencia("Favor de ingresar datos faltantes");
         }
-        System.out.println("idUsaurio: "+u.getIdUsuario());
     }
     
     @FXML

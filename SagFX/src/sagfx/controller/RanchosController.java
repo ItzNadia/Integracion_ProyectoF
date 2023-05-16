@@ -26,13 +26,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.json.JSONException;
-import org.json.JSONObject;
 import sagfx.api.requests.Requests;
-import sagfx.model.Catalogo;
-import sagfx.model.Categoria;
 import sagfx.model.Rancho;
-import sagfx.utils.Alerta;
+import sagfx.utils.Window;
 
 public class RanchosController implements Initializable {
 
@@ -74,10 +70,9 @@ public class RanchosController implements Initializable {
     private TableColumn<Rancho, String> tcl_ranchoUsuarioEdicion;
     @FXML
     private TableColumn<Rancho, Integer> tcl_idRancho;
-    
-    private Rancho rancho = null;
-    HashMap<String, Object> context;
 
+    private Rancho rancho = null;
+    private HashMap<String, Object> context;
 
     /**
      * Initializes the controller class.
@@ -85,19 +80,19 @@ public class RanchosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.cargarRanchos();
     }
 
     @FXML
     private void limpiarBusqueda(ActionEvent event) {
         this.txt_busqueda.setText("");
     }
-    
+
     @FXML
     private void buscarRancho(ActionEvent event) {
+        this.buscarRanchos();
     }
 
-   @FXML
+    @FXML
     private void registrarRancho(ActionEvent event) {
         this.formRancho(true); // editar = false, nuevo = true
     }
@@ -107,13 +102,14 @@ public class RanchosController implements Initializable {
         if (this.rancho != null) {
             this.formRancho(false); //Como estoy editando es false, si fuera nuevo seria true
         } else {
-            new Alerta("Advertencia", "Debe seleccionar un rancho");
+            Window.alertaAdvertencia("Debe seleccionar un rancho");
         }
     }
-    
+
     private void cargarRanchos() {
         String respuesta = "";
-        tbl_ranchos.getItems().clear();
+        this.tbl_ranchos.getItems().clear();
+        this.rancho = null;
 
         respuesta = Requests.get("/rancho/getAllRanchos/");
         Gson gson = new Gson();
@@ -135,14 +131,50 @@ public class RanchosController implements Initializable {
             tbl_ranchos.getItems().add(e);
         });
     }
-    
+
+    public void buscarRanchos() {
+        String respuesta = "";
+        this.tbl_ranchos.getItems().clear();
+        this.rancho = null;
+
+        HashMap<String, Object> params = new LinkedHashMap<>();
+        params.put("busqueda", this.txt_busqueda.getText());
+
+        respuesta = Requests.post("/rancho/buscarRanchos", params);
+        Gson gson = new Gson();
+
+        //Definimos u  TypeToken que representa una lista de objetos Categoria
+        TypeToken<List<Rancho>> token = new TypeToken<List<Rancho>>() {
+        };
+
+        //Utilizamos el método fromJson() de la clase Gson para convertir el JSON en una lista de objetos
+        List<Rancho> listRanchos = gson.fromJson(respuesta, token.getType());
+
+        if (listRanchos.size() > 0) {
+            tcl_idRancho.setCellValueFactory(new PropertyValueFactory<>("idRancho"));
+            tcl_ranchoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            tcl_ranchoDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+            tcl_ranchoEncargado.setCellValueFactory(new PropertyValueFactory<>("nombreEncargado"));
+            tcl_ranchoFechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
+            tcl_ranchoUsuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
+            tcl_ranchoFechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
+            tcl_ranchoUsuarioEdicion.setCellValueFactory(new PropertyValueFactory<>("usuarioEditor"));
+
+            listRanchos.forEach(e -> {
+                tbl_ranchos.getItems().add(e);
+            });
+        } else {
+            Window.alertaInformacion("No se encontraron datos coincidentes...");
+        }
+    }
+
     private void formRancho(boolean isNew) {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormRanchoFXML.fxml"));
             Parent formRancho = loader.load();
             FormRanchoController ctrl = loader.getController();
-            ctrl.setData(context, this.rancho, isNew);
+            ctrl.setData(this.context, this.rancho, isNew);
             Scene scene = new Scene(formRancho);
             stage.setScene(scene);
             if (isNew) {
@@ -151,20 +183,22 @@ public class RanchosController implements Initializable {
                 stage.setTitle("Editar Rancho: '" + rancho.getNombre() + "'");
             }
 
-            stage.show();
+            stage.showAndWait();
+            this.cargarRanchos();
         } catch (IOException ex) {
             Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @FXML
     private void clickTableRanchos(MouseEvent event) {
         if (tbl_ranchos.getSelectionModel().getSelectedItem() != null) {
             rancho = tbl_ranchos.getSelectionModel().getSelectedItem();
         }
     }
-    
-    public void setData(HashMap<String, Object> context){
-        this.context= context;
+
+    public void setData(HashMap<String, Object> context) {
+        this.context = context;
+        this.cargarRanchos();
     }
 }
