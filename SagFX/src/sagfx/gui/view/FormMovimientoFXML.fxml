@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -17,7 +18,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_cantidad" layoutX="142.0" layoutY="44.0" prefHeight="32.0" prefWidth="268.0" promptText="Cantidad">
+      <TextField fx:id="txt_cantidad" layoutX="142.0" layoutY="44.0" onKeyTyped="#restriccionNumeros" prefHeight="32.0" prefWidth="268.0" promptText="Cantidad">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -27,7 +28,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <CheckBox fx:id="chb_movimiento" layoutX="140.0" layoutY="100.0" mnemonicParsing="false" onAction="#checkMovimiento" text="Ingreso">
+      <CheckBox fx:id="chb_movimiento" layoutX="140.0" layoutY="100.0" mnemonicParsing="false" onAction="#checkMovimiento" selected="true" text="Ingreso">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -47,11 +48,6 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_fecha" layoutX="142.0" layoutY="195.0" prefHeight="32.0" prefWidth="268.0" promptText="aaaa-mm-dd">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </TextField>
       <Label fx:id="lbl_observaciones" layoutX="43.0" layoutY="250.0" text="Observaciones:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
@@ -86,5 +82,6 @@
             </ImageView>
          </graphic>
       </Button>
+      <DatePicker fx:id="dtp_fecha" editable="false" layoutX="142.0" layoutY="195.0" prefHeight="32.0" prefWidth="268.0" promptText="Fecha" />
    </children>
 </Pane>
