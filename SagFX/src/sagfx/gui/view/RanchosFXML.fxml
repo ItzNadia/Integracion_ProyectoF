@@ -17,12 +17,12 @@
    <children>
       <Pane fx:id="pnl_codigo" layoutX="12.0" layoutY="6.0" prefHeight="55.0" prefWidth="1082.0">
          <children>
-            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Búsqueda">
+            <Label fx:id="lbl_codigo" layoutX="14.0" layoutY="16.0" text="Buscar">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="88.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+            <TextField fx:id="txt_busqueda" layoutX="71.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Id o nombre">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
@@ -92,13 +92,13 @@
                   <TableView fx:id="tbl_ranchos" layoutX="-3.0" layoutY="66.0" onMouseClicked="#clickTableRanchos" prefHeight="427.0" prefWidth="1106.0">
                     <columns>
                         <TableColumn fx:id="tcl_idRancho" prefWidth="75.0" text="Id Rancho" />
-                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="92.800048828125" text="Nombre" />
-                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="182.39996337890625" text="Dirección" />
-                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="94.40005493164062" text="Encargado" />
-                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="193.86666870117188" text="Fecha Alta" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="134.13336181640625" text="Usuario Alta" />
-                        <TableColumn fx:id="tcl_ranchoFechaEdicion" prefWidth="150.93341064453125" text="Fecha Edición" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="180.5333251953125" text="Usuario Edición" />
+                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="178.0" text="Nombre" />
+                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="171.0" text="Dirección" />
+                        <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="147.0" text="Encargado" />
+                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="90.0" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="169.0" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_ranchoFechaEdicion" minWidth="0.0" prefWidth="90.0" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="175.0" text="Usuario Edición" />
                     </columns>
                   </TableView>
                </children>
