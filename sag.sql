@@ -524,14 +524,25 @@ CREATE PROCEDURE sp_editarUsuario(
 	IN apellidoMaterno VARCHAR(50),
 	IN celular VARCHAR(10),
 	IN usuario VARCHAR(50),
-	IN contrasena VARCHAR(1000),
 	IN idRol INT,
 	IN idEstatus INT,
 	IN idRancho INT,
 	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE usuario u
-	SET u.nombre=nombre, u.apellidoPaterno=apellidoPaterno, u.apellidoMaterno=apellidoMaterno, u.celular=celular, u.usuario=usuario, u.contrasena=contrasena, u.idRol=idRol, u.idEstatus=idEstatus, u.idRancho=idRancho, u.fechaEdicion=CURDATE(), u.idUsuarioEditor=idUsuarioEditor
+	SET u.nombre=nombre, u.apellidoPaterno=apellidoPaterno, u.apellidoMaterno=apellidoMaterno, u.celular=celular, u.usuario=usuario, u.idRol=idRol, u.idEstatus=idEstatus, u.idRancho=idRancho, u.fechaEdicion=CURDATE(), u.idUsuarioEditor=idUsuarioEditor
+	WHERE u.idUsuario=idUsuario;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_cambiarContrasenaUsuario(
+	IN idUsuario INT,
+	IN contrasena VARCHAR(1000),
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE usuario u
+	SET u.contrasena=contrasena, u.fechaEdicion=CURDATE(), u.idUsuarioEditor=idUsuarioEditor
 	WHERE u.idUsuario=idUsuario;
 END$$
 

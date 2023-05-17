@@ -142,7 +142,7 @@ public class UsuarioWS {
             @FormParam("apellidoMaterno") String apellidoMaterno,
             @FormParam("celular") String celular,
             @FormParam("usuario") String usuario,
-            @FormParam("contrasena") String contrasena,
+            //@FormParam("contrasena") String contrasena,
             @FormParam("idRol") Integer idRol,
             @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idRancho") Integer idRancho,
@@ -157,7 +157,7 @@ public class UsuarioWS {
             param.put("apellidoMaterno", apellidoMaterno);
             param.put("celular", celular);
             param.put("usuario", usuario);
-            param.put("contrasena", JavaUtils.hashString(contrasena.toUpperCase()));
+            //param.put("contrasena", JavaUtils.hashString(contrasena.toUpperCase()));
             param.put("idRol", idRol);
             param.put("idEstatus", idEstatus);
             param.put("idRancho", idRancho);
@@ -172,6 +172,36 @@ public class UsuarioWS {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error al editar el usuario...");
+        }finally{
+            conn.close();
+        }
+        return res;
+    }
+
+    @POST
+    @Path("cambiarContrasenaUsuario")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta cambiarContrasenaUsuario(
+            @FormParam("idUsuario") Integer idUsuario,
+            @FormParam("contrasena") String contrasena,
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
+        Respuesta res = new Respuesta();
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("idUsuario", idUsuario);
+            param.put("contrasena", JavaUtils.hashString(contrasena.toUpperCase()));
+            param.put("idUsuarioEditor", idUsuarioEditor);
+            
+            conn.update("Usuario.cambiarContrasenaUsuario", param);
+            conn.commit();
+            
+            res.setError(false);
+            res.setMensaje("¡Contraseña modificada correctamente!");
+        }catch(Exception e){
+            e.printStackTrace();
+            res.setError(true);
+            res.setMensaje("Error al cambiar contraseña...");
         }finally{
             conn.close();
         }

@@ -41,10 +41,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{apellidoMaterno, jdbcType=VARCHAR,mode=IN},
             #{celular, jdbcType=VARCHAR,mode=IN},
             #{usuario, jdbcType=VARCHAR,mode=IN},
-            #{contrasena, jdbcType=VARCHAR,mode=IN},
             #{idRol, jdbcType=INTEGER,mode=IN},
             #{idEstatus, jdbcType=INTEGER,mode=IN},
             #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+    
+    <update id="cambiarContrasenaUsuario" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_cambiarContrasenaUsuario(
+            #{idUsuario, jdbcType=INTEGER,mode=IN},
+            #{contrasena, jdbcType=VARCHAR,mode=IN},
             #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
     </update>
 

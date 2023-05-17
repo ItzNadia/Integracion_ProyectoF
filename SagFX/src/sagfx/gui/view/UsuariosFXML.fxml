@@ -22,7 +22,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="122.0" layoutY="9.0" prefHeight="36.0" prefWidth="244.0" promptText="Código">
+            <TextField fx:id="txt_busqueda" layoutX="122.0" layoutY="9.0" prefHeight="36.0" prefWidth="244.0" promptText="Id o Nombre Completo">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
@@ -125,8 +125,8 @@
                         <TableColumn fx:id="tcl_estatus" prefWidth="71.7333984375" text="Estatus" />
                         <TableColumn fx:id="tcl_fechaAlta" prefWidth="87.7332763671875" text="Fecha Alta" />
                         <TableColumn fx:id="tcl_usuarioAlta" prefWidth="103.20001220703125" text="Usuario Alta" />
-                        <TableColumn prefWidth="114.13323974609375" text="Fecha Edición" />
-                        <TableColumn prefWidth="120.0" text="Usuario Edicion" />
+                        <TableColumn fx:id="tcl_fechaEdicion" prefWidth="114.13323974609375" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_usuarioEdicion" prefWidth="120.0" text="Usuario Edicion" />
                     </columns>
                   </TableView>
                </children>
