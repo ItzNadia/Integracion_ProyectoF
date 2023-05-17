@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sagfx.controller;
 
 import java.net.URL;
@@ -26,14 +21,8 @@ import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Movimiento;
 import sagfx.model.Usuario;
-import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
-/**
- * FXML Controller class
- *
- * @author nait0
- */
 public class FormMovimientoController implements Initializable {
 
     @FXML
@@ -56,23 +45,20 @@ public class FormMovimientoController implements Initializable {
     private TextArea txt_observaciones;
     @FXML
     private CheckBox chb_movimiento;
-    
-    Movimiento movimiento = null;
-    Boolean isNew = false;
-    HashMap<String, Object> context;
     @FXML
     private Label lbl_apellidoMaterno;
     @FXML
     private DatePicker dtp_fecha;
 
-    /**
-     * Initializes the controller class.
-     */
+    Movimiento movimiento = null;
+    Boolean isNew = false;
+    HashMap<String, Object> context;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     public void setData(HashMap<String, Object> context, Movimiento movimiento, Boolean isNew) {
         this.context = context;
         this.movimiento = movimiento;
@@ -87,40 +73,39 @@ public class FormMovimientoController implements Initializable {
 
     @FXML
     private void guardarMovimiento(ActionEvent event) {
-        Usuario u = (Usuario)this.context.get("usuario");
-        if(validar()){
+        Usuario u = (Usuario) this.context.get("usuario");
+        if (validar()) {
             try {
-                HashMap<String,Object> movimiento = new HashMap<String, Object> ();
-                movimiento.put("idMovimiento", this.movimiento.getIdMovimiento());
+                HashMap<String, Object> movimiento = new HashMap<String, Object>();
                 movimiento.put("cantidadVenta", this.txt_cantidad.getText());
                 movimiento.put("concepto", this.txt_concepto.getText());
                 movimiento.put("fecha", this.dtp_fecha.getValue().toString());
                 movimiento.put("observaciones", this.txt_observaciones.getText());
                 movimiento.put("idRancho", u.getIdRancho());
-                
+
                 if (this.chb_movimiento.isSelected()) {
                     movimiento.put("tipo", "Ingreso");
                 } else {
                     movimiento.put("tipo", "Egreso");
                 }
-                
+
                 String respuesta;
-                
-                if(isNew){
+
+                if (isNew) {
                     movimiento.put("idUsuarioAlta", u.getIdUsuario());
                     respuesta = Requests.post("/movimiento/registrarMovimiento", movimiento);
-                }else{
-                    System.out.println(movimiento);
+                } else {
+                movimiento.put("idMovimiento", this.movimiento.getIdMovimiento());
                     movimiento.put("idUsuarioEditor", u.getIdUsuario());
                     respuesta = Requests.post("/movimiento/editarMovimiento", movimiento);
                 }
-                
+
                 JSONObject dataJson = new JSONObject(respuesta);
-                
-                if((boolean)dataJson.get("error")){
-                    
+
+                if ((boolean) dataJson.get("error")) {
+
                     Window.alertaError(dataJson.get("mensaje").toString());
-                }else{
+                } else {
                     Window.close(event);
                     Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }
@@ -128,7 +113,7 @@ public class FormMovimientoController implements Initializable {
                 Logger.getLogger(FormMovimientoController.class.getName()).log(Level.SEVERE, null, ex);
                 Window.alertaError("Error, verifique la información en intente nuevamente");
             }
-        }else{
+        } else {
             Window.alertaAdvertencia("Favor de ingresar datos faltantes");
         }
     }
@@ -141,14 +126,14 @@ public class FormMovimientoController implements Initializable {
             this.chb_movimiento.setText("Egreso");
         }
     }
-    
-    private boolean validar(){
-        if(!this.txt_cantidad.getText().isEmpty() && !this.txt_concepto.getText().isEmpty() && !this.txt_observaciones.getText().isEmpty()){
+
+    private boolean validar() {
+        if (!this.txt_cantidad.getText().isEmpty() && !this.txt_concepto.getText().isEmpty() && !this.txt_observaciones.getText().isEmpty()) {
             return true;
         }
         return false;
     }
-    
+
     public void cargarMovimiento() {
         if (!isNew) {
             if ("S".equals(movimiento.getTipo())) {
@@ -157,7 +142,7 @@ public class FormMovimientoController implements Initializable {
             } else {
                 this.chb_movimiento.setText("Egreso");
                 this.chb_movimiento.setSelected(false);
-            }     
+            }
             this.txt_cantidad.setText(movimiento.getCantidadVenta().toString());
             this.txt_concepto.setText(movimiento.getConcepto());
             this.dtp_fecha.setValue(LocalDate.parse(movimiento.getFecha()));
@@ -165,13 +150,14 @@ public class FormMovimientoController implements Initializable {
 
         }
     }
-    
+
     @FXML
-    private void restriccionNumeros(KeyEvent event){
-        if(event.getTarget() == this.txt_cantidad){
-            if(!Character.isDigit(event.getCharacter().charAt(0)) && event.getCharacter().charAt(0) != '.'){
+    private void restriccionNumeros(KeyEvent event) {
+        if (event.getTarget() == this.txt_cantidad) {
+            if (!Character.isDigit(event.getCharacter().charAt(0)) && event.getCharacter().charAt(0) != '.') {
                 event.consume();
-            }if(event.getCharacter().charAt(0) == '.' && this.txt_cantidad.getText().contains(".")){
+            }
+            if (event.getCharacter().charAt(0) == '.' && this.txt_cantidad.getText().contains(".")) {
                 event.consume();
             }
         }

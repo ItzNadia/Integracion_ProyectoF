@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Rancho;
 import sagfx.model.Usuario;
-import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
 public class FormRanchoController implements Initializable {
@@ -38,14 +37,11 @@ public class FormRanchoController implements Initializable {
     private TextField txt_nombreEncargadoRancho;
     @FXML
     private Label lbl_nombreEncargadoRancho;
-    
+
     private Rancho rancho = null;
     private Boolean isNew = false;
     private HashMap<String, Object> context;
-    
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -60,7 +56,7 @@ public class FormRanchoController implements Initializable {
 
     @FXML
     private void guardarRancho(ActionEvent event) {
-        Usuario u = (Usuario)this.context.get("usuario");
+        Usuario u = (Usuario) this.context.get("usuario");
         if (validar()) {
             try {
                 HashMap<String, Object> param = new HashMap<String, Object>();
@@ -77,12 +73,12 @@ public class FormRanchoController implements Initializable {
                     param.put("idUsuarioEditor", u.getIdUsuario());
                     respuesta = Requests.post("/rancho/editarRancho", param);
                 }
-                
+
                 JSONObject dataJson = new JSONObject(respuesta);
 
-                if((boolean)dataJson.get("error")){
+                if ((boolean) dataJson.get("error")) {
                     Window.alertaError(dataJson.get("mensaje").toString());
-                }else{
+                } else {
                     Window.close(event);
                     Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }
@@ -94,12 +90,12 @@ public class FormRanchoController implements Initializable {
             Window.alertaAdvertencia("Favor de ingresar datos faltantes");
         }
     }
-    
+
     @FXML
     private void cerrar(ActionEvent event) {
         Window.close(event);
     }
-    
+
     public void cargarRancho() {
         if (!isNew) {
             this.txt_nombreRancho.setText(rancho.getNombre());
@@ -107,12 +103,12 @@ public class FormRanchoController implements Initializable {
             this.txt_nombreEncargadoRancho.setText(rancho.getNombreEncargado());
         }
     }
-    
+
     private boolean validar() {
         if (!this.txt_nombreRancho.getText().isEmpty() && !this.txt_direccionRancho.getText().isEmpty() && !this.txt_nombreEncargadoRancho.getText().isEmpty()) {
             return true;
         }
         return false;
     }
-    
+
 }

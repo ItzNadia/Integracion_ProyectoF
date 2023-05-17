@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sagfx.controller;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,14 +14,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import org.json.JSONException;
+import org.json.JSONObject;
+import sagfx.api.requests.Requests;
 import sagfx.model.Usuario;
 import sagfx.utils.Window;
 
-/**
- * FXML Controller class
- *
- * @author nait0
- */
 public class FormUsuarioController implements Initializable {
 
     @FXML
@@ -63,15 +58,11 @@ public class FormUsuarioController implements Initializable {
     private CheckBox chb_estatus;
     @FXML
     private CheckBox chb_rol;
-    
+
     Usuario usuario = null;
     Boolean isNew = false;
     HashMap<String, Object> context;
 
-
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -86,54 +77,55 @@ public class FormUsuarioController implements Initializable {
 
     @FXML
     private void guardarUsuario(ActionEvent event) {
-/*        Usuario u = (Usuario)this.context.get("usuario");
-        if(validar()){
+        Usuario u = (Usuario) this.context.get("usuario");
+        if (validar()) {
             try {
-                
-                HashMap<String,Object> param = new HashMap<String, Object> ();
-                param.put("idUsuario", this.usuario.getIdUsuario());
+                HashMap<String, Object> param = new HashMap<String, Object>();
                 param.put("nombre", this.txt_nombre.getText());
                 param.put("apellidoPaterno", this.txt_apellidoPaterno.getText());
                 param.put("apellidoMaterno", this.txt_apellidoMaterno.getText());
                 param.put("celular", this.txt_celular.getText());
                 param.put("usuario", this.txt_usuario.getText());
-                param.put("idRol", );
-                param.put("idEstatus", );
-                param.put("idUsuarioAlta", u.getIdUsuario());
-                
-                if (this.chb_movimiento.isSelected()) {
-                    movimiento.put("tipo", "Ingreso");
+
+                if (this.chb_rol.isSelected()) {
+                    param.put("idRol", 201);
                 } else {
-                    movimiento.put("tipo", "Egreso");
+                    param.put("idRol", "202");
                 }
-                
+                if (this.chb_estatus.isSelected()) {
+                    param.put("idEstatus", 101);
+                } else {
+                    param.put("idEstatus", 102);
+                }
+                param.put("idRancho", u.getIdRancho());
+                param.put("idUsuarioAlta", u.getIdUsuario());
+
                 String respuesta;
-                
-                if(isNew){
-                    movimiento.put("idUsuarioAlta", u.getIdUsuario());
-                    respuesta = Requests.post("/movimiento/registrarMovimiento", movimiento);
-                }else{
-                    System.out.println(movimiento);
-                    movimiento.put("idUsuarioEditor", u.getIdUsuario());
-                    respuesta = Requests.post("/movimiento/editarMovimiento", movimiento);
+                System.out.println("Es nuevo?: " + isNew);
+                if (isNew) {
+                    param.put("contrasena", this.txt_contrasena.getText());
+                    param.put("idUsuarioAlta", u.getIdUsuario());
+                    respuesta = Requests.post("/usuario/registrarUsuario", param);
+                } else {
+                    param.put("idUsuario", this.usuario.getIdUsuario());
+                    param.put("idUsuarioEditor", u.getIdUsuario());
+                    respuesta = Requests.post("/usuario/editarUsuario", param);
                 }
-                
+
                 JSONObject dataJson = new JSONObject(respuesta);
-                
-                if((boolean)dataJson.get("error")){
-                    
+
+                if ((boolean) dataJson.get("error")) {
                     Window.alertaError(dataJson.get("mensaje").toString());
-                }else{
+                } else {
                     Window.close(event);
                     Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }
             } catch (JSONException ex) {
-                Logger.getLogger(FormMovimientoController.class.getName()).log(Level.SEVERE, null, ex);
-                Window.alertaError("Error, verifique la información en intente nuevamente");
+                Logger.getLogger(FormUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             Window.alertaAdvertencia("Favor de ingresar datos faltantes");
-        }*/
+        }
     }
 
     @FXML
@@ -161,17 +153,16 @@ public class FormUsuarioController implements Initializable {
 
     @FXML
     private void restriccionNumerosyTamano(KeyEvent event) {
-        // && Integer.parseInt(.toString())>9
-        if(event.getTarget() == this.txt_celular){
-            if(!Character.isDigit(event.getCharacter().charAt(0))){
+        if (event.getTarget() == this.txt_celular) {
+            if (!Character.isDigit(event.getCharacter().charAt(0))) {
                 event.consume();
             }
-            if(!(this.txt_celular.lengthProperty().getValue()<10)){
+            if (!(this.txt_celular.lengthProperty().getValue() < 10)) {
                 event.consume();
             }
         }
     }
-    
+
     public void cargarUsuario() {
         if (!isNew) {
             if (usuario.getIdRol() == 201) {
@@ -182,28 +173,34 @@ public class FormUsuarioController implements Initializable {
                 this.chb_rol.setSelected(false);
             }
             if (usuario.getIdEstatus() == 101) {
-                this.chb_rol.setText("Activo");
-                this.chb_rol.setSelected(true);
+                this.chb_estatus.setText("Activo");
+                this.chb_estatus.setSelected(true);
             } else {
-                this.chb_rol.setText("Inactivo");
-                this.chb_rol.setSelected(false);
+                this.chb_estatus.setText("Inactivo");
+                this.chb_estatus.setSelected(false);
             }
             this.txt_nombre.setText(usuario.getNombre());
             this.txt_apellidoPaterno.setText(usuario.getApellidoPaterno());
             this.txt_apellidoMaterno.setText(usuario.getApellidoMaterno());
             this.txt_celular.setText(usuario.getCelular());
             this.txt_usuario.setText(usuario.getUsuario());
-            
+
             this.txt_contrasena.setDisable(true);
             this.txt_contrasena.setOpacity(0);
             this.lbl_contrasena.setOpacity(0);
         }
     }
-    
-    private boolean validar(){
-        if(!this.txt_nombre.getText().isEmpty() && !this.txt_apellidoPaterno.getText().isEmpty() && !this.txt_apellidoMaterno.getText().isEmpty() 
-                && !this.txt_celular.getText().isEmpty() && !this.txt_usuario.getText().isEmpty() && !this.txt_contrasena.getText().isEmpty()){
-            return true;
+
+    private boolean validar() {
+        if (!this.txt_nombre.getText().isEmpty() && !this.txt_apellidoPaterno.getText().isEmpty() && !this.txt_apellidoMaterno.getText().isEmpty()
+                && !this.txt_celular.getText().isEmpty() && !this.txt_usuario.getText().isEmpty()) {
+            if (this.isNew) {
+                if (!this.txt_contrasena.getText().isEmpty()) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
         }
         return false;
     }

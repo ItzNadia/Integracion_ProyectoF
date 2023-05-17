@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sagfx.controller;
 
 import com.google.gson.Gson;
@@ -10,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,17 +27,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.JSONException;
+import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Usuario;
-import sagfx.utils.Alerta;
+import sagfx.utils.Window;
 
-/**
- * FXML Controller class
- *
- * @author nait0
- */
 public class UsuariosController implements Initializable {
-
     @FXML
     private Pane pnl_principal;
     @FXML
@@ -94,25 +86,23 @@ public class UsuariosController implements Initializable {
     private TableColumn<Usuario, String> tcl_usuarioEdicion;
     @FXML
     private SplitPane spl_usuarios;
-    
+
     HashMap<String, Object> context;
     private Usuario usuario = null;
 
-
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void buscarUsuario(ActionEvent event) {
+        this.buscarUsuarios();
     }
 
     @FXML
     private void limpiarBusqueda(ActionEvent event) {
+        this.txt_busqueda.setText("");
     }
 
     @FXML
@@ -125,61 +115,65 @@ public class UsuariosController implements Initializable {
         if (this.usuario != null) {
             this.formUsuario(false);
         } else {
-            new Alerta("Advertencia", "Debe seleccionar un usuario");
+            Window.alertaAdvertencia("Debe seleccionar un usuario");
         }
     }
 
     @FXML
     private void activarUsuario(ActionEvent event) {
+        this.cambiarActivoUsuario(101);
     }
 
     @FXML
     private void desactivarUsuario(ActionEvent event) {
+        this.cambiarActivoUsuario(102);
     }
 
     @FXML
     private void clickTableUsuarios(MouseEvent event) {
         if (tbl_usuarios.getSelectionModel().getSelectedItem() != null) {
-            usuario = tbl_usuarios.getSelectionModel().getSelectedItem();
+            this.usuario = tbl_usuarios.getSelectionModel().getSelectedItem();
         }
     }
-    
-    public void setData(HashMap<String, Object> context){
-        this.context= context;
+
+    public void setData(HashMap<String, Object> context) {
+        this.context = context;
         this.cargarUsuarios();
     }
-    
+
     private void formUsuario(boolean isNew) {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormUsuarioFXML.fxml"));
             Parent formUsuario = loader.load();
             FormUsuarioController ctrl = loader.getController();
-            ctrl.setData(context, this.usuario, isNew);
+            ctrl.setData(this.context, this.usuario, isNew);
             Scene scene = new Scene(formUsuario);
             stage.setScene(scene);
             if (isNew) {
                 stage.setTitle("Nuevo Usuario");
             } else {
-                stage.setTitle("Editar usuario: " + usuario.getNombre() + "'");
+                stage.setTitle("Editar usuario: '" + usuario.getNombre() + "'");
             }
 
-            stage.show();
+            stage.showAndWait();
+            this.cargarUsuarios();
         } catch (IOException ex) {
             Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void cargarUsuarios() {
         String respuesta = "";
         tbl_usuarios.getItems().clear();
+        this.usuario = null;
 
         respuesta = Requests.get("/usuario/getUsuariosByIdRancho/" + ((Usuario) this.context.get("usuario")).getIdRancho()); //REVISAAAAAR
         Gson gson = new Gson();
 
         TypeToken<List<Usuario>> token = new TypeToken<List<Usuario>>() {
         };
-        
+
         List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
         tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
         tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -198,6 +192,77 @@ public class UsuariosController implements Initializable {
             tbl_usuarios.getItems().add(e);
         });
     }
-    
-    
+
+    private void cambiarActivoUsuario(int idEstatus) {
+        if (this.usuario != null) {
+            if (this.usuario.getIdEstatus() != idEstatus) {
+                String msj = "activo";
+                if (idEstatus == 102) {
+                    msj = "inactivo";
+                }
+
+                if (Window.alertaConfirmacion("¿Realmente desea establecer como " + msj + " el usuario: '" + this.usuario.getUsuario() + "'?")) {
+                    try {
+                        System.out.println("IdEstatus: " + idEstatus);
+                        HashMap<String, Object> estatus = new LinkedHashMap<>();
+                        estatus.put("idUsuario", this.usuario.getIdUsuario());
+                        estatus.put("idEstatus", idEstatus);
+                        estatus.put("idUsuarioEditor", ((Usuario) this.context.get("usuario")).getIdUsuario());
+
+                        JSONObject respuesta = new JSONObject(Requests.post("/usuario/editarEstatusUsuario", estatus));
+
+                        if (!(Boolean) respuesta.get("error")) {
+                            this.cargarUsuarios();
+                        }
+                        Window.alertaInformacion(respuesta.getString("mensaje"));
+                    } catch (JSONException ex) {
+                        Logger.getLogger(UsuariosController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else {
+                Window.alertaAdvertencia("El usuario ya se encuentra " + this.usuario.getEstatus() + "...");
+            }
+        } else {
+            Window.alertaAdvertencia("Debe seleccionar un usuario");
+        }
+    }
+
+    public void buscarUsuarios() {
+        String respuesta = "";
+        tbl_usuarios.getItems().clear();
+        this.usuario = null;
+
+        HashMap<String, Object> params = new LinkedHashMap<>();
+        params.put("idRancho", ((Usuario) this.context.get("usuario")).getIdRancho());
+        params.put("busqueda", this.txt_busqueda.getText());
+
+        respuesta = Requests.post("/usuario/buscarUsuarios", params);
+        Gson gson = new Gson();
+
+        TypeToken<List<Usuario>> token = new TypeToken<List<Usuario>>() {
+        };
+
+        List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
+
+        if (!listUsuarios.isEmpty()) {
+            tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
+            tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            tcl_apellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
+            tcl_apellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
+            tcl_celular.setCellValueFactory(new PropertyValueFactory<>("celular"));
+            tcl_usuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
+            tcl_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
+            tcl_estatus.setCellValueFactory(new PropertyValueFactory<>("estatus"));
+            tcl_fechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
+            tcl_usuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
+            tcl_fechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
+            tcl_usuarioEdicion.setCellValueFactory(new PropertyValueFactory<>("usuarioEditor"));
+
+            listUsuarios.forEach(e -> {
+                tbl_usuarios.getItems().add(e);
+            });
+        } else {
+            Window.alertaInformacion("No se enontraron usuarios con esos parametros...");
+        }
+    }
 }
