@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sagfx.controller;
 
 import java.io.IOException;
@@ -19,11 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 
-/**
- * FXML Controller class
- *
- * @author nait0
- */
 public class PrincipalController implements Initializable {
 
     @FXML
@@ -36,22 +26,27 @@ public class PrincipalController implements Initializable {
     private MenuItem mi_categoria;
     @FXML
     private MenuItem mi_rancho;
-    
+
     HashMap<String, Object> context;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
-    public void setData(HashMap<String, Object> context){
-        this.context= context;
-        System.out.println(context);
+    public void setData(HashMap<String, Object> context) {
+        this.context = context;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/MovimientosFXML.fxml"));
+            Parent movimientos = loader.load();
+            MovimientosController ctrl = loader.getController();
+            ctrl.setData(context);
+            pnl_principal.setCenter(movimientos);
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     @FXML
     private void abrirCategorias(ActionEvent event) {
         try {
@@ -60,8 +55,8 @@ public class PrincipalController implements Initializable {
             pnl_principal.setCenter(categorias);
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-    }
-   
+        }
+
     }
 
     @FXML
@@ -77,29 +72,29 @@ public class PrincipalController implements Initializable {
         }
     }
 
-    @FXML 
-        private void abrirMovimientos(ActionEvent event) { 
-            try { 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/MovimientosFXML.fxml")); 
-                Parent movimientos = loader.load(); 
-                MovimientosController ctrl = loader.getController(); 
-                ctrl.setData(context); 
-                pnl_principal.setCenter(movimientos); 
-            } catch (IOException ex) { 
-                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex); 
-            } 
-        } 
+    @FXML
+    private void abrirMovimientos(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/MovimientosFXML.fxml"));
+            Parent movimientos = loader.load();
+            MovimientosController ctrl = loader.getController();
+            ctrl.setData(context);
+            pnl_principal.setCenter(movimientos);
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-        @FXML 
-        private void abrirUsuarios(ActionEvent event) { 
-            try { 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/UsuariosFXML.fxml")); 
-                Parent usuarios = loader.load(); 
-                UsuariosController ctrl = loader.getController(); 
-                ctrl.setData(context); 
-                pnl_principal.setCenter(usuarios); 
-            } catch (IOException ex) { 
-                Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex); 
-            } 
-        } 
+    @FXML
+    private void abrirUsuarios(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/UsuariosFXML.fxml"));
+            Parent usuarios = loader.load();
+            UsuariosController ctrl = loader.getController();
+            ctrl.setData(context);
+            pnl_principal.setCenter(usuarios);
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

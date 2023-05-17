@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sagfx.controller;
 
 import com.google.gson.Gson;
@@ -35,14 +30,8 @@ import javafx.stage.Stage;
 import sagfx.api.requests.Requests;
 import sagfx.model.Movimiento;
 import sagfx.model.Usuario;
-import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
-/**
- * FXML Controller class
- *
- * @author nait0
- */
 public class MovimientosController implements Initializable {
 
     @FXML
@@ -95,9 +84,6 @@ public class MovimientosController implements Initializable {
     private Movimiento movimiento = null;
     HashMap<String, Object> context;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -137,7 +123,7 @@ public class MovimientosController implements Initializable {
         this.movimiento = null;
 
         HashMap<String, Object> params = new LinkedHashMap<>();
-        params.put("idRancho", ((Usuario)this.context.get("usuario")).getIdRancho());
+        params.put("idRancho", ((Usuario) this.context.get("usuario")).getIdRancho());
         params.put("busqueda", this.txt_busqueda.getText());
 
         respuesta = Requests.post("/movimiento/buscarMovimientos", params);
@@ -205,7 +191,6 @@ public class MovimientosController implements Initializable {
 
         TypeToken<List<Movimiento>> token = new TypeToken<List<Movimiento>>() {
         };
-        System.out.println("idRancho: " + ((Usuario) this.context.get("usuario")).getIdRancho());
 
         List<Movimiento> listMovimientos = gson.fromJson(respuesta, token.getType());
         tcl_idMovimiento.setCellValueFactory(new PropertyValueFactory<>("idMovimiento"));
@@ -224,5 +209,4 @@ public class MovimientosController implements Initializable {
             tbl_movimientos.getItems().add(e);
         });
     }
-
 }

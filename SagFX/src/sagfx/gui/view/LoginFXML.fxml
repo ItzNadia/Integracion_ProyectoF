@@ -34,12 +34,12 @@
                   <Font name="Lucida Sans Unicode" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_usuario" layoutX="174.0" layoutY="29.0" prefHeight="23.0" prefWidth="198.0" promptText="Usuario">
+            <TextField fx:id="txt_usuario" layoutX="174.0" layoutY="29.0" onAction="#iniciarSesion" prefHeight="23.0" prefWidth="198.0" promptText="Usuario">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="txt_contrasena" layoutX="174.0" layoutY="84.0" prefHeight="30.0" prefWidth="198.0" promptText="Contraseña">
+            <PasswordField fx:id="txt_contrasena" layoutX="174.0" layoutY="84.0" onAction="#iniciarSesion" prefHeight="30.0" prefWidth="198.0" promptText="Contraseña">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>

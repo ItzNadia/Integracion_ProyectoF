@@ -46,9 +46,6 @@ public class FormCatalogoController implements Initializable {
     Catalogo catalogo = null;
     Boolean isNew = false;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -107,7 +104,7 @@ public class FormCatalogoController implements Initializable {
 
                 if ((boolean) dataJson.get("error")) {
                     Window.alertaError(dataJson.get("mensaje").toString());
-                }else{
+                } else {
                     Window.close(event);
                     Window.alertaInformacion(dataJson.get("mensaje").toString());
                 }

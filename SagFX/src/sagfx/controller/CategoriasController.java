@@ -23,6 +23,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -31,7 +33,6 @@ import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Catalogo;
 import sagfx.model.Categoria;
-import sagfx.utils.Alerta;
 import sagfx.utils.Window;
 
 public class CategoriasController implements Initializable {
@@ -379,5 +380,10 @@ public class CategoriasController implements Initializable {
         } else {
             Window.alertaAdvertencia("Debe seleccionar un catálogo");
         }
+    }
+
+    @FXML
+    private void buscarCategorias(ActionEvent event) {
+        this.buscarCategoria();
     }
 }

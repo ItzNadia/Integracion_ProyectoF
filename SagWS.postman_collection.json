@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "1f691049-bf9f-44ee-bc91-8b750ce72013",
+		"_postman_id": "817f5fa2-f3d5-4435-a861-b46dc2ec64a8",
 		"name": "SagWS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21050980"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -667,7 +666,7 @@
 								},
 								{
 									"key": "contrasena",
-									"value": "1234",
+									"value": "wasd",
 									"type": "default"
 								},
 								{
@@ -687,7 +686,7 @@
 								},
 								{
 									"key": "idUsuarioAlta",
-									"value": "1",
+									"value": "3",
 									"type": "default"
 								}
 							]
@@ -792,7 +791,7 @@
 								},
 								{
 									"key": "idRol",
-									"value": "202",
+									"value": "201",
 									"type": "default"
 								},
 								{

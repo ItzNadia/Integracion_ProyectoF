@@ -494,7 +494,7 @@ END$$
 
 CREATE PROCEDURE sp_buscarUsuarios(IN idRancho INT, IN busqueda VARCHAR(70))
 BEGIN
-	SELECT * FROM usuariosfullinfo u WHERE u.idUsuario=busqueda OR LOCATE(busqueda, CONCAT(u.nombre, " ", u.apellidoPaterno, " ", u.apellidoMaterno)) AND u.idRancho=idRancho;
+	SELECT * FROM usuariosfullinfo u WHERE (u.idUsuario=busqueda OR LOCATE(busqueda, CONCAT(u.nombre, " ", u.apellidoPaterno, " ", u.apellidoMaterno))) AND u.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -705,7 +705,7 @@ END$$
 
 CREATE PROCEDURE sp_buscarLotes(IN idRancho INT, IN busqueda VARCHAR(100))
 BEGIN
-	SELECT * FROM lotesfullinfo l WHERE l.idLote=busqueda OR LOCATE(busqueda, l.nombre) AND l.idRancho=idRancho;
+	SELECT * FROM lotesfullinfo l WHERE (l.idLote=busqueda OR LOCATE(busqueda, l.nombre)) AND l.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -766,7 +766,7 @@ END$$
 
 CREATE PROCEDURE sp_buscarHatos(IN idRancho INT, IN busqueda VARCHAR(106))
 BEGIN
-	SELECT * FROM hatosfullinfo h WHERE h.idHato=busqueda OR LOCATE(busqueda, h.diio) AND h.idRancho=idRancho;
+	SELECT * FROM hatosfullinfo h WHERE (h.idHato=busqueda OR LOCATE(busqueda, h.diio)) AND h.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -912,7 +912,7 @@ END$$
 
 CREATE PROCEDURE sp_buscarConsultasMedicas(IN idRancho INT, IN busqueda VARCHAR(30))
 BEGIN
-	SELECT * FROM consultasmedicasfullinfo c WHERE c.idConsultaMedica=busqueda OR LOCATE(busqueda, c.fechaAtencion) AND c.idRancho=idRancho;
+	SELECT * FROM consultasmedicasfullinfo c WHERE (c.idConsultaMedica=busqueda OR LOCATE(busqueda, c.fechaAtencion)) AND c.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
@@ -967,7 +967,7 @@ END$$
 
 CREATE PROCEDURE sp_buscarMovimientos(IN idRancho INT, IN busqueda VARCHAR(100))
 BEGIN
-	SELECT * FROM movimientosfullinfo m WHERE m.idMovimiento=busqueda OR LOCATE(busqueda, m.concepto) AND m.idRancho=idRancho;
+	SELECT * FROM movimientosfullinfo m WHERE (m.idMovimiento=busqueda OR LOCATE(busqueda, m.concepto)) AND m.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --

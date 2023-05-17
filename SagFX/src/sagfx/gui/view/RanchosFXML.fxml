@@ -22,7 +22,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="71.0" layoutY="8.0" prefHeight="36.0" prefWidth="244.0" promptText="Id o nombre">
+            <TextField fx:id="txt_busqueda" layoutX="71.0" layoutY="8.0" onAction="#buscarRancho" prefHeight="36.0" prefWidth="244.0" promptText="Id o nombre">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>

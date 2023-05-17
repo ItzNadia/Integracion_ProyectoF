@@ -74,9 +74,6 @@ public class RanchosController implements Initializable {
     private Rancho rancho = null;
     private HashMap<String, Object> context;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
