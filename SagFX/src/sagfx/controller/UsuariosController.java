@@ -5,9 +5,12 @@
  */
 package sagfx.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,10 +26,12 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sagfx.api.requests.Requests;
 import sagfx.model.Usuario;
 import sagfx.utils.Alerta;
 
@@ -62,32 +67,37 @@ public class UsuariosController implements Initializable {
     @FXML
     private Button btn_desactivar;
     @FXML
-    private TableView<?> tbl_usuarios;
+    private TableView<Usuario> tbl_usuarios;
     @FXML
-    private TableColumn<?, ?> tcl_idUsuario;
+    private TableColumn<Usuario, Integer> tcl_idUsuario;
     @FXML
-    private TableColumn<?, ?> tcl_nombre;
+    private TableColumn<Usuario, String> tcl_nombre;
     @FXML
-    private TableColumn<?, ?> tcl_apellidoPaterno;
+    private TableColumn<Usuario, String> tcl_apellidoPaterno;
     @FXML
-    private TableColumn<?, ?> tcl_apellidoMaterno;
+    private TableColumn<Usuario, String> tcl_apellidoMaterno;
     @FXML
-    private TableColumn<?, ?> tcl_celular;
+    private TableColumn<Usuario, String> tcl_celular;
     @FXML
-    private TableColumn<?, ?> tcl_usuario;
+    private TableColumn<Usuario, String> tcl_usuario;
     @FXML
-    private TableColumn<?, ?> tcl_rol;
+    private TableColumn<Usuario, String> tcl_rol;
     @FXML
-    private TableColumn<?, ?> tcl_estatus;
+    private TableColumn<Usuario, String> tcl_estatus;
     @FXML
-    private TableColumn<?, ?> tcl_fechaAlta;
+    private TableColumn<Usuario, String> tcl_fechaAlta;
     @FXML
-    private TableColumn<?, ?> tcl_usuarioAlta;
+    private TableColumn<Usuario, String> tcl_usuarioAlta;
+    @FXML
+    private TableColumn<Usuario, String> tcl_fechaEdicion;
+    @FXML
+    private TableColumn<Usuario, String> tcl_usuarioEdicion;
     @FXML
     private SplitPane spl_usuarios;
     
     HashMap<String, Object> context;
     private Usuario usuario = null;
+
 
     /**
      * Initializes the controller class.
@@ -129,10 +139,14 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void clickTableUsuarios(MouseEvent event) {
+        if (tbl_usuarios.getSelectionModel().getSelectedItem() != null) {
+            usuario = tbl_usuarios.getSelectionModel().getSelectedItem();
+        }
     }
     
     public void setData(HashMap<String, Object> context){
         this.context= context;
+        this.cargarUsuarios();
     }
     
     private void formUsuario(boolean isNew) {
@@ -155,4 +169,35 @@ public class UsuariosController implements Initializable {
             Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void cargarUsuarios() {
+        String respuesta = "";
+        tbl_usuarios.getItems().clear();
+
+        respuesta = Requests.get("/usuario/getUsuariosByIdRancho/" + ((Usuario) this.context.get("usuario")).getIdRancho()); //REVISAAAAAR
+        Gson gson = new Gson();
+
+        TypeToken<List<Usuario>> token = new TypeToken<List<Usuario>>() {
+        };
+        
+        List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
+        tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
+        tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        tcl_apellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
+        tcl_apellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
+        tcl_celular.setCellValueFactory(new PropertyValueFactory<>("celular"));
+        tcl_usuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
+        tcl_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
+        tcl_estatus.setCellValueFactory(new PropertyValueFactory<>("estatus"));
+        tcl_fechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
+        tcl_usuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
+        tcl_fechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
+        tcl_usuarioEdicion.setCellValueFactory(new PropertyValueFactory<>("usuarioEditor"));
+
+        listUsuarios.forEach(e -> {
+            tbl_usuarios.getItems().add(e);
+        });
+    }
+    
+    
 }
