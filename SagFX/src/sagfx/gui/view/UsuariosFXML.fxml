@@ -22,11 +22,11 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="122.0" layoutY="9.0" onAction="#buscarUsuario" prefHeight="36.0" prefWidth="244.0" promptText="Id o Nombre Completo">
+            <TextField fx:id="txt_busqueda" layoutX="118.0" layoutY="9.0" onAction="#buscarUsuario" prefHeight="36.0" prefWidth="244.0" promptText="Id o Nombre">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
-            <Button fx:id="btn_buscar" layoutX="402.0" layoutY="12.0" mnemonicParsing="false" onAction="#buscarUsuario" text="Buscar">
+            <Button fx:id="btn_buscar" layoutX="392.0" layoutY="11.0" mnemonicParsing="false" onAction="#buscarUsuario" text="Buscar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -38,7 +38,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btn_limpiar" layoutX="508.0" layoutY="12.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
+            <Button fx:id="btn_limpiar" layoutX="504.0" layoutY="11.0" mnemonicParsing="false" onAction="#limpiarBusqueda" text="Limpiar">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -63,7 +63,7 @@
                               <Font name="Lucida Sans Unicode" size="18.0" />
                            </font>
                         </Text>
-                        <Button fx:id="btn_nuevoUsuario" layoutX="287.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarUsuario" text="Nuevo">
+                        <Button fx:id="btn_nuevoUsuario" layoutX="296.0" layoutY="11.0" mnemonicParsing="false" onAction="#registrarUsuario" text="Nuevo">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -75,7 +75,7 @@
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_editarUsuario" layoutX="407.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarUsuario" text="Editar">
+                        <Button fx:id="btn_editarUsuario" layoutX="406.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarUsuario" text="Editar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -87,7 +87,19 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="btn_editarUsuario1" layoutX="518.0" layoutY="12.0" mnemonicParsing="false" onAction="#activarUsuario" text="Activar">
+                        <Button fx:id="btn_cambiarContrasena" layoutX="506.0" layoutY="12.0" mnemonicParsing="false" onAction="#cambiarContrasena" text="Cambiar contraseña">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/login.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btn_editarUsuario1" layoutX="704.0" layoutY="12.0" mnemonicParsing="false" onAction="#activarUsuario" text="Activar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -99,7 +111,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="btn_desactivar" layoutX="629.0" layoutY="12.0" mnemonicParsing="false" onAction="#desactivarUsuario" text="Desactivar">
+                        <Button fx:id="btn_desactivar" layoutX="815.0" layoutY="12.0" mnemonicParsing="false" onAction="#desactivarUsuario" text="Desactivar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>

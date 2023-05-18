@@ -34,6 +34,7 @@ import sagfx.model.Usuario;
 import sagfx.utils.Window;
 
 public class UsuariosController implements Initializable {
+
     @FXML
     private Pane pnl_principal;
     @FXML
@@ -86,30 +87,32 @@ public class UsuariosController implements Initializable {
     private TableColumn<Usuario, String> tcl_usuarioEdicion;
     @FXML
     private SplitPane spl_usuarios;
-
+    
     HashMap<String, Object> context;
     private Usuario usuario = null;
-
+    @FXML
+    private Button btn_cambiarContrasena;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-
+    
     @FXML
     private void buscarUsuario(ActionEvent event) {
         this.buscarUsuarios();
     }
-
+    
     @FXML
     private void limpiarBusqueda(ActionEvent event) {
         this.txt_busqueda.setText("");
     }
-
+    
     @FXML
     private void registrarUsuario(ActionEvent event) {
         this.formUsuario(true);
     }
-
+    
     @FXML
     private void editarUsuario(ActionEvent event) {
         if (this.usuario != null) {
@@ -118,29 +121,29 @@ public class UsuariosController implements Initializable {
             Window.alertaAdvertencia("Debe seleccionar un usuario");
         }
     }
-
+    
     @FXML
     private void activarUsuario(ActionEvent event) {
         this.cambiarActivoUsuario(101);
     }
-
+    
     @FXML
     private void desactivarUsuario(ActionEvent event) {
         this.cambiarActivoUsuario(102);
     }
-
+    
     @FXML
     private void clickTableUsuarios(MouseEvent event) {
         if (tbl_usuarios.getSelectionModel().getSelectedItem() != null) {
             this.usuario = tbl_usuarios.getSelectionModel().getSelectedItem();
         }
     }
-
+    
     public void setData(HashMap<String, Object> context) {
         this.context = context;
         this.cargarUsuarios();
     }
-
+    
     private void formUsuario(boolean isNew) {
         try {
             Stage stage = new Stage();
@@ -155,25 +158,25 @@ public class UsuariosController implements Initializable {
             } else {
                 stage.setTitle("Editar usuario: '" + usuario.getNombre() + "'");
             }
-
+            
             stage.showAndWait();
             this.cargarUsuarios();
         } catch (IOException ex) {
             Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private void cargarUsuarios() {
         String respuesta = "";
         tbl_usuarios.getItems().clear();
         this.usuario = null;
-
+        
         respuesta = Requests.get("/usuario/getUsuariosByIdRancho/" + ((Usuario) this.context.get("usuario")).getIdRancho()); //REVISAAAAAR
         Gson gson = new Gson();
-
+        
         TypeToken<List<Usuario>> token = new TypeToken<List<Usuario>>() {
         };
-
+        
         List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
         tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
         tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -187,12 +190,12 @@ public class UsuariosController implements Initializable {
         tcl_usuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
         tcl_fechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
         tcl_usuarioEdicion.setCellValueFactory(new PropertyValueFactory<>("usuarioEditor"));
-
+        
         listUsuarios.forEach(e -> {
             tbl_usuarios.getItems().add(e);
         });
     }
-
+    
     private void cambiarActivoUsuario(int idEstatus) {
         if (this.usuario != null) {
             if (this.usuario.getIdEstatus() != idEstatus) {
@@ -200,7 +203,7 @@ public class UsuariosController implements Initializable {
                 if (idEstatus == 102) {
                     msj = "inactivo";
                 }
-
+                
                 if (Window.alertaConfirmacion("¿Realmente desea establecer como " + msj + " el usuario: '" + this.usuario.getUsuario() + "'?")) {
                     try {
                         System.out.println("IdEstatus: " + idEstatus);
@@ -208,9 +211,9 @@ public class UsuariosController implements Initializable {
                         estatus.put("idUsuario", this.usuario.getIdUsuario());
                         estatus.put("idEstatus", idEstatus);
                         estatus.put("idUsuarioEditor", ((Usuario) this.context.get("usuario")).getIdUsuario());
-
+                        
                         JSONObject respuesta = new JSONObject(Requests.post("/usuario/editarEstatusUsuario", estatus));
-
+                        
                         if (!(Boolean) respuesta.get("error")) {
                             this.cargarUsuarios();
                         }
@@ -226,24 +229,24 @@ public class UsuariosController implements Initializable {
             Window.alertaAdvertencia("Debe seleccionar un usuario");
         }
     }
-
+    
     public void buscarUsuarios() {
         String respuesta = "";
         tbl_usuarios.getItems().clear();
         this.usuario = null;
-
+        
         HashMap<String, Object> params = new LinkedHashMap<>();
         params.put("idRancho", ((Usuario) this.context.get("usuario")).getIdRancho());
         params.put("busqueda", this.txt_busqueda.getText());
-
+        
         respuesta = Requests.post("/usuario/buscarUsuarios", params);
         Gson gson = new Gson();
-
+        
         TypeToken<List<Usuario>> token = new TypeToken<List<Usuario>>() {
         };
-
+        
         List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
-
+        
         if (!listUsuarios.isEmpty()) {
             tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
             tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -257,12 +260,34 @@ public class UsuariosController implements Initializable {
             tcl_usuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
             tcl_fechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
             tcl_usuarioEdicion.setCellValueFactory(new PropertyValueFactory<>("usuarioEditor"));
-
+            
             listUsuarios.forEach(e -> {
                 tbl_usuarios.getItems().add(e);
             });
         } else {
             Window.alertaInformacion("No se enontraron usuarios con esos parametros...");
+        }
+    }
+    
+    @FXML
+    private void cambiarContrasena(ActionEvent event) {
+        if (this.usuario != null) {
+            try {
+                Stage stage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormCambiarContrasenaUsuarioFXML.fxml"));
+                Parent formUsuario = loader.load();
+                FormCambiarContrasenaUsuarioController ctrl = loader.getController();
+                ctrl.setData(this.context, this.usuario);
+                Scene scene = new Scene(formUsuario);
+                stage.setScene(scene);
+                stage.setTitle("Cambiando contraseña para el usuario: '" + this.usuario.getUsuario() + "'");
+                stage.showAndWait();
+                this.cargarUsuarios();
+            } catch (IOException ex) {
+                Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Window.alertaAdvertencia("Debe seleccionar un usuario");
         }
     }
 }
