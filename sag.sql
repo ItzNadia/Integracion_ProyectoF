@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS rancho(
 	nombre VARCHAR(200) NOT NULL,
 	direccion VARCHAR(200) NOT NULL,
 	nombreEncargado VARCHAR(200) NOT NULL,
+	idEstatus INT NOT NULL,
 	fechaAlta DATE NOT NULL,
 	idUsuarioAlta INT NOT NULL,
 	fechaEdicion DATE,
@@ -177,9 +178,9 @@ CREATE TABLE IF NOT EXISTS movimiento(
 	FOREIGN KEY (idUsuarioAlta) REFERENCES usuario(idUsuario),
 	FOREIGN KEY (idUsuarioEditor) REFERENCES usuario(idUsuario));
 
-INSERT INTO rancho(nombre, direccion, nombreEncargado, fechaAlta, idUsuarioAlta) VALUES
-("Reino de los Admins", "En tu corazón <3", "Admins", "2023-04-22", 1),
-("La Mancha", "Allá por Palmas de Abajo", "Yadelí", "2023-05-11", 2);
+INSERT INTO rancho(nombre, direccion, nombreEncargado, idEstatus, fechaAlta, idUsuarioAlta) VALUES
+("Reino de los Admins", "En tu corazón <3", "Admins", 101, "2023-04-22", 1),
+("La Mancha", "Allá por Palmas de Abajo", "Yadelí", 101, "2023-05-11", 2);
 
 INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (1, NULL, "Estatus actividad","S"),
@@ -314,6 +315,8 @@ CREATE OR REPLACE VIEW ranchosfullinfo AS
 		r.nombre,
 		r.direccion,
 		r.nombreEncargado,
+		r.idEstatus,
+		c.nombre AS estatus,
 		r.fechaAlta,
 		r.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
@@ -321,6 +324,7 @@ CREATE OR REPLACE VIEW ranchosfullinfo AS
 		r.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM rancho r
+		INNER JOIN catalogo c ON r.idEstatus=c.idCatalogo
 		INNER JOIN usuario ua ON r.idUsuarioAlta=ua.idUsuario
 		LEFT JOIN usuario ue ON r.idUsuarioEditor=ue.idUsuario
 	ORDER BY r.idRancho;
@@ -667,10 +671,11 @@ CREATE PROCEDURE sp_registrarRancho(
 	IN nombre VARCHAR(200),
 	IN direccion VARCHAR(200),
 	IN nombreEncargado VARCHAR(200),
+	IN idEstatus INT,
 	IN idUsuarioAlta INT)
 BEGIN
-	INSERT INTO rancho(nombre, direccion, nombreEncargado, fechaAlta, idUsuarioAlta) VALUES
-	(nombre, direccion, nombreEncargado, CURDATE(), idUsuarioAlta);
+	INSERT INTO rancho(nombre, direccion, nombreEncargado, idEstatus, fechaAlta, idUsuarioAlta) VALUES
+	(nombre, direccion, nombreEncargado, idEstatus, CURDATE(), idUsuarioAlta);
 END$$
 
 -- ############################################################################################################################################## --
@@ -680,10 +685,23 @@ CREATE PROCEDURE sp_editarRancho(
 	IN nombre VARCHAR(200),
 	IN direccion VARCHAR(200),
 	IN nombreEncargado VARCHAR(200),
+	IN idEstatus INT,
 	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE rancho r
-	SET r.nombre=nombre, r.direccion=direccion, r.nombreEncargado=nombreEncargado, r.fechaEdicion=CURDATE(), r.idUsuarioEditor=idUsuarioEditor
+	SET r.nombre=nombre, r.direccion=direccion, r.nombreEncargado=nombreEncargado, r.idEstatus=idEstatus, r.fechaEdicion=CURDATE(), r.idUsuarioEditor=idUsuarioEditor
+	WHERE r.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_editarEstatusRancho(
+	IN idRancho INT,
+	IN idEstatus INT,
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE rancho r
+	SET r.idEstatus=idEstatus, r.fechaEdicion=CURDATE(), r.idUsuarioEditor=idUsuarioEditor
 	WHERE r.idRancho=idRancho;
 END$$
 

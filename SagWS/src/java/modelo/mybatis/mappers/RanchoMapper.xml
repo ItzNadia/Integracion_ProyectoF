@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{nombre, jdbcType=VARCHAR,mode=IN},
             #{direccion, jdbcType=VARCHAR,mode=IN},
             #{nombreEncargado, jdbcType=VARCHAR,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
             #{idUsuarioAlta, jdbcType=INTEGER,mode=IN})}
     </insert>
     
@@ -26,6 +27,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{nombre, jdbcType=VARCHAR,mode=IN},
             #{direccion, jdbcType=VARCHAR,mode=IN},
             #{nombreEncargado, jdbcType=VARCHAR,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+
+    <update id="editarEstatusRancho" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarEstatusRancho(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
             #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
     </update>
 </mapper>
