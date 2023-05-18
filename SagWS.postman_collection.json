@@ -438,7 +438,7 @@
 							"urlencoded": [
 								{
 									"key": "busqueda",
-									"value": "ad",
+									"value": "",
 									"type": "default"
 								}
 							]
@@ -506,6 +506,11 @@
 									"type": "default"
 								},
 								{
+									"key": "idEstatus",
+									"value": "102",
+									"type": "default"
+								},
+								{
 									"key": "idUsuarioAlta",
 									"value": "1",
 									"type": "default"
@@ -558,6 +563,11 @@
 									"type": "default"
 								},
 								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
 									"key": "idUsuarioEditor",
 									"value": "2",
 									"type": "default"
@@ -576,6 +586,48 @@
 								"ws",
 								"rancho",
 								"editarRancho"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarEstatusRancho",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "3",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/rancho/editarEstatusRancho",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"rancho",
+								"editarEstatusRancho"
 							]
 						}
 					},

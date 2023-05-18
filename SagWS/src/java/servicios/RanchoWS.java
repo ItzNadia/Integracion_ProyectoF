@@ -71,6 +71,7 @@ public class RanchoWS {
             @FormParam("nombre") String nombre,
             @FormParam("direccion") String direccion,
             @FormParam("nombreEncargado") String nombreEncargado,
+            @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idUsuarioAlta") Integer idUsuarioAlta){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
@@ -79,6 +80,7 @@ public class RanchoWS {
             param.put("nombre", nombre);
             param.put("direccion", direccion);
             param.put("nombreEncargado", nombreEncargado);
+            param.put("idEstatus", idEstatus);
             param.put("idUsuarioAlta", idUsuarioAlta);
             
             conn.insert("Rancho.registrarRancho", param);
@@ -104,6 +106,7 @@ public class RanchoWS {
             @FormParam("nombre") String nombre,
             @FormParam("direccion") String direccion,
             @FormParam("nombreEncargado") String nombreEncargado,
+            @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
@@ -113,6 +116,7 @@ public class RanchoWS {
             param.put("nombre", nombre);
             param.put("direccion", direccion);
             param.put("nombreEncargado", nombreEncargado);
+            param.put("idEstatus", idEstatus);
             param.put("idUsuarioEditor", idUsuarioEditor);
 
             conn.update("Rancho.editarRancho", param);
@@ -124,6 +128,36 @@ public class RanchoWS {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error al editar rancho...");
+        }finally{
+            conn.close();
+        }
+        return res;
+    }
+    
+    @POST
+    @Path("editarEstatusRancho")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta editarEstatusRancho(
+            @FormParam("idRancho") Integer idRancho,
+            @FormParam("idEstatus") Integer idEstatus,
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
+        Respuesta res = new Respuesta();
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("idRancho", idRancho);
+            param.put("idEstatus", idEstatus);
+            param.put("idUsuarioEditor", idUsuarioEditor);
+            
+            conn.update("Rancho.editarEstatusRancho", param);
+            conn.commit();
+            
+            res.setError(false);
+            res.setMensaje("¡Estatus de rancho editado correctamente!");
+        }catch(Exception e){
+            e.printStackTrace();
+            res.setError(true);
+            res.setMensaje("Error al editar el estatus de rancho...");
         }finally{
             conn.close();
         }

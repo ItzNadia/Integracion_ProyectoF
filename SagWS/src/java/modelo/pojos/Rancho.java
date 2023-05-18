@@ -5,6 +5,8 @@ public class Rancho {
     private String nombre;
     private String direccion;
     private String nombreEncargado;
+    private Integer idEstatus;
+    private String estatus;
     private String fechaAlta;
     private Integer idUsuarioAlta;
     private String usuarioAlta;
@@ -15,11 +17,13 @@ public class Rancho {
     public Rancho() {
     }
 
-    public Rancho(Integer idRancho, String nombre, String direccion, String nombreEncargado, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
+    public Rancho(Integer idRancho, String nombre, String direccion, String nombreEncargado, Integer idEstatus, String estatus, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
         this.idRancho = idRancho;
         this.nombre = nombre;
         this.direccion = direccion;
         this.nombreEncargado = nombreEncargado;
+        this.idEstatus = idEstatus;
+        this.estatus = estatus;
         this.fechaAlta = fechaAlta;
         this.idUsuarioAlta = idUsuarioAlta;
         this.usuarioAlta = usuarioAlta;
@@ -58,6 +62,22 @@ public class Rancho {
 
     public void setNombreEncargado(String nombreEncargado) {
         this.nombreEncargado = nombreEncargado;
+    }
+
+    public Integer getIdEstatus() {
+        return idEstatus;
+    }
+
+    public void setIdEstatus(Integer idEstatus) {
+        this.idEstatus = idEstatus;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 
     public String getFechaAlta() {
