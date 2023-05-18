@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -37,6 +38,10 @@ public class FormRanchoController implements Initializable {
     private TextField txt_nombreEncargadoRancho;
     @FXML
     private Label lbl_nombreEncargadoRancho;
+    @FXML
+    private CheckBox chb_estatus;
+    @FXML
+    private Label lbl_estatus;
 
     private Rancho rancho = null;
     private Boolean isNew = false;
@@ -64,6 +69,11 @@ public class FormRanchoController implements Initializable {
                 param.put("nombre", this.txt_nombreRancho.getText());
                 param.put("direccion", this.txt_direccionRancho.getText());
                 param.put("nombreEncargado", this.txt_nombreEncargadoRancho.getText());
+                if (this.chb_estatus.isSelected()) {
+                    param.put("idEstatus", 101);
+                } else {
+                    param.put("idEstatus", 102);
+                }
                 String respuesta;
 
                 if (isNew) {
@@ -98,6 +108,13 @@ public class FormRanchoController implements Initializable {
 
     public void cargarRancho() {
         if (!isNew) {
+            if (rancho.getIdEstatus() == 101) {
+                this.chb_estatus.setText("Activo");
+                this.chb_estatus.setSelected(true);
+            } else {
+                this.chb_estatus.setText("Inactivo");
+                this.chb_estatus.setSelected(false);
+            }
             this.txt_nombreRancho.setText(rancho.getNombre());
             this.txt_direccionRancho.setText(rancho.getDireccion());
             this.txt_nombreEncargadoRancho.setText(rancho.getNombreEncargado());
@@ -109,6 +126,15 @@ public class FormRanchoController implements Initializable {
             return true;
         }
         return false;
+    }
+
+    @FXML
+    private void checkEstatus(ActionEvent event) {
+        if (this.chb_estatus.isSelected()) {
+            this.chb_estatus.setText("Activo");
+        } else {
+            this.chb_estatus.setText("Inactivo");
+        }
     }
 
 }

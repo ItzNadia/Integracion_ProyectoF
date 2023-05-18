@@ -11,11 +11,13 @@ public class Rancho {
     private String fechaEdicion;
     private Integer idUsuarioEditor;
     private String usuarioEditor;
+    private Integer idEstatus;
+    private String estatus;
 
     public Rancho() {
     }
 
-    public Rancho(Integer idRancho, String nombre, String direccion, String nombreEncargado, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
+    public Rancho(Integer idRancho, String nombre, String direccion, String nombreEncargado, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor, Integer idEstatus, String estatus) {
         this.idRancho = idRancho;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -26,6 +28,8 @@ public class Rancho {
         this.fechaEdicion = fechaEdicion;
         this.idUsuarioEditor = idUsuarioEditor;
         this.usuarioEditor = usuarioEditor;
+        this.idEstatus = idEstatus;
+        this.estatus = estatus;
     }
 
     public Integer getIdRancho() {
@@ -107,4 +111,22 @@ public class Rancho {
     public void setUsuarioEditor(String usuarioEditor) {
         this.usuarioEditor = usuarioEditor;
     }
+
+    public Integer getIdEstatus() {
+        return idEstatus;
+    }
+
+    public void setIdEstatus(Integer idEstatus) {
+        this.idEstatus = idEstatus;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
+    }
+
+    
 }

@@ -58,6 +58,11 @@
                <children>
                   <Pane fx:id="pnl_ranchosBotones" layoutX="1.0" layoutY="4.0" prefHeight="55.0" prefWidth="1094.0">
                      <children>
+                        <Text layoutX="23.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranchos">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="18.0" />
+                           </font>
+                        </Text>
                         <Button fx:id="btn_nuevoRancho" layoutX="187.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarRancho" text="Nuevo">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -70,7 +75,7 @@
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_editarRancho" layoutX="307.0" layoutY="13.0" mnemonicParsing="false" onAction="#editarRancho" text="Editar">
+                        <Button fx:id="btn_editarRancho" layoutX="307.0" layoutY="12.0" mnemonicParsing="false" onAction="#editarRancho" text="Editar">
                            <font>
                               <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
@@ -82,11 +87,30 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Text layoutX="23.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranchos">
+                        <Button fx:id="btn_desactivarRancho" layoutX="547.0" layoutY="12.0" mnemonicParsing="false" onAction="#desactivarRancho" text="Desactivar">
                            <font>
-                              <Font name="Lucida Sans Unicode" size="18.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
-                        </Text>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/down.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btn_activarRancho" layoutX="427.0" layoutY="12.0" mnemonicParsing="false" onAction="#activarRancho" text="Activar">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/alta.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                   <TableView fx:id="tbl_ranchos" layoutX="-3.0" layoutY="66.0" onMouseClicked="#clickTableRanchos" prefHeight="427.0" prefWidth="1106.0">
@@ -95,6 +119,7 @@
                       <TableColumn fx:id="tcl_ranchoNombre" prefWidth="178.0" text="Nombre" />
                         <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="171.0" text="Dirección" />
                         <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="147.0" text="Encargado" />
+                        <TableColumn fx:id="tbl_ranchoEstatus" prefWidth="75.0" text="Estatus" />
                         <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="90.0" text="Fecha Alta" />
                         <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="169.0" text="Usuario Alta" />
                         <TableColumn fx:id="tcl_ranchoFechaEdicion" minWidth="0.0" prefWidth="90.0" text="Fecha Edición" />
