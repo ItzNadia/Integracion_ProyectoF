@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Rancho;
+import sagfx.model.Usuario;
 import sagfx.utils.Window;
 
 public class RanchosController implements Initializable {
@@ -81,8 +82,6 @@ public class RanchosController implements Initializable {
 
     private Rancho rancho = null;
     private HashMap<String, Object> context;
-    
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -122,19 +121,19 @@ public class RanchosController implements Initializable {
 
     @FXML
     private void desactivarRancho(ActionEvent event) {
-        this.cambiarEstatus("Inactivo");
+        this.cambiarEstatus(102);
     }
 
     @FXML
     private void activarRancho(ActionEvent event) {
-        this.cambiarEstatus("Activo");
+        this.cambiarEstatus(101);
     }
-    
+
     public void setData(HashMap<String, Object> context) {
         this.context = context;
         this.cargarRanchos();
     }
-    
+
     private void cargarRanchos() {
         String respuesta = "";
         this.tbl_ranchos.getItems().clear();
@@ -220,20 +219,21 @@ public class RanchosController implements Initializable {
             Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void cambiarEstatus(String activo) {
+
+    private void cambiarEstatus(int activo) {
         if (this.rancho != null) {
-            if (!this.rancho.getEstatus().equals(activo)) {
+            if (this.rancho.getIdEstatus() != activo) {
                 String msj = "activar";
-                if (activo.equals("Inactivo")) {
+                if (activo == 102) {
                     msj = "desactivar";
                 }
 
                 if (Window.alertaConfirmacion("Realmente desea " + msj + " el rancho: '" + this.rancho.getNombre() + "'")) {
                     try {
                         HashMap<String, Object> estatus = new LinkedHashMap<>();
-                        estatus.put("idRancho", rancho.getIdRancho());
-                        estatus.put("activo", activo);
+                        estatus.put("idRancho", this.rancho.getIdRancho());
+                        estatus.put("idEstatus", activo);
+                        estatus.put("idUsuarioEditor", ((Usuario)this.context.get("usuario")).getIdUsuario());
 
                         JSONObject respuesta = new JSONObject(Requests.post("/rancho/editarEstatusRancho", estatus));
 
@@ -246,7 +246,7 @@ public class RanchosController implements Initializable {
                     }
                 }
             } else {
-                if (this.rancho.getEstatus().equals("Activo")) {
+                if (this.rancho.getIdEstatus() == 101) {
                     Window.alertaAdvertencia("El rancho ya se encuentra activado");
                 } else {
                     Window.alertaAdvertencia("El rancho ya se encuentra desactivado");

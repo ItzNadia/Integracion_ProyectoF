@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
@@ -30,8 +31,6 @@ public class FormCategoriaController implements Initializable {
     private TextField txt_idCategoria;
     @FXML
     private TextField txt_nombre;
-    @FXML
-    private TextField txt_activo;
     @FXML
     private Button btn_guardar;
     @FXML
@@ -123,6 +122,15 @@ public class FormCategoriaController implements Initializable {
             this.chb_activo.setText("Sí");
         } else {
             this.chb_activo.setText("No");
+        }
+    }
+
+    @FXML
+    private void restriccionNumeros(KeyEvent event) {
+        if (event.getTarget() == this.txt_idCategoria) {
+            if (!Character.isDigit(event.getCharacter().charAt(0))) {
+                event.consume();
+            }
         }
     }
 }
