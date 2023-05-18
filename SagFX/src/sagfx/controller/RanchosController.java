@@ -26,6 +26,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.json.JSONException;
+import org.json.JSONObject;
 import sagfx.api.requests.Requests;
 import sagfx.model.Rancho;
 import sagfx.utils.Window;
@@ -44,10 +46,6 @@ public class RanchosController implements Initializable {
     private Button btn_buscar;
     @FXML
     private Button btn_limpiar;
-    @FXML
-    private SplitPane spl_categoriaCatalogo;
-    @FXML
-    private Pane pnl_categoriaBotones;
     @FXML
     private Button btn_nuevoRancho;
     @FXML
@@ -70,9 +68,21 @@ public class RanchosController implements Initializable {
     private TableColumn<Rancho, String> tcl_ranchoUsuarioEdicion;
     @FXML
     private TableColumn<Rancho, Integer> tcl_idRancho;
+    @FXML
+    private TableColumn<Rancho, String> tbl_ranchoEstatus;
+    @FXML
+    private SplitPane spl_ranchos;
+    @FXML
+    private Pane pnl_ranchosBotones;
+    @FXML
+    private Button btn_desactivarRancho;
+    @FXML
+    private Button btn_activarRancho;
 
     private Rancho rancho = null;
     private HashMap<String, Object> context;
+    
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,6 +113,28 @@ public class RanchosController implements Initializable {
         }
     }
 
+    @FXML
+    private void clickTableRanchos(MouseEvent event) {
+        if (tbl_ranchos.getSelectionModel().getSelectedItem() != null) {
+            rancho = tbl_ranchos.getSelectionModel().getSelectedItem();
+        }
+    }
+
+    @FXML
+    private void desactivarRancho(ActionEvent event) {
+        this.cambiarEstatus("Inactivo");
+    }
+
+    @FXML
+    private void activarRancho(ActionEvent event) {
+        this.cambiarEstatus("Activo");
+    }
+    
+    public void setData(HashMap<String, Object> context) {
+        this.context = context;
+        this.cargarRanchos();
+    }
+    
     private void cargarRanchos() {
         String respuesta = "";
         this.tbl_ranchos.getItems().clear();
@@ -119,6 +151,7 @@ public class RanchosController implements Initializable {
         tcl_ranchoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tcl_ranchoDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         tcl_ranchoEncargado.setCellValueFactory(new PropertyValueFactory<>("nombreEncargado"));
+        tbl_ranchoEstatus.setCellValueFactory(new PropertyValueFactory<>("estatus"));
         tcl_ranchoFechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
         tcl_ranchoUsuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
         tcl_ranchoFechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
@@ -152,6 +185,7 @@ public class RanchosController implements Initializable {
             tcl_ranchoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             tcl_ranchoDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
             tcl_ranchoEncargado.setCellValueFactory(new PropertyValueFactory<>("nombreEncargado"));
+            tbl_ranchoEstatus.setCellValueFactory(new PropertyValueFactory<>("estatus"));
             tcl_ranchoFechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
             tcl_ranchoUsuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
             tcl_ranchoFechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
@@ -186,16 +220,40 @@ public class RanchosController implements Initializable {
             Logger.getLogger(sagfx.controller.RanchosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void cambiarEstatus(String activo) {
+        if (this.rancho != null) {
+            if (!this.rancho.getEstatus().equals(activo)) {
+                String msj = "activar";
+                if (activo.equals("Inactivo")) {
+                    msj = "desactivar";
+                }
 
-    @FXML
-    private void clickTableRanchos(MouseEvent event) {
-        if (tbl_ranchos.getSelectionModel().getSelectedItem() != null) {
-            rancho = tbl_ranchos.getSelectionModel().getSelectedItem();
+                if (Window.alertaConfirmacion("Realmente desea " + msj + " el rancho: '" + this.rancho.getNombre() + "'")) {
+                    try {
+                        HashMap<String, Object> estatus = new LinkedHashMap<>();
+                        estatus.put("idRancho", rancho.getIdRancho());
+                        estatus.put("activo", activo);
+
+                        JSONObject respuesta = new JSONObject(Requests.post("/rancho/editarEstatusRancho", estatus));
+
+                        if (!(Boolean) respuesta.get("error")) {
+                            this.cargarRanchos();
+                        }
+                        Window.alertaInformacion(respuesta.getString("mensaje"));
+                    } catch (JSONException ex) {
+                        Logger.getLogger(CategoriasController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else {
+                if (this.rancho.getEstatus().equals("Activo")) {
+                    Window.alertaAdvertencia("El rancho ya se encuentra activado");
+                } else {
+                    Window.alertaAdvertencia("El rancho ya se encuentra desactivado");
+                }
+            }
+        } else {
+            Window.alertaAdvertencia("Debe seleccionar un rancho");
         }
-    }
-
-    public void setData(HashMap<String, Object> context) {
-        this.context = context;
-        this.cargarRanchos();
     }
 }
