@@ -16,7 +16,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_idCategoria" layoutX="156.0" layoutY="25.0" promptText="Id Categoría">
+      <TextField fx:id="txt_idCategoria" editable="false" layoutX="156.0" layoutY="25.0" onKeyTyped="#restriccionNumeros" promptText="Id Categoría">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -26,7 +26,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_idCatalogo" layoutX="156.0" layoutY="76.0" promptText="Id Catálogo">
+      <TextField fx:id="txt_idCatalogo" layoutX="156.0" layoutY="76.0" onKeyTyped="#restriccionNumeros" promptText="Id Catálogo">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>

@@ -26,7 +26,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_idCategoria" layoutX="155.0" layoutY="71.0" promptText="Id Categoria">
+      <TextField fx:id="txt_idCategoria" layoutX="155.0" layoutY="71.0" onKeyTyped="#restriccionNumeros" promptText="Id Categoria">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>

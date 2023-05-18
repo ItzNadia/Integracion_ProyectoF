@@ -65,7 +65,6 @@ public class FormRanchoController implements Initializable {
         if (validar()) {
             try {
                 HashMap<String, Object> param = new HashMap<String, Object>();
-                param.put("idRancho", this.rancho.getIdRancho());
                 param.put("nombre", this.txt_nombreRancho.getText());
                 param.put("direccion", this.txt_direccionRancho.getText());
                 param.put("nombreEncargado", this.txt_nombreEncargadoRancho.getText());
@@ -80,6 +79,7 @@ public class FormRanchoController implements Initializable {
                     param.put("idUsuarioAlta", u.getIdUsuario());
                     respuesta = Requests.post("/rancho/registrarRancho", param);
                 } else {
+                    param.put("idRancho", this.rancho.getIdRancho());
                     param.put("idUsuarioEditor", u.getIdUsuario());
                     respuesta = Requests.post("/rancho/editarRancho", param);
                 }

@@ -243,7 +243,7 @@ INSERT INTO cria(idHatoMadre, sexo, fechaNacimiento, idRaza, idEstatus, observac
 
 INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
 (5000000, "Ingreso", "Ingreso para iniciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, "2023-04-22", 1),
-(-20000, "Egreso", "Pago nóminas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, "2023-04-23", 2),
+(20000, "Egreso", "Pago nóminas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, "2023-04-23", 2),
 (5000, "Ingreso", "Venta de productos lácteos", "2023-04-22", "Al menos recuperamos con esto", 1, "2023-04-21", 2),
 (5000000, "Ingreso", "Ingreso para iniciar el rancho", "2023-04-22", "Ingreso inicial", 2, "2023-05-14", 3);
 
