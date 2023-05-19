@@ -37,4 +37,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{idRancho, jdbcType=INTEGER,mode=IN},
             #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
     </update>
+
+    <update id="cancelarMovimiento" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_cancelarMovimiento(
+            #{idMovimiento, jdbcType=INTEGER,mode=IN},
+            #{motivoCancelacion, jdbcType=VARCHAR,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
 </mapper>

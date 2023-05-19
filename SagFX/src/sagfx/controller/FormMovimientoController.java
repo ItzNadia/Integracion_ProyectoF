@@ -136,7 +136,7 @@ public class FormMovimientoController implements Initializable {
 
     public void cargarMovimiento() {
         if (!isNew) {
-            if ("S".equals(movimiento.getTipo())) {
+            if ("Ingreso".equals(movimiento.getTipo())) {
                 this.chb_movimiento.setText("Ingreso");
                 this.chb_movimiento.setSelected(true);
             } else {

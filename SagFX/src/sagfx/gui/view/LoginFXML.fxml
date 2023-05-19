@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="451.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="416.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.LoginController">
    <children>
       <ImageView fx:id="img_banner" fitHeight="259.0" fitWidth="480.0" layoutX="99.0" layoutY="-31.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -70,10 +70,5 @@
             </Button>
          </children>
       </Pane>
-      <Label fx:id="lbl_mensaje" layoutX="75.0" layoutY="381.0" prefHeight="47.0" prefWidth="527.0">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS traspaso(
 	idLoteAnterior INT NOT NULL,
 	idLoteDestino INT NOT NULL,
 	fechaCancelacion DATE,
-	motivoCanecelacion VARCHAR(200),
+	motivoCancelacion VARCHAR(300),
 	idRancho INT NOT NULL,
 	fechaAlta DATE NOT NULL,
 	idUsuarioAlta INT NOT NULL,
@@ -168,6 +168,8 @@ CREATE TABLE IF NOT EXISTS movimiento(
 	concepto VARCHAR(100) NOT NULL,
 	fecha DATE NOT NULL,
 	observaciones VARCHAR(200) NOT NULL,
+	cancelado CHAR(2) NOT NULL DEFAULT "No",
+	motivoCancelacion VARCHAR(300),
 	idRancho INT NOT NULL,
 	fechaAlta DATE NOT NULL,
 	idUsuarioAlta INT NOT NULL,
@@ -450,6 +452,8 @@ CREATE OR REPLACE VIEW movimientosfullinfo AS
 		m.concepto,
 		m.fecha,
 		m.observaciones,
+		m.cancelado,
+		m.motivoCancelacion,
 		m.idRancho,
 		r.nombre AS rancho,
 		m.fechaAlta,
@@ -1017,6 +1021,18 @@ CREATE PROCEDURE sp_editarMovimiento(
 BEGIN
 	UPDATE movimiento m
 	SET m.cantidadVenta=cantidadVenta, m.tipo=tipo, m.concepto=concepto, m.fecha=fecha, m.observaciones=observaciones, m.idRancho=idRancho, m.fechaEdicion=CURDATE(), m.idUsuarioEditor=idUsuarioEditor
+	WHERE m.idMovimiento=idMovimiento;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_cancelarMovimiento(
+	IN idMovimiento INT,
+	IN motivoCancelacion VARCHAR(300),
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE movimiento m
+	SET m.cancelado="Sí", m.motivoCancelacion=motivoCancelacion, m.fechaEdicion=CURDATE(), m.idUsuarioEditor=idUsuarioEditor
 	WHERE m.idMovimiento=idMovimiento;
 END$$
 

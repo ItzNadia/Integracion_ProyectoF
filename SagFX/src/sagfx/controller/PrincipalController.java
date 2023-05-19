@@ -11,8 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import sagfx.model.Usuario;
 
 public class PrincipalController implements Initializable {
 
@@ -28,6 +30,10 @@ public class PrincipalController implements Initializable {
     private MenuItem mi_rancho;
 
     HashMap<String, Object> context;
+    @FXML
+    private Menu m_movimientos;
+    @FXML
+    private Menu m_administracion;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -44,6 +50,10 @@ public class PrincipalController implements Initializable {
             pnl_principal.setCenter(movimientos);
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (((Usuario) this.context.get("usuario")).getIdRol() == 202) {
+            this.m_administracion.setDisable(true);
         }
     }
 

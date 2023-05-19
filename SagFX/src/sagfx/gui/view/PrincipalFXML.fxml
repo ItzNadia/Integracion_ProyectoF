@@ -9,12 +9,12 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Movimientos">
+          <Menu fx:id="m_movimientos" mnemonicParsing="false" text="Movimientos">
             <items>
               <MenuItem fx:id="mi_ingresosEgresos" mnemonicParsing="false" onAction="#abrirMovimientos" text="Ingresos/Egresos" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Administración">
+            <Menu fx:id="m_administracion" mnemonicParsing="false" text="Administración">
               <items>
                 <MenuItem fx:id="mi_usuarios" mnemonicParsing="false" onAction="#abrirUsuarios" text="Usuarios" />
               <MenuItem fx:id="mi_categoria" mnemonicParsing="false" onAction="#abrirCategorias" text="Categoria y Catalogos" />

@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -23,6 +24,8 @@ public class SagFX extends Application {
         Parent login = FXMLLoader.load(getClass().getResource("/sagfx/gui/view/LoginFXML.fxml"));
         Scene scene = new Scene(login);
         stage.setScene(scene);
+        stage.getIcons().add(new Image("/sagfx/gui/img/logo__sag.png"));
+
         stage.show();
     }
 

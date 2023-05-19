@@ -47,8 +47,6 @@ public class LoginController implements Initializable {
     private ImageView img_banner;
     @FXML
     private ImageView img_logo;
-    @FXML
-    private Label lbl_mensaje;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,17 +77,22 @@ public class LoginController implements Initializable {
                     context.put("mac", JavaUtils.getMAC());
                     context.put("usuario", user);
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/PrincipalFXML.fxml"));
-                    Parent principal = loader.load();
-                    PrincipalController ctrl = loader.getController();
-                    ctrl.setData(context);
-                    Scene scene = new Scene(principal);
-                    stage.setScene(scene);
-                    stage.setTitle("SAG (Sistema de Administración de Ganado)   |   Usuario: " + user.getUsuario());
-                    stage.setResizable(false);
-                    stage.show();
+                    if (user.getIdEstatus() == 101) {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/PrincipalFXML.fxml"));
+                        Parent principal = loader.load();
+                        PrincipalController ctrl = loader.getController();
+                        ctrl.setData(context);
+                        Scene scene = new Scene(principal);
+                        stage.setScene(scene);
+                        stage.setTitle("SAG (Sistema de Administración de Ganado)   |   Usuario: " + user.getUsuario() + "  |   " + user.getRol());
+                        stage.setResizable(false);
+                        stage.show();
+                    } else {
+                        Window.alertaError("El usuario se encuentra suspendido...");
+                    }
+
                 } else {
-                    this.lbl_mensaje.setText(dataJson.getString("mensaje"));
+                    Window.alertaError(dataJson.getString("mensaje"));
                 }
             } catch (JSONException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,7 +100,7 @@ public class LoginController implements Initializable {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            this.lbl_mensaje.setText("El usuario y contraseña son requeridos");
+            Window.alertaError("El usuario y contraseña son requeridos");
         }
     }
 

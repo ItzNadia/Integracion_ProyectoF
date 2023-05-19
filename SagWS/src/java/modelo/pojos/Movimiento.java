@@ -7,6 +7,8 @@ public class Movimiento {
     private String concepto;
     private String fecha;
     private String observaciones;
+    private String cancelado;
+    private String motivoCancelacion;
     private Integer idRancho;
     private String rancho;
     private String fechaAlta;
@@ -19,13 +21,15 @@ public class Movimiento {
     public Movimiento() {
     }
 
-    public Movimiento(Integer idMovimiento, Double cantidadVenta, String tipo, String concepto, String fecha, String observaciones, Integer idRancho, String rancho, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
+    public Movimiento(Integer idMovimiento, Double cantidadVenta, String tipo, String concepto, String fecha, String observaciones, String cancelado, String motivoCancelacion, Integer idRancho, String rancho, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
         this.idMovimiento = idMovimiento;
         this.cantidadVenta = cantidadVenta;
         this.tipo = tipo;
         this.concepto = concepto;
         this.fecha = fecha;
         this.observaciones = observaciones;
+        this.cancelado = cancelado;
+        this.motivoCancelacion = motivoCancelacion;
         this.idRancho = idRancho;
         this.rancho = rancho;
         this.fechaAlta = fechaAlta;
@@ -82,6 +86,22 @@ public class Movimiento {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public String getCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(String cancelado) {
+        this.cancelado = cancelado;
+    }
+
+    public String getMotivoCancelacion() {
+        return motivoCancelacion;
+    }
+
+    public void setMotivoCancelacion(String motivoCancelacion) {
+        this.motivoCancelacion = motivoCancelacion;
     }
 
     public Integer getIdRancho() {

@@ -47,18 +47,18 @@ public class FormCambiarContrasenaUsuarioController implements Initializable {
     @FXML
     private void cambiarContrasena(ActionEvent event) {
         if (this.validar()) {
-            if (this.txt_nuevaContrasena.getText().equals(this.txt_repetirNuevaContrasena.getText())) {
-                if (!this.txt_contrasena.getText().equals(this.txt_nuevaContrasena.getText())) {
-                    try {
-                        String data = "";
-                        HashMap<String, Object> usuarioABuscar = new LinkedHashMap<>();
-                        usuarioABuscar.put("usuario", this.usuario.getUsuario());
-                        usuarioABuscar.put("contrasena", this.txt_contrasena.getText());
+            try {
+                String data = "";
+                HashMap<String, Object> usuarioABuscar = new LinkedHashMap<>();
+                usuarioABuscar.put("usuario", this.usuario.getUsuario());
+                usuarioABuscar.put("contrasena", this.txt_contrasena.getText());
 
-                        data = Requests.post("/sesion/login", usuarioABuscar);
-                        JSONObject dataJson = new JSONObject(data);
+                data = Requests.post("/sesion/login", usuarioABuscar);
+                JSONObject dataJson = new JSONObject(data);
 
-                        if (!(boolean) dataJson.get("error")) {
+                if (!(boolean) dataJson.get("error")) {
+                    if (this.txt_nuevaContrasena.getText().equals(this.txt_repetirNuevaContrasena.getText())) {
+                        if (!this.txt_contrasena.getText().equals(this.txt_nuevaContrasena.getText())) {
                             Gson gson = new Gson();
                             Usuario user = gson.fromJson(dataJson.get("respuesta").toString(), Usuario.class);
 
@@ -78,17 +78,18 @@ public class FormCambiarContrasenaUsuarioController implements Initializable {
                                     Window.alertaError(dataJson.getString("mensaje"));
                                 }
                             }
+
                         } else {
-                            Window.alertaError("Contraseña del usuario '" + this.usuario.getUsuario() + "' incorrecta");
+                            Window.alertaError("La contraseña nueva no puede ser igual a la anterior");
                         }
-                    } catch (JSONException ex) {
-                        Logger.getLogger(FormCambiarContrasenaUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                    } else {
+                        Window.alertaError("Error en la verificación de la nueva contraseña, intenta nuevamente");
                     }
                 } else {
-                    Window.alertaError("La contraseña nueva no puede ser igual a la anterior");
+                    Window.alertaError("Contraseña del usuario '" + this.usuario.getUsuario() + "' incorrecta");
                 }
-            } else {
-                Window.alertaError("Error en la verificación de la nueva contraseña, intenta nuevamente");
+            } catch (JSONException ex) {
+                Logger.getLogger(FormCambiarContrasenaUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             Window.alertaAdvertencia("Favor de llenar campos faltantes");
