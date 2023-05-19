@@ -51,11 +51,13 @@ public class MovimientosController implements Initializable {
     @FXML
     private Pane pnl_movimientosBotones;
     @FXML
+    private Text lbl_ingresosEgresos;
+    @FXML
     private Button btn_nuevoMovimiento;
     @FXML
     private Button btn_editarMovimiento;
     @FXML
-    private Text lbl_ingresosEgresos;
+    private Button btn_cancelarMovimiento;
     @FXML
     private TableView<Movimiento> tbl_movimientos;
     @FXML
@@ -69,6 +71,12 @@ public class MovimientosController implements Initializable {
     @FXML
     private TableColumn<Movimiento, String> tcl_movimientoFecha;
     @FXML
+    private TableColumn<Movimiento, String> tcl_movimientoObservaciones;
+    @FXML
+    private TableColumn<Movimiento, String> tcl_movimientoCancelado;
+    @FXML
+    private TableColumn<Movimiento, String> tcl_movimientoMotivoCancelacion;
+    @FXML
     private TableColumn<Movimiento, String> tcl_movimientoRancho;
     @FXML
     private TableColumn<Movimiento, String> tcl_movimientoFechaAlta;
@@ -78,8 +86,6 @@ public class MovimientosController implements Initializable {
     private TableColumn<Movimiento, String> tcl_movimientoFechaEdicion;
     @FXML
     private TableColumn<Movimiento, String> tcl_movimientoUsuarioEdicion;
-    @FXML
-    private TableColumn<Movimiento, String> tcl_movimientoObservaciones;
 
     private Movimiento movimiento = null;
     HashMap<String, Object> context;
@@ -141,7 +147,9 @@ public class MovimientosController implements Initializable {
             tcl_movimientoConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
             tcl_movimientoFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
             tcl_movimientoObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
-            tcl_movimientoRancho.setCellValueFactory(new PropertyValueFactory<>("rancho"));
+            tcl_movimientoFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            tcl_movimientoCancelado.setCellValueFactory(new PropertyValueFactory<>("cancelado"));
+            tcl_movimientoMotivoCancelacion.setCellValueFactory(new PropertyValueFactory<>("motivoCancelacion"));
             tcl_movimientoFechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
             tcl_movimientoUsuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
             tcl_movimientoFechaEdicion.setCellValueFactory(new PropertyValueFactory<>("fechaEdicion"));
@@ -199,6 +207,8 @@ public class MovimientosController implements Initializable {
         tcl_movimientoConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
         tcl_movimientoFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         tcl_movimientoObservaciones.setCellValueFactory(new PropertyValueFactory<>("observaciones"));
+        tcl_movimientoCancelado.setCellValueFactory(new PropertyValueFactory<>("cancelado"));
+        tcl_movimientoMotivoCancelacion.setCellValueFactory(new PropertyValueFactory<>("motivoCancelacion"));
         tcl_movimientoRancho.setCellValueFactory(new PropertyValueFactory<>("rancho"));
         tcl_movimientoFechaAlta.setCellValueFactory(new PropertyValueFactory<>("fechaAlta"));
         tcl_movimientoUsuarioAlta.setCellValueFactory(new PropertyValueFactory<>("usuarioAlta"));
@@ -208,5 +218,34 @@ public class MovimientosController implements Initializable {
         listMovimientos.forEach(e -> {
             tbl_movimientos.getItems().add(e);
         });
+    }
+
+    @FXML
+    private void cancelarMovimiento(ActionEvent event) {
+        if (this.movimiento != null) {
+            if (this.movimiento.getCancelado().equals("No")) {
+                if (Window.alertaConfirmacion("¿Realmente desea cancelar este movimiento?\nEsta acción no se puede deshacer...")) {
+                    try {
+                        Stage stage = new Stage();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/FormCancelarMovimientoFXML.fxml"));
+                        Parent formCancelarMovimiento = loader.load();
+                        FormCancelarMovimientoController ctrl = loader.getController();
+                        ctrl.setData(this.context, this.movimiento);
+                        Scene scene = new Scene(formCancelarMovimiento);
+                        stage.setScene(scene);
+                        stage.setTitle("Cancelar movimiento");
+
+                        stage.showAndWait();
+                        this.cargarMovimientos();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MovimientosController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else {
+                Window.alertaError("Este movimiento ya se encuentra cancelado");
+            }
+        }else{
+            Window.alertaAdvertencia("Debe seleccionar un movimiento");
+        }
     }
 }

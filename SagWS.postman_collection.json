@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "817f5fa2-f3d5-4435-a861-b46dc2ec64a8",
+		"_postman_id": "933bf910-f0da-44f2-aebb-5aad851f699a",
 		"name": "SagWS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21050980"
 	},
 	"item": [
 		{
@@ -1116,6 +1117,48 @@
 								"ws",
 								"movimiento",
 								"editarMovimiento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelarMovimiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idMovimiento",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "motivoCancelacion",
+									"value": "Cancelamos salarios porque no los cocntratamos aún",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/movimiento/cancelarMovimiento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"movimiento",
+								"cancelarMovimiento"
 							]
 						}
 					},

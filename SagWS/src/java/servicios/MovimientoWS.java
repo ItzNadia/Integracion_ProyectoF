@@ -145,4 +145,34 @@ public class MovimientoWS {
         }
         return res;
     }
+    
+    @POST
+    @Path("cancelarMovimiento")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta cancelarMovimiento(
+            @FormParam("idMovimiento") Double idMovimiento,
+            @FormParam("motivoCancelacion") String motivoCancelacion,
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
+        Respuesta res = new Respuesta();
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("idMovimiento", idMovimiento);
+            param.put("motivoCancelacion", motivoCancelacion);
+            param.put("idUsuarioEditor", idUsuarioEditor);
+            
+            conn.update("Movimiento.cancelarMovimiento", param);
+            conn.commit();
+            
+            res.setError(false);
+            res.setMensaje("¡Movimiento cancelado correctamente!");
+        }catch(Exception e){
+            e.printStackTrace();
+            res.setError(true);
+            res.setMensaje("Error al cancelar movimiento...");
+        }finally{
+            conn.close();
+        }
+        return res;
+    }
 }

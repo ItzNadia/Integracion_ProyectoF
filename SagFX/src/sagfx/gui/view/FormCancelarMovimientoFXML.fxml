@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="328.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormCancelarMovimientoController">
+   <children>
+      <Label fx:id="lbl_motivoCancelacion" layoutX="124.0" layoutY="21.0" text="Motivo cancelación*:">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btn_guardar" layoutX="77.0" layoutY="264.0" mnemonicParsing="false" onAction="#guardarCancelacion" text="Guardar">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/save.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_cerrar" layoutX="217.0" layoutY="264.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="32.0" prefWidth="94.0" text="Cerrar">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/close.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TextArea fx:id="txt_motivoCancelacion" layoutX="38.0" layoutY="54.0" prefHeight="186.0" prefWidth="314.0" promptText="Motivo cancelación">
+         <font>
+            <Font name="Lucida Sans Unicode" size="14.0" />
+         </font>
+      </TextArea>
+   </children>
+</Pane>

@@ -58,6 +58,11 @@
                <children>
                   <Pane fx:id="pnl_movimientosBotones" layoutX="-2.0" layoutY="1.0" prefHeight="55.0" prefWidth="1098.0">
                      <children>
+                        <Text fx:id="lbl_ingresosEgresos" layoutX="22.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresos y Egresos">
+                           <font>
+                              <Font name="Lucida Sans Unicode" size="18.0" />
+                           </font>
+                        </Text>
                         <Button fx:id="btn_nuevoMovimiento" layoutX="284.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrarMovimiento" text="Nuevo">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -82,26 +87,35 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Text fx:id="lbl_ingresosEgresos" layoutX="22.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresos y Egresos">
+                        <Button fx:id="btn_cancelarMovimiento" layoutX="517.0" layoutY="12.0" mnemonicParsing="false" onAction="#cancelarMovimiento" text="Cancelar">
                            <font>
-                              <Font name="Lucida Sans Unicode" size="18.0" />
+                              <Font name="Lucida Sans Unicode" size="14.0" />
                            </font>
-                        </Text>
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/delete.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                   <TableView fx:id="tbl_movimientos" layoutY="55.0" onMouseClicked="#clickTableMovimientos" prefHeight="450.0" prefWidth="1098.0">
                     <columns>
-                        <TableColumn fx:id="tcl_idMovimiento" prefWidth="101.59999996423721" text="Id Movimiento" />
-                      <TableColumn fx:id="tcl_movimientoCantidad" prefWidth="109.5999755859375" text="Cantidad" />
-                        <TableColumn fx:id="tcl_movimientoTipo" prefWidth="102.4000244140625" text="Tipo" />
-                        <TableColumn fx:id="tcl_movimientoConcepto" prefWidth="135.20001220703125" text="Concepto" />
-                        <TableColumn fx:id="tcl_movimientoFecha" prefWidth="87.20001220703125" text="Fecha" />
-                        <TableColumn fx:id="tcl_movimientoObservaciones" prefWidth="75.0" text="Observaciones" />
-                        <TableColumn fx:id="tcl_movimientoRancho" prefWidth="91.20001220703125" text="Rancho" />
-                        <TableColumn fx:id="tcl_movimientoFechaAlta" prefWidth="95.2000732421875" text="Fecha Alta" />
-                        <TableColumn fx:id="tcl_movimientoUsuarioAlta" prefWidth="103.99993896484375" text="Usuario Alta" />
-                        <TableColumn fx:id="tcl_movimientoFechaEdicion" prefWidth="137.5999755859375" text="Fecha Edición" />
-                        <TableColumn fx:id="tcl_movimientoUsuarioEdicion" prefWidth="136.7999267578125" text="Usuario Edición" />
+                        <TableColumn fx:id="tcl_idMovimiento" prefWidth="115.0" text="Id Movimiento" />
+                      <TableColumn fx:id="tcl_movimientoCantidad" prefWidth="100.0" text="Cantidad" />
+                        <TableColumn fx:id="tcl_movimientoTipo" prefWidth="100.0" text="Tipo" />
+                        <TableColumn fx:id="tcl_movimientoConcepto" prefWidth="250.0" text="Concepto" />
+                        <TableColumn fx:id="tcl_movimientoFecha" prefWidth="100.0" text="Fecha" />
+                        <TableColumn fx:id="tcl_movimientoObservaciones" prefWidth="150.0" text="Observaciones" />
+                        <TableColumn fx:id="tcl_movimientoCancelado" prefWidth="90.0" text="Cancelado" />
+                        <TableColumn fx:id="tcl_movimientoMotivoCancelacion" prefWidth="350.0" text="Motivo Cancelación" />
+                        <TableColumn fx:id="tcl_movimientoRancho" prefWidth="200.0" text="Rancho" />
+                        <TableColumn fx:id="tcl_movimientoFechaAlta" prefWidth="100.0" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_movimientoUsuarioAlta" prefWidth="170.0" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_movimientoFechaEdicion" prefWidth="100.0" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_movimientoUsuarioEdicion" prefWidth="170.0" text="Usuario Edición" />
                     </columns>
                   </TableView>
                </children>
