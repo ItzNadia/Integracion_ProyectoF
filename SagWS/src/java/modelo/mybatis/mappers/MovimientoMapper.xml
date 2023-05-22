@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         {CALL sag.sp_registrarMovimiento(
             #{cantidadVenta, jdbcType=DOUBLE,mode=IN},
             #{tipo, jdbcType=VARCHAR,mode=IN},
-            #{concepto, jdbcType=VARCHAR,mode=IN},
+            #{idConcepto, jdbcType=INTEGER,mode=IN},
             #{fecha, jdbcType=VARCHAR,mode=IN},
             #{observaciones, jdbcType=VARCHAR,mode=IN},
             #{idRancho, jdbcType=VARCHAR,mode=IN},
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{idMovimiento, jdbcType=INTEGER,mode=IN},
             #{cantidadVenta, jdbcType=DOUBLE,mode=IN},
             #{tipo, jdbcType=VARCHAR,mode=IN},
-            #{concepto, jdbcType=VARCHAR,mode=IN},
+            #{idConcepto, jdbcType=INTEGER,mode=IN},
             #{fecha, jdbcType=VARCHAR,mode=IN},
             #{observaciones, jdbcType=VARCHAR,mode=IN},
             #{idRancho, jdbcType=INTEGER,mode=IN},

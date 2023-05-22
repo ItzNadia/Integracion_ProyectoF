@@ -68,8 +68,6 @@ public class RanchosController implements Initializable {
     @FXML
     private TableColumn<Rancho, String> tcl_ranchoUsuarioEdicion;
     @FXML
-    private TableColumn<Rancho, Integer> tcl_idRancho;
-    @FXML
     private TableColumn<Rancho, String> tbl_ranchoEstatus;
     @FXML
     private SplitPane spl_ranchos;
@@ -146,7 +144,6 @@ public class RanchosController implements Initializable {
         };
 
         List<Rancho> listRanchos = gson.fromJson(respuesta, token.getType());
-        tcl_idRancho.setCellValueFactory(new PropertyValueFactory<>("idRancho"));
         tcl_ranchoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tcl_ranchoDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         tcl_ranchoEncargado.setCellValueFactory(new PropertyValueFactory<>("nombreEncargado"));
@@ -180,7 +177,6 @@ public class RanchosController implements Initializable {
         List<Rancho> listRanchos = gson.fromJson(respuesta, token.getType());
 
         if (listRanchos.size() > 0) {
-            tcl_idRancho.setCellValueFactory(new PropertyValueFactory<>("idRancho"));
             tcl_ranchoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             tcl_ranchoDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
             tcl_ranchoEncargado.setCellValueFactory(new PropertyValueFactory<>("nombreEncargado"));

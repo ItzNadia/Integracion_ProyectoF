@@ -56,13 +56,13 @@ public class UsuariosController implements Initializable {
     @FXML
     private Button btn_editarUsuario;
     @FXML
+    private Button btn_cambiarContrasena;
+    @FXML
     private Button btn_editarUsuario1;
     @FXML
     private Button btn_desactivar;
     @FXML
     private TableView<Usuario> tbl_usuarios;
-    @FXML
-    private TableColumn<Usuario, Integer> tcl_idUsuario;
     @FXML
     private TableColumn<Usuario, String> tcl_nombre;
     @FXML
@@ -88,10 +88,8 @@ public class UsuariosController implements Initializable {
     @FXML
     private SplitPane spl_usuarios;
     
-    HashMap<String, Object> context;
+    private HashMap<String, Object> context;
     private Usuario usuario = null;
-    @FXML
-    private Button btn_cambiarContrasena;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -178,7 +176,6 @@ public class UsuariosController implements Initializable {
         };
         
         List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
-        tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
         tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tcl_apellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
         tcl_apellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
@@ -248,7 +245,6 @@ public class UsuariosController implements Initializable {
         List<Usuario> listUsuarios = gson.fromJson(respuesta, token.getType());
         
         if (!listUsuarios.isEmpty()) {
-            tcl_idUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
             tcl_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             tcl_apellidoPaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
             tcl_apellidoMaterno.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));

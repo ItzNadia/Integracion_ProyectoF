@@ -38,8 +38,8 @@ public class FormCategoriaController implements Initializable {
     @FXML
     private CheckBox chb_activo;
 
-    Categoria categoria = null;
-    Boolean isNew = false;
+    private Categoria categoria = null;
+    private Boolean isNew = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -127,7 +127,6 @@
                   </Pane>
                   <TableView fx:id="tbl_usuarios" layoutY="62.0" onMouseClicked="#clickTableUsuarios" prefHeight="426.0" prefWidth="1106.0">
                     <columns>
-                        <TableColumn fx:id="tcl_idUsuario" prefWidth="75.0" text="Id Usuario" />
                       <TableColumn fx:id="tcl_nombre" prefWidth="92.800048828125" text="Nombre" />
                         <TableColumn fx:id="tcl_apellidoPaterno" prefWidth="100.26670837402344" text="Apellido Paterno" />
                         <TableColumn fx:id="tcl_apellidoMaterno" prefWidth="121.06671142578125" text="Apellido Materno" />

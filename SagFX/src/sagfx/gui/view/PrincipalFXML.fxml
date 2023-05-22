@@ -19,6 +19,20 @@
                 <MenuItem fx:id="mi_usuarios" mnemonicParsing="false" onAction="#abrirUsuarios" text="Usuarios" />
               <MenuItem fx:id="mi_categoria" mnemonicParsing="false" onAction="#abrirCategorias" text="Categoria y Catalogos" />
                   <MenuItem fx:id="mi_rancho" mnemonicParsing="false" onAction="#abrirRanchos" text="Ranchos" />
+                  <MenuItem fx:id="mi_lotes" mnemonicParsing="false" onAction="#sinImplementar" text="Lotes" />
+              </items>
+            </Menu>
+            <Menu fx:id="m_ganado" mnemonicParsing="false" text="Ganado">
+              <items>
+                <MenuItem fx:id="mi_hatos" mnemonicParsing="false" onAction="#sinImplementar" text="Hatos" />
+                  <MenuItem fx:id="mi_crias" mnemonicParsing="false" onAction="#sinImplementar" text="Crias" />
+                  <MenuItem fx:id="mi_controlMedico" mnemonicParsing="false" onAction="#sinImplementar" text="Control médico" />
+                  <MenuItem fx:id="mi_traspasos" mnemonicParsing="false" onAction="#sinImplementar" text="Traspasos entre lotes" />
+              </items>
+            </Menu>
+            <Menu fx:id="m_cerrarSesion" mnemonicParsing="false" text="Cerrar sesión">
+              <items>
+                <MenuItem fx:id="mi_cerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
               </items>
             </Menu>
         </menus>

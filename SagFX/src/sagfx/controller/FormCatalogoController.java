@@ -43,9 +43,9 @@ public class FormCatalogoController implements Initializable {
     @FXML
     private CheckBox chb_activo;
 
-    Categoria categoria = null;
-    Catalogo catalogo = null;
-    Boolean isNew = false;
+    private Categoria categoria = null;
+    private Catalogo catalogo = null;
+    private Boolean isNew = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -136,7 +136,7 @@ public class FormCatalogoController implements Initializable {
 
     @FXML
     private void restriccionNumeros(KeyEvent event) {
-        if (event.getTarget() == this.txt_idCatalogo && event.getTarget() == this.txt_idCategoria) {
+        if (event.getTarget() == this.txt_idCatalogo || event.getTarget() == this.txt_idCategoria) {
             if (!Character.isDigit(event.getCharacter().charAt(0))) {
                 event.consume();
             }

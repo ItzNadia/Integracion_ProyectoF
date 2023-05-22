@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -13,7 +14,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormMovimientoController">
    <children>
-      <Label fx:id="lbl_cantidad" layoutX="42.0" layoutY="49.0" text="Cantidad:">
+      <Label fx:id="lbl_cantidad" layoutX="42.0" layoutY="49.0" text="Cantidad*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -23,7 +24,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <Label fx:id="lbl_tipo" layoutX="42.0" layoutY="98.0" text="Tipo:">
+      <Label fx:id="lbl_tipo" layoutX="42.0" layoutY="98.0" text="Tipo*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -33,22 +34,18 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </CheckBox>
-      <Label fx:id="lbl_apellidoMaterno" layoutX="40.0" layoutY="151.0" text="Concepto:">
+      <Label fx:id="lbl_concepto" layoutX="40.0" layoutY="151.0" text="Concepto*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txt_concepto" layoutX="142.0" layoutY="146.0" prefHeight="32.0" prefWidth="268.0" promptText="Concepto">
-         <font>
-            <Font name="Lucida Sans Unicode" size="14.0" />
-         </font>
-      </TextField>
-      <Label fx:id="lbl_celular" layoutX="45.0" layoutY="200.0" text="Fecha:">
+      <Label fx:id="lbl_fecha" layoutX="45.0" layoutY="200.0" text="Fecha*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_observaciones" layoutX="43.0" layoutY="250.0" text="Observaciones:">
+      <DatePicker fx:id="dtp_fecha" editable="false" layoutX="142.0" layoutY="195.0" prefHeight="32.0" prefWidth="268.0" promptText="Fecha" />
+      <Label fx:id="lbl_observaciones" layoutX="43.0" layoutY="250.0" text="Observaciones*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -82,6 +79,6 @@
             </ImageView>
          </graphic>
       </Button>
-      <DatePicker fx:id="dtp_fecha" editable="false" layoutX="142.0" layoutY="195.0" prefHeight="32.0" prefWidth="268.0" promptText="Fecha" />
+      <ComboBox fx:id="cmb_concepto" layoutX="142.0" layoutY="146.0" prefHeight="32.0" prefWidth="268.0" promptText="Seleccionar concepto" />
    </children>
 </Pane>

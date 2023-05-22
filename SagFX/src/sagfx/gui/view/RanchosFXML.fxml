@@ -115,7 +115,6 @@
                   </Pane>
                   <TableView fx:id="tbl_ranchos" layoutX="-3.0" layoutY="66.0" onMouseClicked="#clickTableRanchos" prefHeight="427.0" prefWidth="1106.0">
                     <columns>
-                        <TableColumn fx:id="tcl_idRancho" prefWidth="75.0" text="Id Rancho" />
                       <TableColumn fx:id="tcl_ranchoNombre" prefWidth="178.0" text="Nombre" />
                         <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="171.0" text="Dirección" />
                         <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="147.0" text="Encargado" />

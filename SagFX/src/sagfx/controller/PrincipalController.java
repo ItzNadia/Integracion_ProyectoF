@@ -10,11 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import sagfx.model.Usuario;
+import sagfx.utils.Window;
 
 public class PrincipalController implements Initializable {
 
@@ -28,12 +31,28 @@ public class PrincipalController implements Initializable {
     private MenuItem mi_categoria;
     @FXML
     private MenuItem mi_rancho;
-
-    HashMap<String, Object> context;
     @FXML
     private Menu m_movimientos;
     @FXML
     private Menu m_administracion;
+    @FXML
+    private MenuItem mi_lotes;
+    @FXML
+    private Menu m_ganado;
+    @FXML
+    private MenuItem mi_hatos;
+    @FXML
+    private MenuItem mi_crias;
+    @FXML
+    private MenuItem mi_controlMedico;
+    @FXML
+    private MenuItem mi_traspasos;
+    @FXML
+    private Menu m_cerrarSesion;
+    @FXML
+    private MenuItem mi_cerrarSesion;
+
+    private HashMap<String, Object> context;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,17 +61,8 @@ public class PrincipalController implements Initializable {
 
     public void setData(HashMap<String, Object> context) {
         this.context = context;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sagfx/gui/view/MovimientosFXML.fxml"));
-            Parent movimientos = loader.load();
-            MovimientosController ctrl = loader.getController();
-            ctrl.setData(context);
-            pnl_principal.setCenter(movimientos);
-        } catch (IOException ex) {
-            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        if (((Usuario) this.context.get("usuario")).getIdRol() == 202) {
+        if (((Usuario) this.context.get("usuario")).getIdRol() != 201) {
             this.m_administracion.setDisable(true);
         }
     }
@@ -105,6 +115,18 @@ public class PrincipalController implements Initializable {
             pnl_principal.setCenter(usuarios);
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void sinImplementar(ActionEvent event) {
+        Window.alertaInformacion("Esta sección aún no ha sido implementada...");
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) {
+        if(Window.alertaConfirmacion("¿Cerrar sesión?")){
+            ((Stage)((Node)(this.pnl_principal)).getScene().getWindow()).close();
         }
     }
 }

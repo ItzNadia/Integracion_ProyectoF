@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS sag;
+
 CREATE DATABASE IF NOT EXISTS sag;
 
 USE sag;
@@ -165,7 +167,7 @@ CREATE TABLE IF NOT EXISTS movimiento(
 	idMovimiento INT NOT NULL AUTO_INCREMENT,
 	cantidadVenta DECIMAL(12,2) NOT NULL,
 	tipo VARCHAR(50) NOT NULL,
-	concepto VARCHAR(100) NOT NULL,
+	idConcepto INT NOT NULL,
 	fecha DATE NOT NULL,
 	observaciones VARCHAR(200) NOT NULL,
 	cancelado CHAR(2) NOT NULL DEFAULT "No",
@@ -176,6 +178,7 @@ CREATE TABLE IF NOT EXISTS movimiento(
 	fechaEdicion DATE,
 	idUsuarioEditor INT,
 	PRIMARY KEY (idMovimiento),
+	FOREIGN KEY (idConcepto) REFERENCES catalogo(idCatalogo),
 	FOREIGN KEY (idRancho) REFERENCES rancho(idRancho),
 	FOREIGN KEY (idUsuarioAlta) REFERENCES usuario(idUsuario),
 	FOREIGN KEY (idUsuarioEditor) REFERENCES usuario(idUsuario));
@@ -188,6 +191,7 @@ INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (1, NULL, "Estatus actividad","S"),
 (2, NULL, "Rol de sistema", "S"),
 (3, NULL, "Raza", "S"),
+(4, NULL, "Movimiento", "S"),
 (101, 1, "Activo", "S"),
 (102, 1, "Inactivo", "S"),
 (201, 2, "Administrador", "S"),
@@ -198,7 +202,11 @@ INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (304, 3, "Pardo", "S"),
 (305, 3, "Nelore", "S"),
 (306, 3, "Holando Argentino", "S"),
-(307, 3, "Santa Gertrudis", "S");
+(307, 3, "Santa Gertrudis", "S"),
+(401, 4, "Inversión en rancho", "S"),
+(402, 4, "Pago Nóminas", "S"),
+(403, 4, "Compra de productos", "S"),
+(404, 4, "Venta de productos", "S");
 
 INSERT INTO usuario(nombre, apellidoPaterno, apellidoMaterno, celular, usuario, contrasena, idRol, idEstatus, idRancho, fechaAlta, idUsuarioAlta) VALUES 
 ("Luis Enrique", "Zapata", "Lopez", "2281345788", "LuisZpt", "B5997B3AAA94FB20F581FFE549FE79F2F5F9DCF61BCE39B033A2A7556A82180633BE1320E64D3B4B03DA9B7A56BD5E8C5B51CF1C99C7F543AF36B0ED9E116D8A", 201, 101, 1, "2023-04-22", 1),
@@ -243,11 +251,11 @@ INSERT INTO cria(idHatoMadre, sexo, fechaNacimiento, idRaza, idEstatus, observac
 (11, "M", "2023-02-07", 307, 101, "Vaca blanca con manchas marrones", 1, "2023-04-22", 2),
 (17, "H", "2023-02-07", 307, 101, "Cococabraaaa JR", 2, "2023-04-22", 3);
 
-INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
-(5000000, "Ingreso", "Ingreso para iniciar el rancho", "2023-04-22", "Compramos un ranchooo", 1, "2023-04-22", 1),
-(20000, "Egreso", "Pago nóminas","2023-04-22", "Apenas lo compramos y ya les paegamos a los trabajadores :/", 1, "2023-04-23", 2),
-(5000, "Ingreso", "Venta de productos lácteos", "2023-04-22", "Al menos recuperamos con esto", 1, "2023-04-21", 2),
-(5000000, "Ingreso", "Ingreso para iniciar el rancho", "2023-04-22", "Ingreso inicial", 2, "2023-05-14", 3);
+INSERT INTO movimiento(cantidadVenta, tipo, idConcepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
+(5000000, "Ingreso", 401, "2023-04-22", "Compramos un ranchooo", 1, "2023-04-22", 1),
+(20000, "Egreso", 402,"2023-04-21", "Apenas lo compramos y ya les pagamos a los trabajadores :/", 1, "2023-04-23", 2),
+(5000, "Ingreso", 404, "2023-04-23", "Venta de productos lácteos", 1, "2023-04-21", 2),
+(5000000, "Ingreso", 401, "2023-04-20", "Ingreso inicial", 2, "2023-05-14", 3);
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -272,10 +280,10 @@ CREATE OR REPLACE VIEW usuariosfullinfo AS
 		ce.nombre AS estatus,
 		u.idRancho,
 		r.nombre AS rancho,
-		u.fechaAlta,
+		DATE_FORMAT(u.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		u.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		u.fechaEdicion,
+		DATE_FORMAT(u.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		u.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM usuario u
@@ -319,10 +327,10 @@ CREATE OR REPLACE VIEW ranchosfullinfo AS
 		r.nombreEncargado,
 		r.idEstatus,
 		c.nombre AS estatus,
-		r.fechaAlta,
+		DATE_FORMAT(r.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		r.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		r.fechaEdicion,
+		DATE_FORMAT(r.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		r.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM rancho r
@@ -340,12 +348,12 @@ CREATE OR REPLACE VIEW lotesfullinfo AS
 		l.descripcion,
 		l.idEstatus,
 		ce.nombre AS estatus,
-		l.fechaAlta,
 		l.idRancho,
 		r.nombre AS rancho,
+		DATE_FORMAT(l.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		l.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		l.fechaEdicion,
+		DATE_FORMAT(l.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		l.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM lote l
@@ -369,14 +377,14 @@ CREATE OR REPLACE VIEW hatosfullinfo AS
 		h.idEstatus,
 		ce.nombre AS estatus,
 		h.descripcion,
-		h.fechaBaja,
+		DATE_FORMAT(h.fechaBaja, "%d-%m-%Y") AS fechaBaja,
 		h.motivoBaja,
 		h.idRancho,
 		r.nombre AS rancho,
-		h.fechaAlta,
+		DATE_FORMAT(h.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		h.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		h.fechaEdicion,
+		DATE_FORMAT(h.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		h.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM hato h
@@ -395,7 +403,7 @@ CREATE OR REPLACE VIEW criasfullinfo AS
 		c.idCria,
 		c.idHatoMadre,
 		c.sexo,
-		c.fechaNacimiento,
+		DATE_FORMAT(c.fechaNacimiento, "%d-%m-%Y") AS fechaNacimiento,
 		c.idRaza,
 		cr.nombre AS raza,
 		c.idEstatus,
@@ -403,10 +411,10 @@ CREATE OR REPLACE VIEW criasfullinfo AS
 		c.observaciones,
 		c.idRancho,
 		r.nombre AS rancho,
-		c.fechaAlta,
+		DATE_FORMAT(c.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		c.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		c.fechaEdicion,
+		DATE_FORMAT(c.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		c.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM cria c
@@ -425,15 +433,15 @@ CREATE OR REPLACE VIEW consultasmedicasfullinfo AS
 		cm.idHato,
 		cm.idCria,
 		cm.nombreVeterinario,
-		cm.fechaAtencion,
+		DATE_FORMAT(cm.fechaAtencion, "%d-%m-%Y") AS fechaAtencion,
 		cm.observaciones,
 		cm.motivoAtencion,
 		cm.idRancho,
 		r.nombre AS rancho,
-		cm.fechaAlta,
+		DATE_FORMAT(cm.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		cm.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		cm.fechaEdicion,
+		DATE_FORMAT(cm.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		cm.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM consultaMedica cm
@@ -449,20 +457,22 @@ CREATE OR REPLACE VIEW movimientosfullinfo AS
 		m.idMovimiento,
 		m.cantidadVenta,
 		m.tipo,
-		m.concepto,
-		m.fecha,
+		m.idConcepto,
+		c.nombre AS concepto,
+		DATE_FORMAT(m.fecha, "%d-%m-%Y") AS fecha,
 		m.observaciones,
 		m.cancelado,
 		m.motivoCancelacion,
 		m.idRancho,
 		r.nombre AS rancho,
-		m.fechaAlta,
+		DATE_FORMAT(m.fechaAlta, "%d-%m-%Y") AS fechaAlta,
 		m.idUsuarioAlta,
 		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
-		m.fechaEdicion,
+		DATE_FORMAT(m.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
 		m.idUsuarioEditor,
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM movimiento m
+		INNER JOIN catalogo c ON m.idConcepto=c.idCatalogo
 		INNER JOIN rancho r ON m.idRancho=r.idRancho
 		INNER JOIN usuario ua ON m.idUsuarioAlta=ua.idUsuario
 		LEFT JOIN usuario ue ON m.idUsuarioEditor=ue.idUsuario
@@ -653,6 +663,20 @@ BEGIN
 	UPDATE catalogo c
 	SET c.activo=activo
 	WHERE c.idCatalogo=idCatalogo;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getConceptosMovimientos()
+BEGIN
+	SELECT idCatalogo, nombre FROM catalogosfullinfo WHERE idCategoria=4 AND activo="S";
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getRolesUsuarios()
+BEGIN
+	SELECT idCatalogo, nombre FROM catalogosfullinfo WHERE idCategoria=2 AND activo="S";
 END$$
 
 -- ############################################################################################################################################## --
@@ -982,7 +1006,31 @@ END$$
 
 CREATE PROCEDURE sp_getMovimientosByIdRancho(IN idRancho INT)
 BEGIN
-	SELECT * FROM movimientosfullinfo m WHERE m.idRancho=idRancho;
+	SELECT
+		m.idMovimiento,
+		m.cantidadVenta,
+		m.tipo,
+		m.idConcepto,
+		c.nombre AS concepto,
+		DATE_FORMAT(m.fecha, "%d-%m-%Y") AS fecha,
+		m.observaciones,
+		m.cancelado,
+		m.motivoCancelacion,
+		m.idRancho,
+		r.nombre AS rancho,
+		DATE_FORMAT(m.fechaAlta, "%d-%m-%Y") AS fechaAlta,
+		m.idUsuarioAlta,
+		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
+		DATE_FORMAT(m.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
+		m.idUsuarioEditor,
+		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
+	FROM movimiento m
+		INNER JOIN catalogo c ON m.idConcepto=c.idCatalogo
+		INNER JOIN rancho r ON m.idRancho=r.idRancho
+		INNER JOIN usuario ua ON m.idUsuarioAlta=ua.idUsuario
+		LEFT JOIN usuario ue ON m.idUsuarioEditor=ue.idUsuario
+	WHERE m.idRancho=idRancho
+	ORDER BY m.fecha DESC;
 END$$
 
 -- ############################################################################################################################################## --
@@ -997,14 +1045,14 @@ END$$
 CREATE PROCEDURE sp_registrarMovimiento(
 	IN cantidadVenta DECIMAL(12,2),
 	IN tipo VARCHAR(50),
-	IN concepto VARCHAR(100),
+	IN idConcepto INT,
 	IN fecha DATE,
 	IN observaciones VARCHAR(200),
 	IN idRancho INT,
 	IN idUsuarioAlta INT)
 BEGIN
-	INSERT INTO movimiento(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
-	(cantidadVenta, tipo, concepto, fecha, observaciones, idRancho, CURDATE(), idUsuarioAlta);
+	INSERT INTO movimiento(cantidadVenta, tipo, idConcepto, fecha, observaciones, idRancho, fechaAlta, idUsuarioAlta) VALUES
+	(cantidadVenta, tipo, idConcepto, fecha, observaciones, idRancho, CURDATE(), idUsuarioAlta);
 END$$
 
 -- ############################################################################################################################################## --
@@ -1013,14 +1061,14 @@ CREATE PROCEDURE sp_editarMovimiento(
 	IN idMovimiento INT,
 	IN cantidadVenta DECIMAL(12,2),
 	IN tipo VARCHAR(50),
-	IN concepto VARCHAR(100),
+	IN idConcepto INT,
 	IN fecha DATE,
 	IN observaciones VARCHAR(250),
 	IN idRancho INT,
 	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE movimiento m
-	SET m.cantidadVenta=cantidadVenta, m.tipo=tipo, m.concepto=concepto, m.fecha=fecha, m.observaciones=observaciones, m.idRancho=idRancho, m.fechaEdicion=CURDATE(), m.idUsuarioEditor=idUsuarioEditor
+	SET m.cantidadVenta=cantidadVenta, m.tipo=tipo, m.idConcepto=idConcepto, m.fecha=fecha, m.observaciones=observaciones, m.idRancho=idRancho, m.fechaEdicion=CURDATE(), m.idUsuarioEditor=idUsuarioEditor
 	WHERE m.idMovimiento=idMovimiento;
 END$$
 

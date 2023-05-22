@@ -29,4 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{idCatalogo, jdbcType=INTEGER,mode=IN},
             #{activo, jdbcType=VARCHAR,mode=IN})}
     </update>
+    
+    <select id="getConceptosMovimientos" resultType="modelo.pojos.Catalogo" statementType="CALLABLE">
+        {CALL sag.sp_getConceptosMovimientos()}
+    </select>
+    
+    <select id="getRolesUsuarios" resultType="modelo.pojos.Catalogo" statementType="CALLABLE">
+        {CALL sag.sp_getRolesUsuarios()}
+    </select>
 </mapper>

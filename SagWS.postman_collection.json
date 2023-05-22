@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "933bf910-f0da-44f2-aebb-5aad851f699a",
+		"_postman_id": "d591e98d-2980-4b21-bd7d-263ed61531fe",
 		"name": "SagWS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21050980"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -419,6 +418,50 @@
 								"catalogo",
 								"getCatalogosByCategoria",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetConceptosMovimientos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/catalogo/getConceptosMovimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"catalogo",
+								"getConceptosMovimientos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRolesUsuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/catalogo/getRolesUsuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"catalogo",
+								"getRolesUsuarios"
 							]
 						}
 					},
@@ -1003,7 +1046,7 @@
 							"urlencoded": [
 								{
 									"key": "cantidadVenta",
-									"value": "-300",
+									"value": "300",
 									"type": "default"
 								},
 								{
@@ -1012,8 +1055,8 @@
 									"type": "default"
 								},
 								{
-									"key": "concepto",
-									"value": "Compra cepillos para vacas",
+									"key": "idConcepto",
+									"value": "403",
 									"type": "default"
 								},
 								{
@@ -1023,7 +1066,7 @@
 								},
 								{
 									"key": "observaciones",
-									"value": "Cepillos para cepillar XD",
+									"value": "Compramos cepillos para caballos :D",
 									"type": "default"
 								},
 								{
@@ -1070,7 +1113,7 @@
 								},
 								{
 									"key": "cantidadVenta",
-									"value": "-300",
+									"value": "300",
 									"type": "default"
 								},
 								{
@@ -1079,8 +1122,8 @@
 									"type": "default"
 								},
 								{
-									"key": "concepto",
-									"value": "Compra cepillos dientes",
+									"key": "idConcepto",
+									"value": "403",
 									"type": "default"
 								},
 								{
@@ -1090,7 +1133,7 @@
 								},
 								{
 									"key": "observaciones",
-									"value": "Cepillos para cepillar XD",
+									"value": "Compramos cepillos para caballos :D",
 									"type": "default"
 								},
 								{
