@@ -2,6 +2,7 @@ package servicios;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -30,7 +31,7 @@ public class MovimientoWS {
     @Path("getMovimientosByIdRancho/{idRancho}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Movimiento> getMovimientosByIdRancho(@PathParam("idRancho") Integer idRancho){
-    List<Movimiento> list = new ArrayList<Movimiento>();
+    List<Movimiento> list = new LinkedList<>();
     SqlSession conn = null;
     try{
         conn=MyBatisUtil.getSession();
@@ -51,7 +52,7 @@ public class MovimientoWS {
     public List<Movimiento> buscarMovimientos(
             @FormParam("idRancho") String idRancho,
             @FormParam("busqueda") String busqueda){
-        List<Movimiento> list = new ArrayList<Movimiento>();
+        List<Movimiento> list = new LinkedList<>();
         SqlSession conn = null;
         try{
             HashMap<String,Object> param = new HashMap<String, Object>();
@@ -74,7 +75,7 @@ public class MovimientoWS {
     public Respuesta registrarMovimiento(
             @FormParam("cantidadVenta") Double cantidadVenta,
             @FormParam("tipo") String tipo,
-            @FormParam("concepto") String concepto,
+            @FormParam("idConcepto") Integer idConcepto,
             @FormParam("fecha") String fecha,
             @FormParam("observaciones") String observaciones,
             @FormParam("idRancho") String idRancho,
@@ -85,7 +86,7 @@ public class MovimientoWS {
             HashMap<String,Object> param = new HashMap<String, Object>();
             param.put("cantidadVenta", cantidadVenta);
             param.put("tipo", tipo);
-            param.put("concepto", concepto);
+            param.put("idConcepto", idConcepto);
             param.put("fecha", fecha);
             param.put("observaciones", observaciones);
             param.put("idRancho", idRancho);
@@ -113,7 +114,7 @@ public class MovimientoWS {
             @FormParam("idMovimiento") Double idMovimiento,
             @FormParam("cantidadVenta") Double cantidadVenta,
             @FormParam("tipo") String tipo,
-            @FormParam("concepto") String concepto,
+            @FormParam("idConcepto") Integer idConcepto,
             @FormParam("fecha") String fecha,
             @FormParam("observaciones") String observaciones,
             @FormParam("idRancho") String idRancho,
@@ -125,7 +126,7 @@ public class MovimientoWS {
             param.put("idMovimiento", idMovimiento);
             param.put("cantidadVenta", cantidadVenta);
             param.put("tipo", tipo);
-            param.put("concepto", concepto);
+            param.put("idConcepto", idConcepto);
             param.put("fecha", fecha);
             param.put("observaciones", observaciones);
             param.put("idRancho", idRancho);

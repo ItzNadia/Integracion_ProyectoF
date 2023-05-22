@@ -25,7 +25,7 @@ public class CatalogoWS {
 
     public CatalogoWS() {
     }
-    
+
     @POST
     @Path("registrarCatalogo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -33,31 +33,31 @@ public class CatalogoWS {
             @FormParam("idCatalogo") Integer idCatalogo,
             @FormParam("idCategoria") Integer idCategoria,
             @FormParam("nombre") String nombre,
-            @FormParam("activo") String activo){
+            @FormParam("activo") String activo) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
-            HashMap<String,Object> param = new HashMap<String, Object>();
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idCatalogo", idCatalogo);
             param.put("idCategoria", idCategoria);
             param.put("nombre", nombre);
             param.put("activo", activo);
-            
+
             conn.insert("Catalogo.registrarCatalogo", param);
             conn.commit();
-            
+
             res.setError(false);
             res.setMensaje("¡Catalogo registrado correctamente!");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("No se pudo crear el catalogo...");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;
     }
-    
+
     @POST
     @Path("editarCatalogo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,75 +65,111 @@ public class CatalogoWS {
             @FormParam("idCatalogo") Integer idCatalogo,
             @FormParam("idCategoria") Integer idCategoria,
             @FormParam("nombre") String nombre,
-            @FormParam("activo") String activo){
+            @FormParam("activo") String activo) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
+        try {
             HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idCatalogo", idCatalogo);
             param.put("idCategoria", idCategoria);
             param.put("nombre", nombre);
             param.put("activo", activo);
-            
+
             conn.update("Catalogo.editarCatalogo", param);
             conn.commit();
-            
+
             res.setError(false);
             res.setMensaje("¡Catalogo editado con éxito!");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("No se pudo editar el catalogo...");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;
     }
-    
+
     @POST
     @Path("editarEstatusCatalogo")
     @Produces(MediaType.APPLICATION_JSON)
     public Respuesta editarEstatusCatalogo(
             @FormParam("idCatalogo") Integer idCatalogo,
-            @FormParam("activo") String activo){
+            @FormParam("activo") String activo) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
+        try {
             HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idCatalogo", idCatalogo);
             param.put("activo", activo);
-            
+
             conn.update("Catalogo.editarEstatusCatalogo", param);
             conn.commit();
-            
+
             res.setError(false);
             res.setMensaje("¡Estatus de catalogo editado correctamente!");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error al editar el catalogo...");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;
     }
-    
+
     // get catalogo por idCategoria
     @GET
     @Path("getCatalogosByCategoria/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Catalogo> getCatalogosByCategoria(@PathParam("id") Integer id){
+    public List<Catalogo> getCatalogosByCategoria(@PathParam("id") Integer id) {
         SqlSession conn = null;
         List<Catalogo> catalogos = new ArrayList<Catalogo>();
-        
-        try{
+
+        try {
             conn = MyBatisUtil.getSession();
             catalogos = conn.selectList("Catalogo.getCatalogosByCategoria", id);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             conn.close();
         }
         return catalogos;
+    }
+
+    @GET
+    @Path("getConceptosMovimientos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Catalogo> getConceptosMovimientos() {
+        SqlSession conn = null;
+        List<Catalogo> conceptos = new ArrayList<Catalogo>();
+
+        try {
+            conn = MyBatisUtil.getSession();
+            conceptos = conn.selectList("Catalogo.getConceptosMovimientos");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+        }
+        return conceptos;
+    }
+
+    @GET
+    @Path("getRolesUsuarios")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Catalogo> getRolesUsuarios() {
+        SqlSession conn = null;
+        List<Catalogo> conceptos = new ArrayList<Catalogo>();
+
+        try {
+            conn = MyBatisUtil.getSession();
+            conceptos = conn.selectList("Catalogo.getRolesUsuarios");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+        }
+        return conceptos;
     }
 }

@@ -1,16 +1,23 @@
 package sagfx.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -19,6 +26,7 @@ import javafx.scene.input.KeyEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
+import sagfx.model.Catalogo;
 import sagfx.model.Movimiento;
 import sagfx.model.Usuario;
 import sagfx.utils.Window;
@@ -26,33 +34,34 @@ import sagfx.utils.Window;
 public class FormMovimientoController implements Initializable {
 
     @FXML
-    private Button btn_guardar;
-    @FXML
-    private Button btn_cerrar;
-    @FXML
     private Label lbl_cantidad;
     @FXML
     private TextField txt_cantidad;
     @FXML
     private Label lbl_tipo;
     @FXML
-    private TextField txt_concepto;
+    private CheckBox chb_movimiento;
     @FXML
-    private Label lbl_celular;
+    private Label lbl_concepto;
+    @FXML
+    private Label lbl_fecha;
+    @FXML
+    private DatePicker dtp_fecha;
     @FXML
     private Label lbl_observaciones;
     @FXML
     private TextArea txt_observaciones;
     @FXML
-    private CheckBox chb_movimiento;
+    private Button btn_guardar;
     @FXML
-    private Label lbl_apellidoMaterno;
+    private Button btn_cerrar;
     @FXML
-    private DatePicker dtp_fecha;
+    private ComboBox<Catalogo> cmb_concepto;
 
-    Movimiento movimiento = null;
-    Boolean isNew = false;
-    HashMap<String, Object> context;
+    private Movimiento movimiento = null;
+    private Boolean isNew = false;
+    private HashMap<String, Object> context;
+    private List<Catalogo> listaConceptos;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,6 +72,7 @@ public class FormMovimientoController implements Initializable {
         this.context = context;
         this.movimiento = movimiento;
         this.isNew = isNew;
+        this.cargarConceptos();
         this.cargarMovimiento();
     }
 
@@ -78,7 +88,7 @@ public class FormMovimientoController implements Initializable {
             try {
                 HashMap<String, Object> movimiento = new HashMap<String, Object>();
                 movimiento.put("cantidadVenta", this.txt_cantidad.getText());
-                movimiento.put("concepto", this.txt_concepto.getText());
+                movimiento.put("idConcepto", this.cmb_concepto.getValue().getIdCatalogo());
                 movimiento.put("fecha", this.dtp_fecha.getValue().toString());
                 movimiento.put("observaciones", this.txt_observaciones.getText());
                 movimiento.put("idRancho", u.getIdRancho());
@@ -95,7 +105,7 @@ public class FormMovimientoController implements Initializable {
                     movimiento.put("idUsuarioAlta", u.getIdUsuario());
                     respuesta = Requests.post("/movimiento/registrarMovimiento", movimiento);
                 } else {
-                movimiento.put("idMovimiento", this.movimiento.getIdMovimiento());
+                    movimiento.put("idMovimiento", this.movimiento.getIdMovimiento());
                     movimiento.put("idUsuarioEditor", u.getIdUsuario());
                     respuesta = Requests.post("/movimiento/editarMovimiento", movimiento);
                 }
@@ -128,8 +138,10 @@ public class FormMovimientoController implements Initializable {
     }
 
     private boolean validar() {
-        if (!this.txt_cantidad.getText().isEmpty() && !this.txt_concepto.getText().isEmpty() && !this.txt_observaciones.getText().isEmpty()) {
-            return true;
+        if (!this.txt_cantidad.getText().isEmpty() && !this.txt_observaciones.getText().isEmpty()) {
+            if (this.cmb_concepto.getValue() != null) {
+                return true;
+            }
         }
         return false;
     }
@@ -144,10 +156,10 @@ public class FormMovimientoController implements Initializable {
                 this.chb_movimiento.setSelected(false);
             }
             this.txt_cantidad.setText(movimiento.getCantidadVenta().toString());
-            this.txt_concepto.setText(movimiento.getConcepto());
-            this.dtp_fecha.setValue(LocalDate.parse(movimiento.getFecha()));
+            this.cargarConceptoEnEdicion();
+            String fechaF = movimiento.getFecha();
+            this.dtp_fecha.setValue(LocalDate.parse(fechaF.substring(6, 10) + "-" + fechaF.substring(3, 5) + "-" + fechaF.substring(0, 2)));
             this.txt_observaciones.setText(movimiento.getObservaciones());
-
         }
     }
 
@@ -161,5 +173,34 @@ public class FormMovimientoController implements Initializable {
                 event.consume();
             }
         }
+    }
+
+    private void cargarConceptos() {
+        String respuesta = Requests.get("/catalogo/getConceptosMovimientos");
+        Gson gson = new Gson();
+
+        TypeToken<List<Catalogo>> token = new TypeToken<List<Catalogo>>() {
+        };
+
+        listaConceptos = gson.fromJson(respuesta, token.getType());
+
+        if (this.listaConceptos.size() > 0) {
+            ObservableList<Catalogo> conceptos = FXCollections.observableArrayList();
+
+            listaConceptos.forEach(e -> {
+                conceptos.add(e);
+            });
+            this.cmb_concepto.setItems(conceptos);
+        } else {
+            this.cmb_concepto.setPromptText("No hay roles activos...");
+        }
+    }
+
+    private void cargarConceptoEnEdicion() {
+        this.listaConceptos.forEach(e -> {
+            if (Objects.equals(this.movimiento.getIdConcepto(), e.getIdCatalogo())) {
+                this.cmb_concepto.setValue(e);
+            }
+        });
     }
 }

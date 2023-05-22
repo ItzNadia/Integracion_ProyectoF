@@ -103,7 +103,6 @@
                   </Pane>
                   <TableView fx:id="tbl_movimientos" layoutY="55.0" onMouseClicked="#clickTableMovimientos" prefHeight="450.0" prefWidth="1098.0">
                     <columns>
-                        <TableColumn fx:id="tcl_idMovimiento" prefWidth="115.0" text="Id Movimiento" />
                       <TableColumn fx:id="tcl_movimientoCantidad" prefWidth="100.0" text="Cantidad" />
                         <TableColumn fx:id="tcl_movimientoTipo" prefWidth="100.0" text="Tipo" />
                         <TableColumn fx:id="tcl_movimientoConcepto" prefWidth="250.0" text="Concepto" />

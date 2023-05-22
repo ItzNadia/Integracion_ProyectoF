@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sagfx.controller.FormCatalogoController">
    <children>
-      <Label fx:id="lbl_idCategoria" layoutX="48.0" layoutY="30.0" prefHeight="22.0" prefWidth="105.0" text="Id Categoría: ">
+      <Label fx:id="lbl_idCategoria" layoutX="48.0" layoutY="30.0" prefHeight="22.0" prefWidth="105.0" text="Id Categoría*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -21,7 +21,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <Label fx:id="lbl_idCatalogo" layoutX="51.0" layoutY="81.0" text="Id Catálogo: ">
+      <Label fx:id="lbl_idCatalogo" layoutX="51.0" layoutY="81.0" text="Id Catálogo*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -31,7 +31,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <Label fx:id="lbl_nombre" layoutX="48.0" layoutY="137.0" text="Nombre:">
+      <Label fx:id="lbl_nombre" layoutX="48.0" layoutY="137.0" text="Nombre*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
@@ -41,7 +41,7 @@
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>
       </TextField>
-      <Label fx:id="lbl_activo" layoutX="48.0" layoutY="191.0" text="Activo:">
+      <Label fx:id="lbl_activo" layoutX="48.0" layoutY="191.0" text="Activo*:">
          <font>
             <Font name="Lucida Sans Unicode" size="14.0" />
          </font>

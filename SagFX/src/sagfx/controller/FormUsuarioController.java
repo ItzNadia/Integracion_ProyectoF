@@ -1,22 +1,32 @@
 package sagfx.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sagfx.api.requests.Requests;
+import sagfx.model.Catalogo;
 import sagfx.model.Usuario;
 import sagfx.utils.Window;
 
@@ -49,6 +59,8 @@ public class FormUsuarioController implements Initializable {
     @FXML
     private Label lbl_rol1;
     @FXML
+    private ComboBox<Catalogo> cmb_rol;
+    @FXML
     private TextField txt_nombre;
     @FXML
     private Label lbl_contrasena;
@@ -56,12 +68,11 @@ public class FormUsuarioController implements Initializable {
     private PasswordField txt_contrasena;
     @FXML
     private CheckBox chb_estatus;
-    @FXML
-    private CheckBox chb_rol;
 
-    Usuario usuario = null;
-    Boolean isNew = false;
-    HashMap<String, Object> context;
+    private Usuario usuario = null;
+    private Boolean isNew = false;
+    private HashMap<String, Object> context;
+    private List<Catalogo> listaRoles;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -72,6 +83,7 @@ public class FormUsuarioController implements Initializable {
         this.context = context;
         this.usuario = usuario;
         this.isNew = isNew;
+        this.cargarConceptos();
         this.cargarUsuario();
     }
 
@@ -86,12 +98,8 @@ public class FormUsuarioController implements Initializable {
                 param.put("apellidoMaterno", this.txt_apellidoMaterno.getText());
                 param.put("celular", this.txt_celular.getText());
                 param.put("usuario", this.txt_usuario.getText());
+                param.put("idRol", this.cmb_rol.getValue().getIdCatalogo());
 
-                if (this.chb_rol.isSelected()) {
-                    param.put("idRol", 201);
-                } else {
-                    param.put("idRol", "202");
-                }
                 if (this.chb_estatus.isSelected()) {
                     param.put("idEstatus", 101);
                 } else {
@@ -134,15 +142,6 @@ public class FormUsuarioController implements Initializable {
     }
 
     @FXML
-    private void checkRol(ActionEvent event) {
-        if (this.chb_rol.isSelected()) {
-            this.chb_rol.setText("Administrador");
-        } else {
-            this.chb_rol.setText("Vaquero");
-        }
-    }
-
-    @FXML
     private void checkEstatus(ActionEvent event) {
         if (this.chb_estatus.isSelected()) {
             this.chb_estatus.setText("Activo");
@@ -165,13 +164,18 @@ public class FormUsuarioController implements Initializable {
 
     public void cargarUsuario() {
         if (!isNew) {
-            if (usuario.getIdRol() == 201) {
-                this.chb_rol.setText("Administrador");
-                this.chb_rol.setSelected(true);
-            } else {
-                this.chb_rol.setText("Vaquero");
-                this.chb_rol.setSelected(false);
-            }
+            this.txt_contrasena.setDisable(true);
+            this.txt_contrasena.setOpacity(0);
+            this.lbl_contrasena.setOpacity(0);
+
+            this.txt_nombre.setText(usuario.getNombre());
+            this.txt_apellidoPaterno.setText(usuario.getApellidoPaterno());
+            this.txt_apellidoMaterno.setText(usuario.getApellidoMaterno());
+            this.txt_celular.setText(usuario.getCelular());
+            this.txt_usuario.setText(usuario.getUsuario());
+
+            this.cargarConceptoEnEdicion();
+
             if (usuario.getIdEstatus() == 101) {
                 this.chb_estatus.setText("Activo");
                 this.chb_estatus.setSelected(true);
@@ -179,29 +183,51 @@ public class FormUsuarioController implements Initializable {
                 this.chb_estatus.setText("Inactivo");
                 this.chb_estatus.setSelected(false);
             }
-            this.txt_nombre.setText(usuario.getNombre());
-            this.txt_apellidoPaterno.setText(usuario.getApellidoPaterno());
-            this.txt_apellidoMaterno.setText(usuario.getApellidoMaterno());
-            this.txt_celular.setText(usuario.getCelular());
-            this.txt_usuario.setText(usuario.getUsuario());
-
-            this.txt_contrasena.setDisable(true);
-            this.txt_contrasena.setOpacity(0);
-            this.lbl_contrasena.setOpacity(0);
         }
     }
 
     private boolean validar() {
         if (!this.txt_nombre.getText().isEmpty() && !this.txt_apellidoPaterno.getText().isEmpty() && !this.txt_apellidoMaterno.getText().isEmpty()
                 && !this.txt_celular.getText().isEmpty() && !this.txt_usuario.getText().isEmpty()) {
-            if (this.isNew) {
-                if (!this.txt_contrasena.getText().isEmpty()) {
+            if (this.cmb_rol.getValue() != null) {
+                if (this.isNew) {
+                    if (!this.txt_contrasena.getText().isEmpty()) {
+                        return true;
+                    }
+                } else {
                     return true;
                 }
-            } else {
-                return true;
             }
         }
         return false;
+    }
+
+    private void cargarConceptos() {
+        String respuesta = Requests.get("/catalogo/getRolesUsuarios");
+        Gson gson = new Gson();
+
+        TypeToken<List<Catalogo>> token = new TypeToken<List<Catalogo>>() {
+        };
+
+        this.listaRoles = gson.fromJson(respuesta, token.getType());
+
+        if (this.listaRoles.size() > 0) {
+            ObservableList<Catalogo> roles = FXCollections.observableArrayList();
+
+            this.listaRoles.forEach(e -> {
+                roles.add(e);
+            });
+            this.cmb_rol.setItems(roles);
+        } else {
+            this.cmb_rol.setPromptText("No hay roles activos...");
+        }
+    }
+
+    private void cargarConceptoEnEdicion() {
+        this.listaRoles.forEach(e -> {
+            if (Objects.equals(this.usuario.getIdRol(), e.getIdCatalogo())) {
+                this.cmb_rol.setValue(e);
+            }
+        });
     }
 }

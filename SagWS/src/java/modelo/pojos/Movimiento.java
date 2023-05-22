@@ -4,6 +4,7 @@ public class Movimiento {
     private Integer idMovimiento;
     private Double cantidadVenta;
     private String tipo;
+    private String idConcepto;
     private String concepto;
     private String fecha;
     private String observaciones;
@@ -21,10 +22,11 @@ public class Movimiento {
     public Movimiento() {
     }
 
-    public Movimiento(Integer idMovimiento, Double cantidadVenta, String tipo, String concepto, String fecha, String observaciones, String cancelado, String motivoCancelacion, Integer idRancho, String rancho, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
+    public Movimiento(Integer idMovimiento, Double cantidadVenta, String tipo, String idConcepto, String concepto, String fecha, String observaciones, String cancelado, String motivoCancelacion, Integer idRancho, String rancho, String fechaAlta, Integer idUsuarioAlta, String usuarioAlta, String fechaEdicion, Integer idUsuarioEditor, String usuarioEditor) {
         this.idMovimiento = idMovimiento;
         this.cantidadVenta = cantidadVenta;
         this.tipo = tipo;
+        this.idConcepto = idConcepto;
         this.concepto = concepto;
         this.fecha = fecha;
         this.observaciones = observaciones;
@@ -62,6 +64,14 @@ public class Movimiento {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getIdConcepto() {
+        return idConcepto;
+    }
+
+    public void setIdConcepto(String idConcepto) {
+        this.idConcepto = idConcepto;
     }
 
     public String getConcepto() {

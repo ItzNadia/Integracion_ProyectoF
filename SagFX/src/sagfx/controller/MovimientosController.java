@@ -61,8 +61,6 @@ public class MovimientosController implements Initializable {
     @FXML
     private TableView<Movimiento> tbl_movimientos;
     @FXML
-    private TableColumn<Movimiento, Integer> tcl_idMovimiento;
-    @FXML
     private TableColumn<Movimiento, Double> tcl_movimientoCantidad;
     @FXML
     private TableColumn<Movimiento, String> tcl_movimientoTipo;
@@ -88,7 +86,7 @@ public class MovimientosController implements Initializable {
     private TableColumn<Movimiento, String> tcl_movimientoUsuarioEdicion;
 
     private Movimiento movimiento = null;
-    HashMap<String, Object> context;
+    private HashMap<String, Object> context;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -108,7 +106,11 @@ public class MovimientosController implements Initializable {
     @FXML
     private void editarMovimiento(ActionEvent event) {
         if (this.movimiento != null) {
-            this.formMovimiento(false);
+            if (this.movimiento.getCancelado().equals("No")) {
+                this.formMovimiento(false);
+            } else {
+                Window.alertaError("Este movimiento se encuentra cancelado, imposible modificar...");
+            }
         } else {
             Window.alertaAdvertencia("Debe seleccionar un movimiento");
         }
@@ -141,7 +143,6 @@ public class MovimientosController implements Initializable {
         List<Movimiento> listMovimiento = gson.fromJson(respuesta, token.getType());
 
         if (listMovimiento.size() > 0) {
-            tcl_idMovimiento.setCellValueFactory(new PropertyValueFactory<>("idMovimiento"));
             tcl_movimientoCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadVenta"));
             tcl_movimientoTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
             tcl_movimientoConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
@@ -201,7 +202,6 @@ public class MovimientosController implements Initializable {
         };
 
         List<Movimiento> listMovimientos = gson.fromJson(respuesta, token.getType());
-        tcl_idMovimiento.setCellValueFactory(new PropertyValueFactory<>("idMovimiento"));
         tcl_movimientoCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadVenta"));
         tcl_movimientoTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         tcl_movimientoConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
@@ -244,7 +244,7 @@ public class MovimientosController implements Initializable {
             } else {
                 Window.alertaError("Este movimiento ya se encuentra cancelado");
             }
-        }else{
+        } else {
             Window.alertaAdvertencia("Debe seleccionar un movimiento");
         }
     }
