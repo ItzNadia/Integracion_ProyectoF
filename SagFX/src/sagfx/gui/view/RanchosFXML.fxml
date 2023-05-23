@@ -22,7 +22,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="71.0" layoutY="8.0" onAction="#buscarRancho" prefHeight="36.0" prefWidth="244.0" promptText="Id o nombre">
+            <TextField fx:id="txt_busqueda" layoutX="71.0" layoutY="8.0" onAction="#buscarRancho" prefHeight="36.0" prefWidth="244.0" promptText="Nombre">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
@@ -115,14 +115,14 @@
                   </Pane>
                   <TableView fx:id="tbl_ranchos" layoutX="-3.0" layoutY="66.0" onMouseClicked="#clickTableRanchos" prefHeight="427.0" prefWidth="1106.0">
                     <columns>
-                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="178.0" text="Nombre" />
-                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="171.0" text="Dirección" />
+                      <TableColumn fx:id="tcl_ranchoNombre" prefWidth="230.0" text="Nombre" />
+                        <TableColumn fx:id="tcl_ranchoDireccion" prefWidth="200.0" text="Dirección" />
                         <TableColumn fx:id="tcl_ranchoEncargado" prefWidth="147.0" text="Encargado" />
-                        <TableColumn fx:id="tbl_ranchoEstatus" prefWidth="75.0" text="Estatus" />
-                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="90.0" text="Fecha Alta" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="169.0" text="Usuario Alta" />
-                        <TableColumn fx:id="tcl_ranchoFechaEdicion" minWidth="0.0" prefWidth="90.0" text="Fecha Edición" />
-                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="175.0" text="Usuario Edición" />
+                        <TableColumn fx:id="tbl_ranchoEstatus" prefWidth="100.0" text="Estatus" />
+                        <TableColumn fx:id="tcl_ranchoFechaAlta" prefWidth="100.0" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioAlta" prefWidth="150.0" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_ranchoFechaEdicion" minWidth="0.0" prefWidth="100.0" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_ranchoUsuarioEdicion" prefWidth="150.0" text="Usuario Edición" />
                     </columns>
                   </TableView>
                </children>
