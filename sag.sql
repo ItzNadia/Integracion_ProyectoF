@@ -702,8 +702,15 @@ CREATE PROCEDURE sp_registrarRancho(
 	IN idEstatus INT,
 	IN idUsuarioAlta INT)
 BEGIN
+	DECLARE idNuevoRancho INT;
+
 	INSERT INTO rancho(nombre, direccion, nombreEncargado, idEstatus, fechaAlta, idUsuarioAlta) VALUES
 	(nombre, direccion, nombreEncargado, idEstatus, CURDATE(), idUsuarioAlta);
+
+	SELECT r.idRancho INTO idNuevoRancho FROM rancho r WHERE r.nombre=nombre;
+
+	INSERT INTO usuario(nombre, apellidoPaterno, apellidoMaterno, celular, usuario, contrasena, idRol, idEstatus, idRancho, fechaAlta, idUsuarioAlta) VALUES 
+	("admin", "admin", "admin", "0000000000", "admin", "4367D7428E0D67677F09C37A936910F3BFA794B5410FB8510DC8A528F5370CA939CBFD9E4A6EA3F9C4161FDFA4FAE9C0F13A2F250EC54BAEC6053640F8C7EDC5", 201, 101, idNuevoRancho, CURDATE(), idUsuarioAlta);
 END$$
 
 -- ############################################################################################################################################## --

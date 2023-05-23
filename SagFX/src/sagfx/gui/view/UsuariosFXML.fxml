@@ -22,7 +22,7 @@
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_busqueda" layoutX="118.0" layoutY="9.0" onAction="#buscarUsuario" prefHeight="36.0" prefWidth="244.0" promptText="Id o Nombre">
+            <TextField fx:id="txt_busqueda" layoutX="118.0" layoutY="9.0" onAction="#buscarUsuario" prefHeight="36.0" prefWidth="244.0" promptText="Nombre">
                <font>
                   <Font name="Lucida Sans Unicode" size="14.0" />
                </font></TextField>
@@ -127,17 +127,17 @@
                   </Pane>
                   <TableView fx:id="tbl_usuarios" layoutY="62.0" onMouseClicked="#clickTableUsuarios" prefHeight="426.0" prefWidth="1106.0">
                     <columns>
-                      <TableColumn fx:id="tcl_nombre" prefWidth="92.800048828125" text="Nombre" />
-                        <TableColumn fx:id="tcl_apellidoPaterno" prefWidth="100.26670837402344" text="Apellido Paterno" />
-                        <TableColumn fx:id="tcl_apellidoMaterno" prefWidth="121.06671142578125" text="Apellido Materno" />
-                        <TableColumn fx:id="tcl_celular" prefWidth="70.93328857421875" text="Celular" />
-                        <TableColumn fx:id="tcl_usuario" prefWidth="89.5999755859375" text="Usuario" />
-                        <TableColumn fx:id="tcl_rol" prefWidth="60.79998779296875" text="Rol" />
-                        <TableColumn fx:id="tcl_estatus" prefWidth="71.7333984375" text="Estatus" />
-                        <TableColumn fx:id="tcl_fechaAlta" prefWidth="87.7332763671875" text="Fecha Alta" />
-                        <TableColumn fx:id="tcl_usuarioAlta" prefWidth="103.20001220703125" text="Usuario Alta" />
-                        <TableColumn fx:id="tcl_fechaEdicion" prefWidth="114.13323974609375" text="Fecha Edición" />
-                        <TableColumn fx:id="tcl_usuarioEdicion" prefWidth="120.0" text="Usuario Edicion" />
+                      <TableColumn fx:id="tcl_nombre" prefWidth="150.0" text="Nombre" />
+                        <TableColumn fx:id="tcl_apellidoPaterno" prefWidth="150.0" text="Apellido Paterno" />
+                        <TableColumn fx:id="tcl_apellidoMaterno" prefWidth="150.0" text="Apellido Materno" />
+                        <TableColumn fx:id="tcl_celular" prefWidth="100.0" text="Celular" />
+                        <TableColumn fx:id="tcl_usuario" prefWidth="100.0" text="Usuario" />
+                        <TableColumn fx:id="tcl_rol" prefWidth="100.0" text="Rol" />
+                        <TableColumn fx:id="tcl_estatus" text="Estatus" />
+                        <TableColumn fx:id="tcl_fechaAlta" prefWidth="100.0" text="Fecha Alta" />
+                        <TableColumn fx:id="tcl_usuarioAlta" prefWidth="150.0" text="Usuario Alta" />
+                        <TableColumn fx:id="tcl_fechaEdicion" prefWidth="100.0" text="Fecha Edición" />
+                        <TableColumn fx:id="tcl_usuarioEdicion" prefWidth="150.0" text="Usuario Edicion" />
                     </columns>
                   </TableView>
                </children>
