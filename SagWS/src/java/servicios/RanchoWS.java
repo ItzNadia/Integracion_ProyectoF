@@ -91,7 +91,7 @@ public class RanchoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("No se pudo registrar el rancho...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -127,7 +127,7 @@ public class RanchoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar rancho...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -157,7 +157,7 @@ public class RanchoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar el estatus de rancho...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }

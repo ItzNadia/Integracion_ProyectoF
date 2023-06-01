@@ -1,6 +1,5 @@
 package servicios;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -100,7 +99,7 @@ public class MovimientoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al registrar movimiento...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -140,7 +139,7 @@ public class MovimientoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar movimiento...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -170,7 +169,7 @@ public class MovimientoWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al cancelar movimiento...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
