@@ -61,7 +61,7 @@ public class CategoriaWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Categoría no encontrada...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -109,7 +109,7 @@ public class CategoriaWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("No se pudo crear la categoria...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -139,7 +139,7 @@ public class CategoriaWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar la categoria...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -167,7 +167,7 @@ public class CategoriaWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al actualizar el estatus de categoria...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }

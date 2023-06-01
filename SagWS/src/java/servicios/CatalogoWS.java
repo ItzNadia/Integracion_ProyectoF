@@ -51,7 +51,7 @@ public class CatalogoWS {
         } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("No se pudo crear el catalogo...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         } finally {
             conn.close();
         }
@@ -83,7 +83,7 @@ public class CatalogoWS {
         } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("No se pudo editar el catalogo...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         } finally {
             conn.close();
         }
@@ -111,7 +111,7 @@ public class CatalogoWS {
         } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar el catalogo...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         } finally {
             conn.close();
         }

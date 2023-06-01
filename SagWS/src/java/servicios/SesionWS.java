@@ -39,7 +39,7 @@ public class SesionWS {
             Usuario u = conn.selectOne("Sesion.login", param);
             if(u==null || u.getIdUsuario()==null){
                 res.setError(true);
-                res.setMensaje("No se encontó ningun usuario con esas credenciales");
+                res.setMensaje("No se encontó ningún usuario con esas credenciales");
             }else{
                 JSONObject jo = new JSONObject(u);
                 
@@ -48,6 +48,7 @@ public class SesionWS {
             }
         }catch(Exception e){
             e.printStackTrace();
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }

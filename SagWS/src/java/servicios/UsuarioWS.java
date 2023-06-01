@@ -125,7 +125,7 @@ public class UsuarioWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al crear el usaurio...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -142,7 +142,6 @@ public class UsuarioWS {
             @FormParam("apellidoMaterno") String apellidoMaterno,
             @FormParam("celular") String celular,
             @FormParam("usuario") String usuario,
-            //@FormParam("contrasena") String contrasena,
             @FormParam("idRol") Integer idRol,
             @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idRancho") Integer idRancho,
@@ -157,7 +156,6 @@ public class UsuarioWS {
             param.put("apellidoMaterno", apellidoMaterno);
             param.put("celular", celular);
             param.put("usuario", usuario);
-            //param.put("contrasena", JavaUtils.hashString(contrasena.toUpperCase()));
             param.put("idRol", idRol);
             param.put("idEstatus", idEstatus);
             param.put("idRancho", idRancho);
@@ -171,7 +169,7 @@ public class UsuarioWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar el usuario...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -201,7 +199,7 @@ public class UsuarioWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al cambiar contraseña...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
@@ -231,7 +229,7 @@ public class UsuarioWS {
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
-            res.setMensaje("Error al editar el estatus usuario...");
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
         }finally{
             conn.close();
         }
