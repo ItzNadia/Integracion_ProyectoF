@@ -2,38 +2,37 @@
     <v-container> 
         <!-- Panel de busqueda -->
         <v-row>
-            <v-card elevation="15" outlined shaped>
-            <v-card-title>Login</v-card-title>
+            <v-card elevation="15" outlined shaped align="center">
+            <v-card-title>Bienvenido al sistema administrativo de ganado</v-card-title>
             <v-img
                 contain
-                lazy-src="https://picsum.photos/id/11/10/6"
-                max-height="150"
-                max-width="250"
-                src="https://picsum.photos/id/11/500/300"
+                max-height="450"
+                max-width="550"
+                :src="require('../assets/logo__sag.png')"
             ></v-img>
-            <v-card-text>
-                <v-form ref="formLogin">
+            <v-card-text class="text-md-center">
+                <v-form ref="formLogin" v-model="valid" lazy-validation>
                     <v-row>
                         <v-col cols="12" md="4" sm="6">
                             <v-text-field 
-                            v-model="usuario" 
+                            v-model="sesion.usuario" 
                             label="Usuario"
-                            required
+                            :rules= "required"
                             > </v-text-field>
                         </v-col>
                         <v-col cols="12" md="4" sm="6">
                             <v-text-field 
-                            v-model="contrasena" 
+                            v-model="sesion.contrasena" 
                             label="Contraseña"
                             type="password"
-                            required
+                            :rules= "required"
                             > </v-text-field>
                         </v-col>
                     </v-row>
                 </v-form>
             </v-card-text>
             <v-card-actions>
-                <v-btn rounded color="green" dark>Iniciar sesión</v-btn>
+                <v-btn @click="onClickIniciarSesion" rounded color="green" dark>Iniciar sesión</v-btn>
             </v-card-actions>
             </v-card>
         </v-row>
@@ -41,6 +40,7 @@
 </template>
 
 <script>
+import {post} from "../api/Requests";
 
 export default{
     name: "Login",
@@ -48,12 +48,12 @@ export default{
     data(){
         return{
             valid: false,
-            filtro:{
+            loader: false,
+            sesion:{
                 usuario: null,
                 contrasena: null,
             },
-            encabezados:[],
-            datos:[],
+            required: [(v) => !!v || "Este campo es requerido"],
         };
     },
     created(){},
@@ -62,7 +62,26 @@ export default{
     },
     computed: {},
     watch: {},
-    methods:  {},
+    methods:  {
+        onClickIniciarSesion(){
+            if(this.$refs.formLogin.validate()){
+                this.iniciarSesion();
+            }
+        },
+        async iniciarSesion(){
+            const response = await post("/sesion/login/", this.sesion);
+            if(response.error === true){
+                console.log(response)
+                return;
+            }else{
+                console.log(response);
+                this.$session.start();
+                this.$session.set("user", JSON.parse(response.respuesta));
+                this.$router.push({name: "Principal"});
+            }
+        },
+        
+    },
 };
 </script>
 
