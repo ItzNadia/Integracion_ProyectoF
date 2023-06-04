@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Principal from '../views/Principal.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,7 +12,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/principal',
+    path: '/',
     name: 'Principal',
     component: Principal
   },

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Hato">
+    <select id="getHatosByIdRancho" resultType="modelo.pojos.Hato" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getHatosByIdRancho(#{idRancho, jdbcType=INTEGER,mode=IN})}
+    </select>
+    
+    <select id="buscarHatos" resultType="modelo.pojos.Hato" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_buscarHatos(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
+    <insert id="registrarHato" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_registrarHato(
+            #{diio, jdbcType=VARCHAR,mode=IN},
+            #{idRaza, jdbcType=INTEGER,mode=IN},
+            #{idLote, jdbcType=INTEGER,mode=IN},
+            #{sexo, jdbcType=VARCHAR,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{descripcion, jdbcType=VARCHAR,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioAlta, jdbcType=INTEGER,mode=IN})}
+    </insert>
+    
+    <update id="editarHato" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarHato(
+            #{idHato, jdbcType=INTEGER,mode=IN},
+            #{diio, jdbcType=VARCHAR,mode=IN},
+            #{idRaza, jdbcType=INTEGER,mode=IN},
+            #{idLote, jdbcType=INTEGER,mode=IN},
+            #{sexo, jdbcType=VARCHAR,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{descripcion, jdbcType=VARCHAR,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+    
+    <update id="editarEstatusHato" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarEstatusHato(
+            #{idHato, jdbcType=INTEGER,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN}})}
+    </update>
+    
+    <update id="bajaHato" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_bajaHato(
+            #{idHato, jdbcType=INTEGER,mode=IN},
+            #{motivoBaja, jdbcType=VARCHAR,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+</mapper>
