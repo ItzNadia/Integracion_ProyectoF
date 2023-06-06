@@ -3,38 +3,38 @@ package servicios;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import modelo.mybatis.MyBatisUtil;
-import modelo.pojos.Movimiento;
+import modelo.pojos.Lote;
 import modelo.pojos.Respuesta;
 import org.apache.ibatis.session.SqlSession;
 
-@Path("movimiento")
-public class MovimientoWS {
+@Path("lote")
+public class LoteWS {
 
     @Context
     private UriInfo context;
 
-    public MovimientoWS() {
+    public LoteWS() {
     }
 
     @GET
-    @Path("getMovimientosByIdRancho/{idRancho}")
+    @Path("getLotesByIdRancho/{idRancho}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Movimiento> getMovimientosByIdRancho(@PathParam("idRancho") Integer idRancho){
-    List<Movimiento> list = new LinkedList<>();
+    public List<Lote> getLotesByIdRancho(@PathParam("idRancho") Integer idRancho){
+    List<Lote> list = new LinkedList<>();
     SqlSession conn = null;
     try{
         conn=MyBatisUtil.getSession();
-        list=conn.selectList("Movimiento.getMovimientosByIdRancho", idRancho);
+        list=conn.selectList("Lote.getLotesByIdRancho", idRancho);
     }catch(Exception ex){
         ex.printStackTrace();
     }finally{
@@ -46,12 +46,12 @@ public class MovimientoWS {
     }
 
     @POST
-    @Path("buscarMovimientos")
+    @Path("buscarLotes")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Movimiento> buscarMovimientos(
+    public List<Lote> buscarLotes(
             @FormParam("idRancho") Integer idRancho,
             @FormParam("busqueda") String busqueda){
-        List<Movimiento> list = new LinkedList<>();
+        List<Lote> list = new LinkedList<>();
         SqlSession conn = null;
         try{
             HashMap<String,Object> param = new HashMap<String, Object>();
@@ -59,7 +59,7 @@ public class MovimientoWS {
             param.put("busqueda", busqueda);
             
             conn = MyBatisUtil.getSession();
-            list = conn.selectList("Movimiento.buscarMovimientos", param);
+            list = conn.selectList("Lote.buscarLotes", param);
         }catch(Exception e){
             e.printStackTrace();
         }finally{
@@ -69,33 +69,29 @@ public class MovimientoWS {
     }
     
     @POST
-    @Path("registrarMovimiento")
+    @Path("registrarLote")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta registrarMovimiento(
-            @FormParam("cantidadVenta") Double cantidadVenta,
-            @FormParam("tipo") String tipo,
-            @FormParam("idConcepto") Integer idConcepto,
-            @FormParam("fecha") String fecha,
-            @FormParam("observaciones") String observaciones,
+    public Respuesta registrarLote(
+            @FormParam("nombre") String nombre,
+            @FormParam("descripcion") String descripcion,
+            @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idRancho") Integer idRancho,
             @FormParam("idUsuarioAlta") Integer idUsuarioAlta){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
         try{
             HashMap<String,Object> param = new HashMap<String, Object>();
-            param.put("cantidadVenta", cantidadVenta);
-            param.put("tipo", tipo);
-            param.put("idConcepto", idConcepto);
-            param.put("fecha", fecha);
-            param.put("observaciones", observaciones);
+            param.put("nombre", nombre);
+            param.put("descripcion", descripcion);
+            param.put("idEstatus", idEstatus);
             param.put("idRancho", idRancho);
             param.put("idUsuarioAlta", idUsuarioAlta);
             
-            conn.insert("Movimiento.registrarMovimiento", param);
+            conn.insert("Lote.registrarLote", param);
             conn.commit();
             
             res.setError(false);
-            res.setMensaje("¡Movimiento registrado correctamente!");
+            res.setMensaje("¡Lote registrado correctamente!");
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
@@ -107,35 +103,31 @@ public class MovimientoWS {
     }
 
     @POST
-    @Path("editarMovimiento")
+    @Path("editarLote")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta editarMovimiento(
-            @FormParam("idMovimiento") Integer idMovimiento,
-            @FormParam("cantidadVenta") Double cantidadVenta,
-            @FormParam("tipo") String tipo,
-            @FormParam("idConcepto") Integer idConcepto,
-            @FormParam("fecha") String fecha,
-            @FormParam("observaciones") String observaciones,
+    public Respuesta editarLote(
+            @FormParam("idLote") Integer idLote,
+            @FormParam("nombre") String nombre,
+            @FormParam("descripcion") String descripcion,
+            @FormParam("idEstatus") Integer idEstatus,
             @FormParam("idRancho") Integer idRancho,
             @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
         try{
             HashMap<String, Object> param = new HashMap<String, Object>();
-            param.put("idMovimiento", idMovimiento);
-            param.put("cantidadVenta", cantidadVenta);
-            param.put("tipo", tipo);
-            param.put("idConcepto", idConcepto);
-            param.put("fecha", fecha);
-            param.put("observaciones", observaciones);
+            param.put("idLote", idLote);
+            param.put("nombre", nombre);
+            param.put("descripcion", descripcion);
+            param.put("idEstatus", idEstatus);
             param.put("idRancho", idRancho);
             param.put("idUsuarioEditor", idUsuarioEditor);
             
-            conn.update("Movimiento.editarMovimiento", param);
+            conn.update("Lote.editarLote", param);
             conn.commit();
             
             res.setError(false);
-            res.setMensaje("¡Movimiento editado correctamente!");
+            res.setMensaje("¡Lote editado correctamente!");
         }catch(Exception e){
             e.printStackTrace();
             res.setError(true);
@@ -145,32 +137,32 @@ public class MovimientoWS {
         }
         return res;
     }
-    
+
     @POST
-    @Path("cancelarMovimiento")
+    @Path("editarEstatusLote")
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta cancelarMovimiento(
-            @FormParam("idMovimiento") Integer idMovimiento,
-            @FormParam("motivoCancelacion") String motivoCancelacion,
-            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
+    public Respuesta editarEstatusCatalogo(
+            @FormParam("idLote") Integer idLote,
+            @FormParam("idEstatus") Integer idEstatus,
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
+        try {
             HashMap<String, Object> param = new HashMap<String, Object>();
-            param.put("idMovimiento", idMovimiento);
-            param.put("motivoCancelacion", motivoCancelacion);
+            param.put("idLote", idLote);
+            param.put("idEstatus", idEstatus);
             param.put("idUsuarioEditor", idUsuarioEditor);
-            
-            conn.update("Movimiento.cancelarMovimiento", param);
+
+            conn.update("Lote.editarEstatusLote", param);
             conn.commit();
-            
+
             res.setError(false);
-            res.setMensaje("¡Movimiento cancelado correctamente!");
-        }catch(Exception e){
+            res.setMensaje("¡Estatus de Lote editado correctamente!");
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error de conexión, favor de intentar más tarde.");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;

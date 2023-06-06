@@ -1,18 +1,33 @@
 <template>
-    <div>hola</div>
+    <v-container>
+        Selecciona una página
+        <br>
+        <v-btn @click="onClickCerrarSesion">Cerrar sesión</v-btn>
+    </v-container>
 </template>
 
 <script>
-export default{
+export default {
     name: "Principal",
-    propos: {},
-    data(){
+    props: {},
+    data() {
         return {};
     },
-    created(){},
+    created() {
+        if (!this.$session.id() && !this.$session.has("user")) {
+            this.$router.push({ name: "Login" })
+        }
+    },
     mounted() {},
     computed: {},
     watch: {},
-    methods: {},
+    methods: {
+        onClickCerrarSesion(){
+            this.$session.destroy();
+            this.$router.push({ name: "Login" })
+        }
+    },
 };
 </script>
+
+<style></style>

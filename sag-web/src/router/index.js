@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Principal from '../views/Principal.vue'
-
+import Hatos from '../views/Hatos.vue'
 
 Vue.use(VueRouter)
 
@@ -13,9 +13,14 @@ const routes = [
     component: Login
   },
   {
-    path: '/principal',
+    path: '/',
     name: 'Principal',
     component: Principal
+  },
+  {
+    path: '/hatos',
+    name: 'Hatos',
+    component: Hatos
   },
 ]
 
