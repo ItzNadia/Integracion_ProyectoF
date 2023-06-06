@@ -1,7 +1,54 @@
 <template>
   <div id="app">
     <v-app>
-      <router-view/>
+      <v-row>
+        <v-col cols="1">
+          <v-card elevation="12" >
+            <v-navigation-drawer app permanent expand-on-hover>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-h6">
+                    SAG
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider></v-divider>
+
+              <v-list nav dense>
+                <v-list-item link href="#/">
+                  <v-list-item-icon>
+                    <v-icon>mdi-cow</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Principal</v-list-item-title>
+                </v-list-item>
+                <v-list-item link href="#/hatos">
+                  <v-list-item-icon>
+                    <v-icon>mdi-cow</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Hatos</v-list-item-title>
+                </v-list-item>
+                <v-list-item link>
+                  <v-list-item-icon>
+                    <v-icon>mdi-transfer</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Traspasos</v-list-item-title>
+                </v-list-item>
+                <v-list-item link>
+                  <v-list-item-icon>
+                    <v-icon>mdi-ballot-outline</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Lotes</v-list-item-title>
+                </v-list-item>
+                <v-list-item link>
+                  <v-btn>Cerrar sesión</v-btn>
+                </v-list-item>
+              </v-list>
+            </v-navigation-drawer>
+          </v-card>
+        </v-col>
+        <v-col cols="11"><router-view /></v-col>
+      </v-row>
     </v-app>
   </div>
 </template>
