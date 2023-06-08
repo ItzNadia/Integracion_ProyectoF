@@ -4,7 +4,7 @@
         <v-row cols="12">
             <v-col cols="12" sm="7" class="mx-auto">
                 <v-card elevation="15" outlined shaped>
-                    <v-card-title class="text-md-center">Bienvenido al sistema administrativo de ganado</v-card-title>
+                    <v-card-title>Bienvenido al sistema administrativo de ganado</v-card-title>
                     <v-img class="mx-auto" contain max-height="450" max-width="550"
                         :src="require('../assets/logo__sag.png')"></v-img>
                     <v-card-text class="text-md-center">

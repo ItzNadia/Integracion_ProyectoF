@@ -9,7 +9,7 @@
                         <v-form ref="formBusqueda" v-model="valid">
                             <v-row>
                                 <v-col cols="12" md="4" sm="6">
-                                    <v-text-field v-model="filtro.busqueda" label="NDH o DIIO" min="0" max="106" required />
+                                    <v-text-field v-model="filtro.busqueda" label="NDH o DIIO" maxlength="106" counter required />
                                 </v-col>
                             </v-row>
                         </v-form>
@@ -52,11 +52,11 @@
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon v-bind="attrs" @click="onClickBaja(this)">
+                                    <v-btn icon v-bind="attrs" @click="onClickBajaHato(item)">
                                         <v-icon color="red" v-on="on">mdi-cow-off</v-icon>
                                     </v-btn>
                                 </template>
-                                <span>Desactivar</span>
+                                <span>Dar de baja</span>
                             </v-tooltip>
                         </v-row>
                     </template>
@@ -73,26 +73,26 @@
                     <v-form ref="formHato" v-model="valid">
                         <v-row justify="start">
                             <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.diio" label="DIIO" :rules="required" />
+                                <v-text-field v-model="hato.diio" label="DIIO" :rules="required" maxlength="106" counter required/>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
                                 <v-select :items="catRazas" label="Raza" item-value="idCatalogo" item-text="nombre"
-                                    @change="changeRaza" :rules="required"></v-select>
+                                    @change="changeRaza" :rules="required" v-model="idRazaSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
                                 <v-select :items="catLotes" label="Lote" item-value="idLote" item-text="nombre"
-                                    @change="changeLote" :rules="required"></v-select>
+                                    @change="changeLote" :rules="required" v-model="idLoteSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
                                 <v-select :items="catSexo" label="Sexo" item-value="idSexo" item-text="nombre"
-                                    @change="changeSexo" :rules="required"></v-select>
+                                    @change="changeSexo" :rules="required" v-model="idSexoSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
                                 <v-select :items="catEstatus" label="Estatus" item-value="idCatalogo" item-text="nombre"
-                                    @change="changeEstatus" :rules="required"></v-select>
+                                    @change="changeEstatus" :rules="required" v-model="idEstatusSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.descripcion" label="Descripción" :rules="required" />
+                                <v-text-field v-model="hato.descripcion" label="Descripción" :rules="required" maxlength="250" counter required/>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -118,24 +118,24 @@
                 <v-card-title>Baja hato</v-card-title>
                 <v-card-text>
                     <v-form ref="formBajaHato" v-model="valid">
-                        <v-row justify="start">
-                            <v-col cols="12" md="6" sm="4">
-                                <v-date-picker v-model="hato.fechaBaja" />
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.motivoBaja" label="Motivo de la baja" />
-                            </v-col>
+                        <p>Fecha Baja*</p>
+                        <v-row justify="center">
+                            <v-date-picker v-model="hato.fechaBaja" :max="this.hato.fechaBaja" elevation="5"/>
+                        </v-row>
+                        <v-row>
+                        <br>
+                            <v-textarea v-model="hato.motivoBaja" label="Motivo de la baja" maxlength="500" counter required auto-grow filled/>
                         </v-row>
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
-                    <v-btn @click="onClickGuardarHato" elevation="0" dark rounded width="120"
+                    <v-btn @click="onClickGuardarBajaHato" elevation="0" dark rounded width="120"
                         class="green px13 font-weight-regular pr-4" small>
                         <v-icon left>mdi-check</v-icon>
                         Guardar
                     </v-btn>
-                    <v-btn @click="onClickCerrarHato" elevation="0" rounded text width="100"
+                    <v-btn @click="onClickCerrarBajaHato" elevation="0" rounded text width="100"
                         class="red--text px13 font-weight-bold" small>
                         <v-icon left>mdi-close-circle</v-icon>
                         Cerrar
@@ -245,7 +245,7 @@ export default {
                     windth: 255,
                 }, {
                     text: 'Fecha de edición',
-                    value: 'fechaBaja',
+                    value: 'fechaEdicion',
                     align: 'start',
                     sortable: true,
                     windth: 255,
@@ -286,9 +286,13 @@ export default {
                 { idSexo: 1, nombre: 'Hembra (H)' },
                 { idSexo: 2, nombre: 'Macho (M)' },
             ],
+            idSexoSelec: null,
             catRazas: [],
+            idRazaSelec: null,
             catLotes: [],
+            idLoteSelec: null,
             catEstatus: [],
+            idEstatusSelec: null,
             required: [(v) => !!v || "Este campo es requerido"],
         };
     },
@@ -329,8 +333,6 @@ export default {
             }
         },
         async cargarPropiedadesHatos() {
-            this.loader = true
-
             this.catRazas = null
             this.catLotes = null
             this.catEstatus = null
@@ -358,8 +360,6 @@ export default {
             } else {
                 this.catEstatus = response
             }
-
-            this.loader = false
         },
         async formHatoRequest() {
             this.loader = true
@@ -374,8 +374,6 @@ export default {
                 respuestaForm = await post("/hato/editarHato", this.hato)
             }
 
-            this.loader = false
-
             if (respuestaForm.error) {
                 this.$toast.error(respuestaForm.mensaje)
             } else {
@@ -384,7 +382,6 @@ export default {
                 this.$refs.formHato.reset()
                 this.dialogoHato = false
             }
-            console.log(this.hato)
 
             this.cargarHatos()
         },
@@ -410,16 +407,46 @@ export default {
             this.hato.idUsuarioEditor = null
             this.hato.usuarioEditor = null
         },
-        onClickNuevoHato() {
+        async onClickNuevoHato() {
+            this.loader = true
             this.hatoIsNew = true
-            this.cargarPropiedadesHatos()
+            await this.cargarPropiedadesHatos()
             this.dialogoHato = true
+            this.loader = false
         },
-        onClickEditarHato(item) {
-            this.hatoIsNew = false
-            this.cargarPropiedadesHatos()
-            this.hato = { ...item }
-            this.dialogoHato = true
+        async onClickEditarHato(item) {
+            if (item.idEstatus === 102){
+                this.$toast.error("Este hato se encuentra cancelado, imposible modificar")
+            }else{
+                this.loader = true
+                this.hatoIsNew = false
+                await this.cargarPropiedadesHatos()
+                this.hato = { ...item }
+                this.idRazaSelec = this.hato.idRaza
+                this.idLoteSelec = this.hato.idLote
+                if(this.hato.sexo === "H"){
+                    this.idSexoSelec = 1
+                } else {
+                    this.idSexoSelec = 2
+                }
+                this.idEstatusSelec = this.hato.idEstatus
+                this.loader = false
+                this.dialogoHato = true
+            }
+        },
+        async onClickBajaHato(item){
+            console.log(item)
+            if (item.idEstatus === 102){
+                this.$toast.error("Este hato ya se encuentra cancelado...")
+            }else{
+                this.loader = true
+
+                this.hato.fechaBaja = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+                console.log("fachaPicker: " + this.hato.fechaBaja)
+
+                this.loader = false
+                this.dialogoBajaHato = true
+            }
         },
         onClickEliminarHato(item) {
             console.log(item)
@@ -445,6 +472,12 @@ export default {
         onClickCerrarHato() {
             this.$refs.formHato.reset()
             this.dialogoHato = false
+        },
+        onClickGuardarBajaHato(){
+            this.dialogoBajaHato = false
+        },
+        onClickCerrarBajaHato(){
+            this.dialogoBajaHato = false
         },
         changeRaza(value) {
             console.log(value)
