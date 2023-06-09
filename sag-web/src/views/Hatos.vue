@@ -9,18 +9,19 @@
                         <v-form ref="formBusqueda" v-model="valid">
                             <v-row>
                                 <v-col cols="12" md="4" sm="6">
-                                    <v-text-field v-model="filtro.busqueda" label="NDH o DIIO" maxlength="106" counter required />
+                                    <v-text-field v-model="filtro.busqueda" label="NDH o DIIO" maxlength="106" counter
+                                        required />
                                 </v-col>
                             </v-row>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer />
-                        <v-btn @click="onClickBuscar" rounded color="primary" dark small>
+                        <v-btn @click="onClickBuscarHato" rounded color="primary" dark small>
                             <v-icon dark left>mdi-magnify</v-icon>
                             Buscar
                         </v-btn>
-                        <v-btn @click="onClickLimpiar" rounded color="orange" dark small>
+                        <v-btn @click="onClickLimpiarHato" rounded color="orange" dark small>
                             <v-icon dark left>mdi-backspace</v-icon>
                             Limpiar
                         </v-btn>
@@ -39,7 +40,8 @@
         </v-row>
         <v-row>
             <v-col cols="12">
-                <v-data-table :headers="encabezadosHatos" :items="datosHatos" :items-per-page="5" class="ml-5 mr-5" dense>
+                <v-data-table :headers="encabezadosHatos" :items="datosHatos" @click:row="onClickTablaHato"
+                    item-key="idHato" single-select :items-per-page="5" class="ml-5 mr-5" dense show-select>
                     <template v-slot:item.acciones="{ item }">
                         <v-row>
                             <v-tooltip bottom>
@@ -73,26 +75,28 @@
                     <v-form ref="formHato" v-model="valid">
                         <v-row justify="start">
                             <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.diio" label="DIIO" :rules="required" maxlength="106" counter required/>
+                                <v-text-field v-model="hato.diio" label="DIIO*" :rules="required" maxlength="106" counter
+                                    required />
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catRazas" label="Raza" item-value="idCatalogo" item-text="nombre"
+                                <v-select :items="catRazas" label="Raza*" item-value="idCatalogo" item-text="nombre"
                                     @change="changeRaza" :rules="required" v-model="idRazaSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catLotes" label="Lote" item-value="idLote" item-text="nombre"
+                                <v-select :items="catLotes" label="Lote*" item-value="idLote" item-text="nombre"
                                     @change="changeLote" :rules="required" v-model="idLoteSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catSexo" label="Sexo" item-value="idSexo" item-text="nombre"
+                                <v-select :items="catSexo" label="Sexo*" item-value="idSexo" item-text="nombre"
                                     @change="changeSexo" :rules="required" v-model="idSexoSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catEstatus" label="Estatus" item-value="idCatalogo" item-text="nombre"
-                                    @change="changeEstatus" :rules="required" v-model="idEstatusSelec"></v-select>
+                                <v-switch v-model="switchEstatusHato" :label="`Estatus*: ${switchEstatusHato}`"
+                                    true-value="Activo" false-value="Inactivo"></v-switch>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.descripcion" label="Descripción" :rules="required" maxlength="250" counter required/>
+                                <v-text-field v-model="hato.descripcion" label="Descripción*" :rules="required"
+                                    maxlength="250" counter required />
                             </v-col>
                         </v-row>
                     </v-form>
@@ -120,11 +124,14 @@
                     <v-form ref="formBajaHato" v-model="valid">
                         <p>Fecha Baja*</p>
                         <v-row justify="center">
-                            <v-date-picker v-model="hato.fechaBaja" :max="this.hato.fechaBaja" elevation="5"/>
+                            <v-date-picker v-model="hato.fechaBaja"
+                                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                                elevation="5" />
                         </v-row>
+                        <br /><br />
                         <v-row>
-                        <br>
-                            <v-textarea v-model="hato.motivoBaja" label="Motivo de la baja" maxlength="500" counter required auto-grow filled/>
+                            <v-textarea v-model="hato.motivoBaja" label="Motivo de la baja*" maxlength="500" counter
+                                required auto-grow filled :rules="required" />
                         </v-row>
                     </v-form>
                 </v-card-text>
@@ -144,7 +151,7 @@
             </v-card>
         </v-dialog>
 
-        <dialogoCarga :loader="loader"></dialogoCarga>
+        <dialogoCarga :loader="loader" />
     </v-container>
 </template>
 
@@ -160,11 +167,40 @@ export default {
     data() {
         return {
             valid: false,
+
+            // Loader
             loader: false,
-            hatoIsNew: false,
+
+            // Definición de hato
+            hato: {
+                idHato: null,
+                diio: null,
+                idRaza: null,
+                raza: null,
+                idLote: null,
+                lote: null,
+                sexo: null,
+                idEstatus: null,
+                estatus: null,
+                descripcion: null,
+                fechaBaja: null,
+                motivoBaja: null,
+                idRancho: null,
+                rancho: null,
+                fechaAlta: null,
+                idUsuarioAlta: null,
+                usuarioAlta: null,
+                fechaEdicion: null,
+                idUsuarioEditor: null,
+                usuarioEditor: null,
+            },
+
+            // Card de búsqueda hato
             filtro: {
                 busqueda: "",
             },
+
+            // Datos para la tabla
             encabezadosHatos: [
                 {
                     text: 'Acciones',
@@ -202,14 +238,14 @@ export default {
                     sortable: true,
                     windth: 255,
                 }, {
-                    text: 'Estatus',
-                    value: 'estatus',
+                    text: 'Descripción',
+                    value: 'descripcion',
                     align: 'start',
                     sortable: true,
                     windth: 255,
                 }, {
-                    text: 'Descripción',
-                    value: 'descripcion',
+                    text: 'Estatus',
+                    value: 'estatus',
                     align: 'start',
                     sortable: true,
                     windth: 255,
@@ -258,41 +294,28 @@ export default {
                 },
             ],
             datosHatos: [],
+
+            // Dialogo de hato (nuevo y editar)
             dialogoHato: false,
-            dialogoBajaHato: false,
-            hato: {
-                idHato: null,
-                diio: null,
-                idRaza: null,
-                raza: null,
-                idLote: null,
-                lote: null,
-                sexo: null,
-                idEstatus: null,
-                estatus: null,
-                descripcion: null,
-                fechaBaja: null,
-                motivoBaja: null,
-                idRancho: null,
-                rancho: null,
-                fechaAlta: null,
-                idUsuarioAlta: null,
-                usuarioAlta: null,
-                fechaEdicion: null,
-                idUsuarioEditor: null,
-                usuarioEditor: null,
-            },
+            isNewHato: false,
+
+            catRazas: [],
+            idRazaSelec: null,
+            catLotes: [],
+            idLoteSelec: null,
             catSexo: [
                 { idSexo: 1, nombre: 'Hembra (H)' },
                 { idSexo: 2, nombre: 'Macho (M)' },
             ],
             idSexoSelec: null,
-            catRazas: [],
-            idRazaSelec: null,
-            catLotes: [],
-            idLoteSelec: null,
-            catEstatus: [],
-            idEstatusSelec: null,
+            switchEstatusHato: "Inactivo",
+
+            // Dialogo de hato (baja)
+            dialogoBajaHato: false,
+
+            idHatoSelec: null,
+
+            // Relga de campos vacíos
             required: [(v) => !!v || "Este campo es requerido"],
         };
     },
@@ -308,19 +331,8 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        async cargarHatos() {
-            this.loader = true
-            this.datosHatos = []
-            const response = await get("/hato/getHatosByIdRancho/" + this.$session.get("user").idRancho)
-            this.loader = false
-
-            if (response.length === 0) {
-                this.$toast.info("No se encuentran hatos registrados")
-            } else {
-                this.datosHatos = response
-            }
-        },
-        async buscarRequest() {
+        // Card de búsqueda hato
+        async onClickBuscarHato() {
             this.loader = true
             this.datosHatos = []
             const resBusqueda = await post("/hato/buscarHatos", { idRancho: this.$session.get("user").idRancho, busqueda: this.filtro.busqueda })
@@ -332,12 +344,50 @@ export default {
                 this.datosHatos = resBusqueda
             }
         },
-        async cargarPropiedadesHatos() {
+        onClickLimpiarHato() {
+            this.$refs.formBusqueda.reset()
+            this.filtro.busqueda = ""
+            this.cargarHatos()
+        },
+
+
+        // Dialogo de hato
+        async onClickNuevoHato() {
+            this.loader = true
+            this.isNewHato = true
+            await this.cargarPropiedadesHatos() // carga los datos para los comboBox (v-select)
+            this.switchEstatusHato = "Inactivo"
+            this.loader = false
+            this.dialogoHato = true
+        },
+        async onClickEditarHato(item) {
+            if (item.idEstatus === 103) {
+                this.$toast.error("Este hato se encuentra cancelado, imposible modificar")
+            } else {
+                this.loader = true
+                this.isNewHato = false
+
+                // carga los datos para los comboBox (v-select) y carga los datos del hato seleccionado dentro del dialogo hato
+                this.hato = { ...item }
+                await this.cargarPropiedadesHatos()
+                this.idRazaSelec = this.hato.idRaza
+                this.idLoteSelec = this.hato.idLote
+                if (this.hato.sexo === "H") {
+                    this.idSexoSelec = 1
+                } else {
+                    this.idSexoSelec = 2
+                }
+                this.switchEstatusHato = this.hato.estatus
+
+                this.loader = false
+                this.dialogoHato = true
+            }
+        },
+        async cargarPropiedadesHatos() { // carga los datos para los comboBox (v-select)
             this.catRazas = null
             this.catLotes = null
-            this.catEstatus = null
 
-            var response = await get("/catalogo/getCatalogosByCategoria/3")
+            var response = await get("/catalogo/getCatalogosByCategoria/3") // obtiene razas
 
             if (response.length === 0) {
                 this.$toast.warning("No se encuentran razas disponibles...")
@@ -345,47 +395,116 @@ export default {
                 this.catRazas = response
             }
 
-            response = await get("/lote/getLotesByIdRancho/" + this.$session.get("user").idRancho)
+            response = await get("/lote/getLotesByIdRancho/" + this.$session.get("user").idRancho) // obtiene lotes
 
             if (response.length === 0) {
                 this.$toast.warning("No se encuentran lotes disponibles...")
             } else {
                 this.catLotes = response
             }
+        },
+        async onClickGuardarHato() {
+            if (this.$refs.formHato.validate()) {
+                this.loader = true
 
-            response = await get("/catalogo/getCatalogosByCategoria/1")
+                var respuestaForm
+                this.hato.idRancho = this.$session.get("user").idRancho
+
+                if (this.switchEstatusHato === "Activo") {
+                    this.hato.idEstatus = 101
+                } else {
+                    this.hato.idEstatus = 102
+                }
+
+                if (this.isNewHato) {
+                    this.hato.idUsuarioAlta = this.$session.get("user").idUsuario
+                    respuestaForm = await post("/hato/registrarHato", this.hato)
+                } else {
+                    this.hato.idUsuarioEditor = this.$session.get("user").idUsuario
+                    respuestaForm = await post("/hato/editarHato", this.hato)
+                }
+
+                if (respuestaForm.error) {
+                    this.$toast.error(respuestaForm.mensaje)
+                    this.loader = false
+                } else {
+                    this.$toast.success(respuestaForm.mensaje)
+                    this.limpiarHato()
+                    this.$refs.formHato.reset()
+                    this.dialogoHato = false
+                    this.cargarHatos()
+                }
+            }
+        },
+        onClickCerrarHato() {
+            this.$refs.formHato.reset()
+            this.dialogoHato = false
+        },
+        changeRaza(value) { // Cuando se selecciona algo de los comboBox (v-select)
+            this.hato.idRaza = value
+        },
+        changeLote(value) {
+            this.hato.idLote = value
+        },
+        changeSexo(value) {
+            if (value === 1) {
+                this.hato.sexo = "H"
+            } else {
+                this.hato.sexo = "M"
+            }
+        },
+
+
+        // Dialogo baja hato
+        async onClickBajaHato(item) {
+            if (item.idEstatus === 103) {
+                this.$toast.error("Este hato ya se encuentra cancelado...")
+            } else {
+                this.loader = true
+
+                this.hato.idHato = item.idHato
+                this.hato.fechaBaja = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+
+                this.loader = false
+                this.dialogoBajaHato = true
+            }
+        },
+        async onClickGuardarBajaHato() {
+            if (this.$refs.formBajaHato.validate()) {
+                this.loader = true
+
+                const response = await post("/hato/bajaHato", { idHato: this.hato.idHato, fechaBaja: this.hato.fechaBaja, motivoBaja: this.hato.motivoBaja, idUsuarioEditor: this.$session.get("user").idUsuario })
+
+                if (response.error) {
+                    this.$toast.error(response.mensaje)
+                } else {
+                    this.$toast.success(response.mensaje)
+                    this.cargarHatos()
+                    this.dialogoBajaHato = false
+                }
+            }
+        },
+        onClickCerrarBajaHato() {
+            this.dialogoBajaHato = false
+            this.limpiarHato()
+        },
+
+
+        async cargarHatos() { // carga hatos en la tabla de hatos
+            this.loader = true
+            this.datosHatos = []
+            this.limpiarHato()
+            const response = await get("/hato/getHatosByIdRancho/" + this.$session.get("user").idRancho)
+            this.loader = false
 
             if (response.length === 0) {
-                this.$toast.warning("No se encuentran estatus disponibles...")
+                this.$toast.info("No se encuentran hatos registrados")
             } else {
-                this.catEstatus = response
+                this.datosHatos = response
             }
         },
-        async formHatoRequest() {
-            this.loader = true
-            var respuestaForm
-            this.hato.idRancho = this.$session.get("user").idRancho
 
-            if (this.hatoIsNew) {
-                this.hato.idUsuarioAlta = this.$session.get("user").idUsuario
-                respuestaForm = await post("/hato/registrarHato", this.hato)
-            } else {
-                this.hato.idUsuarioEditor = this.$session.get("user").idUsuario
-                respuestaForm = await post("/hato/editarHato", this.hato)
-            }
-
-            if (respuestaForm.error) {
-                this.$toast.error(respuestaForm.mensaje)
-            } else {
-                this.$toast.success(respuestaForm.mensaje)
-                this.limpiarHato()
-                this.$refs.formHato.reset()
-                this.dialogoHato = false
-            }
-
-            this.cargarHatos()
-        },
-        limpiarHato() {
+        limpiarHato() { // Limpia el objeto de hato para estar vacíos
             this.hato.idHato = null
             this.hato.diio = null
             this.hato.idRaza = null
@@ -393,6 +512,7 @@ export default {
             this.hato.idLote = null
             this.hato.lote = null
             this.hato.sexo = null
+            this.switchEstatusHato = "Inactivo"
             this.hato.idEstatus = null
             this.hato.estatus = null
             this.hato.descripcion = null
@@ -407,98 +527,13 @@ export default {
             this.hato.idUsuarioEditor = null
             this.hato.usuarioEditor = null
         },
-        async onClickNuevoHato() {
-            this.loader = true
-            this.hatoIsNew = true
-            await this.cargarPropiedadesHatos()
-            this.dialogoHato = true
-            this.loader = false
-        },
-        async onClickEditarHato(item) {
-            if (item.idEstatus === 102){
-                this.$toast.error("Este hato se encuentra cancelado, imposible modificar")
-            }else{
-                this.loader = true
-                this.hatoIsNew = false
-                await this.cargarPropiedadesHatos()
-                this.hato = { ...item }
-                this.idRazaSelec = this.hato.idRaza
-                this.idLoteSelec = this.hato.idLote
-                if(this.hato.sexo === "H"){
-                    this.idSexoSelec = 1
-                } else {
-                    this.idSexoSelec = 2
-                }
-                this.idEstatusSelec = this.hato.idEstatus
-                this.loader = false
-                this.dialogoHato = true
-            }
-        },
-        async onClickBajaHato(item){
-            console.log(item)
-            if (item.idEstatus === 102){
-                this.$toast.error("Este hato ya se encuentra cancelado...")
-            }else{
-                this.loader = true
 
-                this.hato.fechaBaja = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
-                console.log("fachaPicker: " + this.hato.fechaBaja)
-
-                this.loader = false
-                this.dialogoBajaHato = true
-            }
-        },
-        onClickEliminarHato(item) {
-            console.log(item)
-        },
-        onClickBuscar() {
-            this.buscarRequest()
-        },
-        onClickLimpiar() {
-            this.$refs.formBusqueda.reset()
-            this.filtro.busqueda = ""
-            this.cargarHatos()
-            /*            this.$toast.success("success")
-                        this.$toast.error("error")
-                        this.$toast.warning("warning")
-                        this.$toast.info("info")
-                        this.$toast.default("default")*/
-        },
-        onClickGuardarHato() {
-            if (this.$refs.formHato.validate()) {
-                this.formHatoRequest()
-            }
-        },
-        onClickCerrarHato() {
-            this.$refs.formHato.reset()
-            this.dialogoHato = false
-        },
-        onClickGuardarBajaHato(){
-            this.dialogoBajaHato = false
-        },
-        onClickCerrarBajaHato(){
-            this.dialogoBajaHato = false
-        },
-        changeRaza(value) {
-            console.log(value)
-            this.hato.idRaza = value
-        },
-        changeLote(value) {
-            console.log(value)
-            this.hato.idLote = value
-        },
-        changeEstatus(value) {
-            console.log(value)
-            this.hato.idEstatus = value
-        },
-        changeSexo(value) {
-            console.log(value)
-            if (value === 1) {
-                this.hato.sexo = "H"
-            } else {
-                this.hato.sexo = "M"
-            }
-        },
+        onClickTablaHato(item, row) {
+            console.log(item.idHato)
+            console.log(row)
+            row.select(true)
+            this.idHatoSelec = row.item.idUsuario
+        }
     },
 };
 </script>
