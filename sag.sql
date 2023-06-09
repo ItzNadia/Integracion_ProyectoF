@@ -194,6 +194,7 @@ INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (4, NULL, "Movimiento", "S"),
 (101, 1, "Activo", "S"),
 (102, 1, "Inactivo", "S"),
+(103, 1, "Cancelado", "S"),
 (201, 2, "Administrador", "S"),
 (202, 2, "Vaquero", "S"),
 (301, 3, "Shorthorn", "S"),
@@ -872,11 +873,12 @@ END$$
 
 CREATE PROCEDURE sp_bajaHato(
 	IN idHato INT,
+	IN fechaBaja DATE,
 	IN motivoBaja VARCHAR(500),
 	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE hato h
-	SET h.idEstatus=102, h.fechaBaja=CURDATE(), h.motivoBaja=motivoBaja, h.fechaEdicion=CURDATE(), h.idUsuarioEditor=idUsuarioEditor
+	SET h.idEstatus=103, h.fechaBaja=fechaBaja, h.motivoBaja=motivoBaja, h.fechaEdicion=CURDATE(), h.idUsuarioEditor=idUsuarioEditor
 	WHERE h.idHato=idHato;
 END$$
 

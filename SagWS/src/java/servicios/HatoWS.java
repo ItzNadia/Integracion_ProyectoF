@@ -155,6 +155,7 @@ public class HatoWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Respuesta bajaHato(
             @FormParam("idHato") Double idHato,
+            @FormParam("fechaBaja") String fechaBaja,
             @FormParam("motivoBaja") String motivoBaja,
             @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
         Respuesta res = new Respuesta();
@@ -162,6 +163,7 @@ public class HatoWS {
         try{
             HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idHato", idHato);
+            param.put("fechaBaja", fechaBaja);
             param.put("motivoBaja", motivoBaja);
             param.put("idUsuarioEditor", idUsuarioEditor);
             
