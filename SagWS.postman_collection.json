@@ -1245,6 +1245,784 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Hatos",
+			"item": [
+				{
+					"name": "getHatosByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/getHatosByIdRancho/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"getHatosByIdRancho",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarHato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "diio",
+									"value": "DIIO Prueba",
+									"type": "default"
+								},
+								{
+									"key": "idRaza",
+									"value": "301",
+									"type": "default"
+								},
+								{
+									"key": "idLote",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "sexo",
+									"value": "H",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "descripcion",
+									"value": "Desc prueba",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/registrarHato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"registrarHato"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarHato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idHato",
+									"value": "18",
+									"type": "default"
+								},
+								{
+									"key": "diio",
+									"value": "DIIO Prueba",
+									"type": "default"
+								},
+								{
+									"key": "idRaza",
+									"value": "301",
+									"type": "default"
+								},
+								{
+									"key": "idLote",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "sexo",
+									"value": "H",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "102",
+									"type": "default"
+								},
+								{
+									"key": "descripcion",
+									"value": "Descripción prueba",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/editarHato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"editarHato"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarEstatusHato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idHato",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "102",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/editarEstatusHato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"editarEstatusHato"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BajaHato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idHato",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "fechaBaja",
+									"value": "2023-07-24",
+									"type": "default"
+								},
+								{
+									"key": "motivoBaja",
+									"value": "Cancelamos porque sí",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/bajaHato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"bajaHato"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarHato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "busqueda",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/buscarHatos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"buscarHatos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cria",
+			"item": [
+				{
+					"name": "getCriasByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/cria/getCriasByIdRancho/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"cria",
+								"getCriasByIdRancho",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCriasByIdHatoMadre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/cria/getCriasByIdHatoMadre/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"cria",
+								"getCriasByIdHatoMadre",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarCria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idHatoMadre",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "sexo",
+									"value": "H",
+									"type": "default"
+								},
+								{
+									"key": "fechaNacimiento",
+									"value": "2024-06-05",
+									"type": "default"
+								},
+								{
+									"key": "idRaza",
+									"value": "307",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "observaciones",
+									"value": "Perfectamente sano",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/cria/registrarCria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"cria",
+								"registrarCria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarCria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCria",
+									"value": "6",
+									"type": "default"
+								},
+								{
+									"key": "idHatoMadre",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "sexo",
+									"value": "H",
+									"type": "default"
+								},
+								{
+									"key": "fechaNacimiento",
+									"value": "2024-06-05",
+									"type": "default"
+								},
+								{
+									"key": "idRaza",
+									"value": "307",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "observaciones",
+									"value": "Perfectamente sana",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/cria/editarCria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"cria",
+								"editarCria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarEstatusCria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idCria",
+									"value": "6",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "102",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/cria/editarEstatusCria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"cria",
+								"editarEstatusCria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarCria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idCria",
+									"value": "6",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/cria/buscarCrias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"cria",
+								"buscarCrias"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lotes",
+			"item": [
+				{
+					"name": "getLotesByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/lote/getLotesByIdRancho/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"lote",
+								"getLotesByIdRancho",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarLote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Prueba nombre",
+									"type": "default"
+								},
+								{
+									"key": "descripcion",
+									"value": "Prueba desc",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "102",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/lote/registrarLote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"lote",
+								"registrarLote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarLote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idLote",
+									"value": "11",
+									"type": "default"
+								},
+								{
+									"key": "nombre",
+									"value": "Prueba nombre",
+									"type": "default"
+								},
+								{
+									"key": "descripcion",
+									"value": "Prueba Descripción",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/lote/registrarLote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"lote",
+								"registrarLote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarLote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "busqueda",
+									"value": "11",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/lote/buscarLotes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"lote",
+								"buscarLotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarEstatusLote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idLote",
+									"value": "13",
+									"type": "default"
+								},
+								{
+									"key": "idEstatus",
+									"value": "101",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/lote/editarEstatusLote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"lote",
+								"editarEstatusLote"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

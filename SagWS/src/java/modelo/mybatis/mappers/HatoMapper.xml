@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         {CALL sag.sp_editarEstatusHato(
             #{idHato, jdbcType=INTEGER,mode=IN},
             #{idEstatus, jdbcType=INTEGER,mode=IN},
-            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN}})}
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
     </update>
     
     <update id="bajaHato" parameterType="map" statementType="CALLABLE">

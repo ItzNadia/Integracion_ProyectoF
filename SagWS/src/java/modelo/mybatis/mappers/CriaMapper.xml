@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Cria">
+    <select id="getCriasByIdHatoMadre" resultType="modelo.pojos.Cria" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getCriasByIdHatoMadre(#{idHatoMadre, jdbcType=INTEGER,mode=IN})}
+    </select>
+
+    <select id="getCriasByIdRancho" resultType="modelo.pojos.Cria" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getCriasByIdRancho(#{idRancho, jdbcType=INTEGER,mode=IN})}
+    </select>
+
+    <select id="buscarCrias" resultType="modelo.pojos.Cria" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_buscarCrias(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idCria, jdbcType=INTEGER,mode=IN})}
+    </select>
+
+    <insert id="registrarCria" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_registrarCria(
+            #{idHatoMadre, jdbcType=INTEGER,mode=IN},
+            #{sexo, jdbcType=VARCHAR,mode=IN},
+            #{fechaNacimiento, jdbcType=VARCHAR,mode=IN},
+            #{idRaza, jdbcType=INTEGER,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{observaciones, jdbcType=VARCHAR,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioAlta, jdbcType=INTEGER,mode=IN})}
+    </insert>
+
+    <update id="editarCria" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarCria(
+            #{idCria, jdbcType=INTEGER,mode=IN},
+            #{idHatoMadre, jdbcType=INTEGER,mode=IN},
+            #{sexo, jdbcType=VARCHAR,mode=IN},
+            #{fechaNacimiento, jdbcType=VARCHAR,mode=IN},
+            #{idRaza, jdbcType=INTEGER,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{observaciones, jdbcType=VARCHAR,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+
+    <update id="editarEstatusCria" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarEstatusCria(
+            #{idCria, jdbcType=INTEGER,mode=IN},
+            #{idEstatus, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+</mapper>

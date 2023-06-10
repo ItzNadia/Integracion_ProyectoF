@@ -32,7 +32,7 @@
         <!--Sección tabla principal-->
         <v-row align="start" justify="start">
             <v-col cols="2">
-                <v-btn rounded color="indigo" dark small @click="onClickNuevoHato">
+                <v-btn rounded color="primary" dark small @click="onClickNuevoHato">
                     <v-icon dark left>mdi-plus-circle-outline</v-icon>
                     Nuevo Hato
                 </v-btn>
@@ -41,12 +41,13 @@
         <v-row>
             <v-col cols="12">
                 <v-data-table :headers="encabezadosHatos" :items="datosHatos" @click:row="onClickTablaHato"
-                    item-key="idHato" single-select :items-per-page="5" class="ml-5 mr-5" dense show-select>
+                    item-key="idHato" single-select :items-per-page="10" class="ml-5 mr-5" dense show-select>
                     <template v-slot:item.acciones="{ item }">
                         <v-row>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon v-bind="attrs" @click="onClickEditarHato(item)">
+                                    <v-btn v-if="item.idEstatus != 103" icon v-bind="attrs"
+                                        @click="onClickEditarHato(item)">
                                         <v-icon color="primary" v-on="on">mdi-pencil</v-icon>
                                     </v-btn>
                                 </template>
@@ -54,19 +55,61 @@
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon v-bind="attrs" @click="onClickBajaHato(item)">
-                                        <v-icon color="red" v-on="on">mdi-cow-off</v-icon>
+                                    <v-btn v-if="item.idEstatus === 102" @click="onClickCambiarEstatusHato(item, true)" icon
+                                        v-bind="attrs">
+                                        <v-icon color="green lighten-2" v-on="on">mdi-arrow-up-bold-outline</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Dar de alta</span>
+                            </v-tooltip>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn v-if="item.idEstatus === 101" @click="onClickCambiarEstatusHato(item, false)"
+                                        icon v-bind="attrs">
+                                        <v-icon color="red lighten-2" v-on="on">mdi-arrow-down-bold-outline</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Dar de baja</span>
+                            </v-tooltip>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn v-if="item.idEstatus != 103" icon v-bind="attrs" @click="onClickBajaHato(item)">
+                                        <v-icon color="gray" v-on="on">mdi-cow-off</v-icon>
                                     </v-btn>
                                 </template>
                                 <span>Dar de baja</span>
                             </v-tooltip>
                         </v-row>
                     </template>
+                    <template v-slot:item.estatus="{ item }">
+                        <v-card-text v-if="item.idEstatus === 101" class="green--text">{{ item.estatus }}</v-card-text>
+                        <v-card-text v-if="item.idEstatus === 102" class="red--text">{{ item.estatus }}</v-card-text>
+                        <v-card-text v-if="item.idEstatus === 103" class="orange--text">{{ item.estatus }}</v-card-text>
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
+
+        <v-card elevation="10">
+            <v-tabs ref="wasd" centered icons-and-text>
+                <v-tabs-slider></v-tabs-slider>
+
+                <v-tab href="#tab-1" @click="componentCria = true; componentConsultaMedica = false">
+                    Crías
+                    <v-icon>mdi-baby-bottle-outline</v-icon>
+                </v-tab>
+
+                <v-tab href="#tab-2" @click="componentConsultaMedica = true; componentCria = false">
+                    Consultas Médicas
+                    <v-icon>mdi-medical-bag</v-icon>
+                </v-tab>
+            </v-tabs>
+
+            <Crias v-if="componentCria" :idHatoSelec="idHatoSelec" />
+            <ConsultasMedicas v-if="componentConsultaMedica" :idHatoSelec="idHatoSelec" />
+        </v-card>
+
         <!--Sección detalle-->
-        <v-row></v-row>
 
         <v-dialog v-model="dialogoHato" persistent max-width="1000" transition="dialog-transition">
             <v-card>
@@ -79,24 +122,25 @@
                                     required />
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catRazas" label="Raza*" item-value="idCatalogo" item-text="nombre"
-                                    @change="changeRaza" :rules="required" v-model="idRazaSelec"></v-select>
+                                <v-switch v-model="switchEstatusHato" :label="`Estatus*: ${switchEstatusHato}`"
+                                    true-value="Activo" false-value="Inactivo"></v-switch>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catLotes" label="Lote*" item-value="idLote" item-text="nombre"
-                                    @change="changeLote" :rules="required" v-model="idLoteSelec"></v-select>
+                                <v-select :items="catRazas" label="Raza*" item-value="idCatalogo" item-text="nombre"
+                                    @change="changeRaza" :rules="required" v-model="idRazaSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
                                 <v-select :items="catSexo" label="Sexo*" item-value="idSexo" item-text="nombre"
                                     @change="changeSexo" :rules="required" v-model="idSexoSelec"></v-select>
                             </v-col>
                             <v-col cols="12" md="6" sm="4">
-                                <v-switch v-model="switchEstatusHato" :label="`Estatus*: ${switchEstatusHato}`"
-                                    true-value="Activo" false-value="Inactivo"></v-switch>
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
                                 <v-text-field v-model="hato.descripcion" label="Descripción*" :rules="required"
                                     maxlength="250" counter required />
+                            </v-col>
+                            <v-col cols="12" md="6" sm="4">
+                                <v-select :items="catLotes" label="Lote*" item-value="idLote" item-text="nombre"
+                                    @change="changeLote" :rules="required" v-model="idLoteSelec"
+                                    v-if="isNewHato"></v-select>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -158,10 +202,14 @@
 <script>
 import { get, post } from "../api/Requests"
 import dialogoCarga from '../components/DialogoCarga.vue'
+import ConsultasMedicas from "@/components/ConsultasMedicas.vue";
+import Crias from "@/components/Crias.vue";
 export default {
     name: "Hatos",
     components: {
         dialogoCarga,
+        ConsultasMedicas,
+        Crias,
     },
     props: {},
     data() {
@@ -206,94 +254,96 @@ export default {
                     text: 'Acciones',
                     value: 'acciones',
                     sortable: false,
-                    windth: 100,
+                    width: 120,
+                    align: "center"
                 }, {
                     text: 'NDH',
                     value: 'idHato',
-                    align: 'start',
                     sortable: false,
-                    windth: 100,
+                    width: 40,
+                    align: "center"
                 }, {
                     text: 'DIIO',
                     value: 'diio',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 100,
                 }, {
                     text: 'Raza',
                     value: 'raza',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 100,
                 }, {
                     text: 'Lote',
                     value: 'lote',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 100,
                 }, {
                     text: 'Sexo',
                     value: 'sexo',
-                    align: 'start',
+                    align: "center",
                     sortable: true,
-                    windth: 255,
+                    width: 40,
                 }, {
                     text: 'Descripción',
                     value: 'descripcion',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 250,
                 }, {
                     text: 'Estatus',
                     value: 'estatus',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 100,
                 }, {
                     text: 'Fecha de baja',
                     value: 'fechaBaja',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 120,
                 }, {
                     text: 'Motivo de la baja',
                     value: 'motivoBaja',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 250,
                 }, {
                     text: 'Rancho',
                     value: 'rancho',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 200,
                 }, {
                     text: 'Fecha de alta',
                     value: 'fechaAlta',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 120,
                 }, {
                     text: 'Usuario de alta',
                     value: 'usuarioAlta',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 200,
                 }, {
                     text: 'Fecha de edición',
                     value: 'fechaEdicion',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 120,
                 }, {
                     text: 'Usuario editor',
                     value: 'usuarioEditor',
-                    align: 'start',
+                    align: "start",
                     sortable: true,
-                    windth: 255,
+                    width: 200,
                 },
             ],
             datosHatos: [],
+            rowSelected: null,
 
             // Dialogo de hato (nuevo y editar)
             dialogoHato: false,
@@ -314,8 +364,10 @@ export default {
             dialogoBajaHato: false,
 
             idHatoSelec: null,
+            componentCria: false,
+            componentConsultaMedica: false,
 
-            // Relga de campos vacíos
+            // Regla de campos vacíos
             required: [(v) => !!v || "Este campo es requerido"],
         };
     },
@@ -347,6 +399,10 @@ export default {
         onClickLimpiarHato() {
             this.$refs.formBusqueda.reset()
             this.filtro.busqueda = ""
+            this.idHatoSelec = null
+            this.rowSelected.select(false)
+            this.componentCria = false
+            this.componentConsultaMedica = false
             this.cargarHatos()
         },
 
@@ -382,6 +438,26 @@ export default {
                 this.loader = false
                 this.dialogoHato = true
             }
+        },
+        async onClickCambiarEstatusHato(item, band) {
+            this.loader = true
+
+            var respuestaForm
+
+            if (band) {
+                respuestaForm = await post("/hato/editarEstatusHato", { idHato: item.idHato, idEstatus: 101, idUsuarioEditor: this.$session.get("user").idUsuario })
+            } else {
+                respuestaForm = await post("/hato/editarEstatusHato", { idHato: item.idHato, idEstatus: 102, idUsuarioEditor: this.$session.get("user").idUsuario })
+            }
+
+            if (respuestaForm.error) {
+                this.$toast.error(respuestaForm.mensaje)
+            } else {
+                this.cargarHatos()
+                this.$toast.success(respuestaForm.mensaje)
+            }
+
+            this.loader = false
         },
         async cargarPropiedadesHatos() { // carga los datos para los comboBox (v-select)
             this.catRazas = null
@@ -489,7 +565,6 @@ export default {
             this.limpiarHato()
         },
 
-
         async cargarHatos() { // carga hatos en la tabla de hatos
             this.loader = true
             this.datosHatos = []
@@ -528,12 +603,15 @@ export default {
             this.hato.usuarioEditor = null
         },
 
-        onClickTablaHato(item, row) {
-            console.log(item.idHato)
-            console.log(row)
-            row.select(true)
-            this.idHatoSelec = row.item.idUsuario
-        }
+        async onClickTablaHato(item, row) {
+            //console.log(item.idHato)
+            //console.log(row)
+            this.rowSelected = row
+            this.rowSelected.select(true)
+            this.idHatoSelec = item.idHato
+            this.componentCria = false
+            this.componentConsultaMedica = false
+        },
     },
 };
 </script>

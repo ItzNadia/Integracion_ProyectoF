@@ -181,4 +181,34 @@ public class HatoWS {
         }
         return res;
     }
+
+    @POST
+    @Path("editarEstatusHato")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta editarEstatusHato(
+            @FormParam("idHato") Integer idHato,
+            @FormParam("idEstatus") Integer idEstatus,
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor) {
+        Respuesta res = new Respuesta();
+        SqlSession conn = MyBatisUtil.getSession();
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("idHato", idHato);
+            param.put("idEstatus", idEstatus);
+            param.put("idUsuarioEditor", idUsuarioEditor);
+
+            conn.update("Hato.editarEstatusHato", param);
+            conn.commit();
+
+            res.setError(false);
+            res.setMensaje("¡Estatus de hato editado correctamente!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.setError(true);
+            res.setMensaje("Error de conexión, favor de intentar más tarde.");
+        } finally {
+            conn.close();
+        }
+        return res;
+    }
 }

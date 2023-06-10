@@ -884,9 +884,9 @@ END$$
 
 -- ############################################################################################################################################## --
 
-CREATE PROCEDURE sp_getAllCrias()
+CREATE PROCEDURE sp_getCriasByIdHatoMadre(IN idHatoMadre INT)
 BEGIN
-	SELECT * FROM criasfullinfo;
+	SELECT * FROM criasfullinfo c WHERE c.idHatoMadre=idHatoMadre;
 END$$
 
 -- ############################################################################################################################################## --
