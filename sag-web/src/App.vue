@@ -24,19 +24,19 @@
                 </v-list-item>
                 <v-list-item link href="#/hatos">
                   <v-list-item-icon>
-                    <v-icon>mdi-cow</v-icon>
+                    <v-icon color="black">mdi-cow</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Hatos</v-list-item-title>
                 </v-list-item>
                 <v-list-item link>
                   <v-list-item-icon>
-                    <v-icon>mdi-transfer</v-icon>
+                    <v-icon color="blue">mdi-swap-horizontal-bold</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Traspasos</v-list-item-title>
                 </v-list-item>
                 <v-list-item link>
                   <v-list-item-icon>
-                    <v-icon>mdi-ballot-outline</v-icon>
+                    <v-icon color="green">mdi-ballot-outline</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Lotes</v-list-item-title>
                 </v-list-item>
