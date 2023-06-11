@@ -8,7 +8,7 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title class="text-h6">
-                    SAG
+                    S A G
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -18,7 +18,7 @@
               <v-list nav dense>
                 <v-list-item link href="#/">
                   <v-list-item-icon>
-                    <v-icon>mdi-cow</v-icon>
+                    <v-icon color="black">mdi-barn</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Principal</v-list-item-title>
                 </v-list-item>
@@ -30,19 +30,27 @@
                 </v-list-item>
                 <v-list-item link>
                   <v-list-item-icon>
-                    <v-icon color="blue">mdi-swap-horizontal-bold</v-icon>
+                    <v-icon color="black">mdi-swap-horizontal-bold</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Traspasos</v-list-item-title>
                 </v-list-item>
                 <v-list-item link>
                   <v-list-item-icon>
-                    <v-icon color="green">mdi-ballot-outline</v-icon>
+                    <v-icon color="black">mdi-ballot-outline</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Lotes</v-list-item-title>
                 </v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list nav dense>
                 <v-list-item link>
-                  <v-btn>Cerrar sesión</v-btn>
+                  <v-btn small>
+                    <v-icon color="black">mdi-account-arrow-right</v-icon>
+                    Cerrar Sesión</v-btn>
                 </v-list-item>
+                </v-list>
+                
               </v-list>
             </v-navigation-drawer>
           </v-card>
@@ -52,6 +60,8 @@
     </v-app>
   </div>
 </template>
+
+
 
 <style>
 #app {
