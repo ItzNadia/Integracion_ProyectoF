@@ -94,12 +94,12 @@
             <v-tabs ref="wasd" centered icons-and-text>
                 <v-tabs-slider></v-tabs-slider>
 
-                <v-tab @click="componentCria = true; componentConsultaMedica = false">
+                <v-tab @click="onClickTabCria">
                     Crías
                     <v-icon>mdi-baby-bottle-outline</v-icon>
                 </v-tab>
 
-                <v-tab @click="componentConsultaMedica = true; componentCria = false">
+                <v-tab @click="onClickTabConsultaMedica">
                     Consultas Médicas
                     <v-icon>mdi-medical-bag</v-icon>
                 </v-tab>
@@ -614,6 +614,23 @@ export default {
             this.idHatoSelec = item.idHato
             this.componentCria = false
             this.componentConsultaMedica = false
+        },
+
+        onClickTabCria() {
+            if (this.idHatoSelec != null) {
+                this.componentConsultaMedica = false
+                this.componentCria = true
+            } else {
+                this.$toast.info("Seleccione un hato primero")
+            }
+        },
+        onClickTabConsultaMedica() {
+            if (this.idHatoSelec != null) {
+                this.componentCria = false
+                this.componentConsultaMedica = true
+            } else {
+                this.$toast.info("Seleccione un hato primero")
+            }
         },
     },
 };

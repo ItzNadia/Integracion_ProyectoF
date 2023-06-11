@@ -266,7 +266,7 @@ export default {
         if (this.$props.idHatoSelec != null) {
             this.cargarCriasByIdHato()
         } else {
-            this.cargarCrias()
+            this.$toast.info("Seleccione un hato primero")
         }
     },
     mounted() { },
@@ -288,7 +288,7 @@ export default {
         onClickLimpiarCria() {
             this.$refs.formBusqueda.reset()
             this.filtro.busqueda = ""
-            this.cargarCrias()
+            this.cargarCriasByIdHato()
         },
 
         // Dialogo cria
@@ -435,21 +435,6 @@ export default {
             } else {
                 this.datosCrias = response
             }
-        },
-
-        async cargarCrias() { // carga crias en la tabla de crias
-            this.loader = true
-            this.datosCrias = []
-            //this.limpiarHato()
-            const response = await get("/cria/getCriasByIdRancho/" + this.$session.get("user").idRancho)
-            this.loader = false
-
-            if (response.length === 0) {
-                this.$toast.info("No se encuentran crías registradas...")
-            } else {
-                this.datosCrias = response
-            }
-            this.$toast.info("Todas las crías del rancho han sido cargadas")
         },
 
         limpiarCria() {

@@ -9,8 +9,7 @@
                         <v-form ref="formBusqueda" v-model="valid">
                             <v-row>
                                 <v-col cols="12" md="4" sm="6">
-                                    <v-text-field v-model="filtro.busqueda" label="NDCM" maxlength="9" type="number" counter
-                                        required />
+                                    <v-text-field v-model="filtro.busqueda" label="NDCM" maxlength="50" counter required />
                                 </v-col>
                             </v-row>
                         </v-form>
@@ -30,7 +29,7 @@
             </v-col>
         </v-row>
         <!--Sección tabla principal-->
-        <v-row align="start" justify="start">
+        <v-row v-if="$props.idHatoSelec != null" align="start" justify="start">
             <v-col cols="2">
                 <v-btn rounded color="primary" dark small @click="onClickNuevaConsultasMedicas">
                     <v-icon dark left>mdi-plus-circle-outline</v-icon>
@@ -55,7 +54,7 @@
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="!item.cancelado" @click="onClickCancelarConsultaMedica(item, false)" icon
+                                    <v-btn v-if="!item.cancelado" @click="onClickCancelarConsultaMedica(item)" icon
                                         v-bind="attrs">
                                         <v-icon color="red lighten-2" v-on="on">mdi-needle-off</v-icon>
                                     </v-btn>
@@ -64,9 +63,9 @@
                             </v-tooltip>
                         </v-row>
                     </template>
-                    <template v-slot:item.estatus="{ item }">
-                        <v-card-text v-if="item.idEstatus === 101" class="green--text">{{ item.estatus }}</v-card-text>
-                        <v-card-text v-if="item.idEstatus === 102" class="red--text">{{ item.estatus }}</v-card-text>
+                    <template v-slot:item.cancelado="{ item }">
+                        <v-card-text v-if="!item.cancelado" class="green--text">No</v-card-text>
+                        <v-card-text v-if="item.cancelado" class="red--text">Sí</v-card-text>
                     </template>
                 </v-data-table>
             </v-col>
@@ -77,26 +76,25 @@
             <v-card>
                 <v-card-title>Consulta Médica</v-card-title>
                 <v-card-text>
-                    <!--                    <v-form ref="formConsultaMedica" v-model="valid">
+                    <v-form ref="formConsultaMedica" v-model="valid">
                         <v-row justify="start">
                             <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catSexo" label="Sexo*" item-value="idSexo" item-text="nombre"
-                                    @change="changeSexo" :rules="required" v-model="idSexoSelec" /><br>
-                                <v-select :items="catRazas" label="Raza*" item-value="idCatalogo" item-text="nombre"
-                                    @change="changeRaza" :rules="required" v-model="idRazaSelec" /><br>
-                                <v-text-field v-model="cria.observaciones" label="Observaciones*" :rules="required"
-                                    maxlength="250" counter required /><br>
-                                <v-switch v-model="switchEstatusCria" :label="`Estatus*: ${switchEstatusCria}`"
-                                    true-value="Activo" false-value="Inactivo" />
+                                <v-text-field v-model="consultaMedica.nombreVeterinario" label="Nombre del veterinario*"
+                                    :rules="required" maxlength="100" counter required /><br>
+                                <v-text-field v-model="consultaMedica.observaciones" label="Observaciones*"
+                                    :rules="required" maxlength="500" counter required /><br>
+                                <v-select :items="catMotivosAtencion" label="Motivo de atención*" item-value="idCatalogo"
+                                    item-text="nombre" @change="changeMotivosAtencion" :rules="required"
+                                    v-model="idMotivoAtencionSelec" /><br>
                             </v-col>
                             <v-col>
-                                <h3>Fecha de nacimiento*</h3>
-                                <v-date-picker v-model="cria.fechaNacimiento"
+                                <h3>Fecha de atención*</h3>
+                                <v-date-picker v-model="consultaMedica.fechaAtencion"
                                     :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
                                     elevation="5" />
                             </v-col>
                         </v-row><br>
-                    </v-form>-->
+                    </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
@@ -159,8 +157,13 @@ export default {
             },
 
             // Datos para la tabla
-            encabezadosCria: [
+            encabezadosConsultaMedica: [
                 {
+                    text: 'Acciones',
+                    value: 'acciones',
+                    sortable: false,
+                    width: 40,
+                }, {
                     text: 'NDCM',
                     value: 'idConsultaMedica',
                     sortable: false,
@@ -190,20 +193,20 @@ export default {
                     sortable: true,
                     width: 110,
                 }, {
-                    text: 'Raza',
-                    value: 'raza',
+                    text: 'Motivo de atencion',
+                    value: 'motivoAtencion',
                     align: 'start',
                     sortable: true,
                     width: 100,
                 }, {
-                    text: 'Estatus',
-                    value: 'estatus',
+                    text: 'Cancelado',
+                    value: 'cancelado',
                     align: 'center',
                     sortable: true,
                     width: 40,
                 }, {
-                    text: 'Observaciones',
-                    value: 'observaciones',
+                    text: 'Rancho',
+                    value: 'rancho',
                     align: 'start',
                     sortable: true,
                     width: 250,
@@ -233,22 +236,15 @@ export default {
                     width: 200,
                 },
             ],
-            datosCrias: [],
+            datosConsultasMedicas: [],
 
             // Dialogo de cría (nuevo y editar)
-            dialogoCria: false,
-            isNewCria: false,
+            dialogoConsultaMedica: false,
+            isNewConsultaMedica: false,
 
-            catRazas: [],
-            idRazaSelec: null,
-            catLotes: [],
-            idLoteSelec: null,
-            catSexo: [
-                { idSexo: 1, nombre: 'Hembra (H)' },
-                { idSexo: 2, nombre: 'Macho (M)' },
-            ],
-            idSexoSelec: null,
-            switchEstatusCria: "Inactivo",
+            catMotivosAtencion: [],
+            idMotivoAtencionSelec: null,
+            switchEstatusConsultaMedica: "Inactivo",
 
             // Regla de campos vacíos
             required: [(v) => !!v || "Este campo es requerido"],
@@ -256,112 +252,87 @@ export default {
     },
     created() {
         if (this.$props.idHatoSelec != null) {
-            this.cargarCriasByIdHato()
+            this.cargarConsultasMedicasByIdHato()
         } else {
-            this.cargarCrias()
+            this.$toast.info("Seleccione un hato primero")
         }
     },
     mounted() { },
     computed: {},
     watch: {},
     methods: {
-        async onClickBuscarCria() {
+        async onClickBuscarConsultasMedicas() {
             this.loader = true
-            this.datosCrias = []
-            const resBusqueda = await post("/cria/buscarCrias", { idRancho: this.$session.get("user").idRancho, idCria: this.filtro.busqueda })
+            this.datosConsultasMedicas = []
+            const resBusqueda = await post("/consultaMedica/buscarConsultasMedicas", { idRancho: this.$session.get("user").idRancho, busqueda: this.filtro.busqueda })
             this.loader = false
 
             if (resBusqueda.length < 1) {
-                this.$toast.info("No se encuentraron crías...")
+                this.$toast.info("No se encontraron consultas médicas...")
             } else {
-                this.datosCrias = resBusqueda
+                this.datosConsultasMedicas = resBusqueda
             }
         },
-        onClickLimpiarCria() {
+        onClickLimpiarConsultasMedicas() {
             this.$refs.formBusqueda.reset()
             this.filtro.busqueda = ""
-            this.cargarCrias()
+            this.cargarConsultasMedicasByIdHato()
         },
 
-        // Dialogo cria
-        async onClickNuevaCria() {
+        // Dialogo Consulta Medica
+        async onClickNuevaConsultasMedicas() {
             if (this.$props.idHatoSelec != null) {
                 this.loader = true
-                this.isNewCria = true
-                await this.cargarPropiedadesCrias() // carga los datos para los comboBox (v-select)
-                this.cria.fechaNacimiento = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
-                this.cria.idHatoMadre = this.$props.idHatoSelec
-                this.switchEstatusCria = "Inactivo"
+                this.isNewConsultaMedica = true
+                await this.cargarPropiedadesConsultasMedicas() // carga los datos para los comboBox (v-select)
+                this.consultaMedica.fechaAtencion = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+                this.consultaMedica.idHato = this.$props.idHatoSelec
+                //this.switchEstatusCria = "Inactivo"
                 this.loader = false
-                this.dialogoCria = true
+                this.dialogoConsultaMedica = true
             } else {
-                this.$toast.warning("Para agregar una nueva cría debe seleccionar un progenitor primero.")
+                this.$toast.warning("Para agregar una nueva consultas médica debe seleccionar un hato primero.")
             }
         },
-        async onClickEditarCria(item) {
+        async onClickEditarConsultaMedica(item) {
             this.loader = true
-            this.isNewCria = false
+            this.isNewConsultaMedica = false
 
             // carga los datos para los comboBox (v-select) y cargalos datos de la cría seleccionada
-            this.cria = { ...item }
-            this.cria.fechaNacimiento = (this.cria.fechaNacimiento.substr(6, 10) + "-" + this.cria.fechaNacimiento.substr(3, 2) + "-" + this.cria.fechaNacimiento.substr(0, 2))
-            await this.cargarPropiedadesCrias()
-            this.idRazaSelec = this.cria.idRaza
-            this.idLoteSelec = this.cria.idLote
-            if (this.cria.sexo === "H") {
-                this.idSexoSelec = 1
-            } else {
-                this.idSexoSelec = 2
-            }
-            this.switchEstatusCria = this.cria.estatus
+            this.consultaMedica = { ...item }
+            this.consultaMedica.fechaAtencion = (this.consultaMedica.fechaAtencion.substr(6, 10) + "-" + this.consultaMedica.fechaAtencion.substr(3, 2) + "-" + this.consultaMedica.fechaAtencion.substr(0, 2))
+            await this.cargarPropiedadesConsultasMedicas()
+            this.idMotivoAtencionSelec = this.consultaMedica.idMotivoAtencion
 
             this.loader = false
-            this.dialogoCria = true
+            this.dialogoConsultaMedica = true
         },
-        async onClickCambiarEstatusCria(item, band) {
+        async onClickCancelarConsultaMedica(item) {
             this.loader = true
 
-            var respuestaForm
+            const response = await post("/consultaMedica/cancelarConsultaMedica", { idConsultaMedica: item.idConsultaMedica, idUsuarioEditor: this.$session.get("user").idUsuario })
 
-            if (band) {
-                respuestaForm = await post("/cria/editarEstatusCria", { idCria: item.idCria, idEstatus: 101, idUsuarioEditor: this.$session.get("user").idUsuario })
+            if (response.error) {
+                this.$toast.error(response.mensaje)
             } else {
-                respuestaForm = await post("/cria/editarEstatusCria", { idCria: item.idCria, idEstatus: 102, idUsuarioEditor: this.$session.get("user").idUsuario })
-            }
-
-            if (respuestaForm.error) {
-                this.$toast.error(respuestaForm.mensaje)
-            } else {
-                if (this.$props.idHatoSelec === null) {
-                    this.cargarCrias()
-                } else {
-                    this.cargarCriasByIdHato()
-                }
-                this.$toast.success(respuestaForm.mensaje)
+                this.$toast.success(response.mensaje)
+                this.cargarConsultasMedicas()
             }
 
             this.loader = false
         },
-        async onClickGuardarDialogoCria() {
-            console.log(this.cria)
-            if (this.$refs.formCria.validate()) {
+        async onClickGuardarDialogoConsultaMedica() {
+            if (this.$refs.formConsultaMedica.validate()) {
                 this.loader = true
 
                 var respuestaForm
-                this.cria.idRancho = this.$session.get("user").idRancho
-
-                if (this.switchEstatusCria === "Activo") {
-                    this.cria.idEstatus = 101
+                this.consultaMedica.idRancho = this.$session.get("user").idRancho
+                if (this.isNewConsultaMedica) {
+                    this.consultaMedica.idUsuarioAlta = this.$session.get("user").idUsuario
+                    respuestaForm = await post("/consultaMedica/registrarConsultaMedica", this.consultaMedica)
                 } else {
-                    this.cria.idEstatus = 102
-                }
-
-                if (this.isNewCria) {
-                    this.cria.idUsuarioAlta = this.$session.get("user").idUsuario
-                    respuestaForm = await post("/cria/registrarCria", this.cria)
-                } else {
-                    this.cria.idUsuarioEditor = this.$session.get("user").idUsuario
-                    respuestaForm = await post("/cria/editarCria", this.cria)
+                    this.consultaMedica.idUsuarioEditor = this.$session.get("user").idUsuario
+                    respuestaForm = await post("/consultaMedica/editarConsultaMedica", this.consultaMedica)
                 }
 
                 if (respuestaForm.error) {
@@ -369,100 +340,64 @@ export default {
                     this.loader = false
                 } else {
                     this.$toast.success(respuestaForm.mensaje)
-                    this.limpiarCria()
-                    this.$refs.formCria.reset()
-                    this.dialogoCria = false
-                    this.cargarCriasByIdHato()
+                    this.limpiarConsultaMedica()
+                    this.$refs.formConsultaMedica.reset()
+                    this.dialogoConsultaMedica = false
+                    this.cargarConsultasMedicasByIdHato()
                 }
             }
         },
-        onClickCerrarDialogoCria() {
-            this.$refs.formCria.reset()
-            this.dialogoCria = false
+        onClickCerrarDialogoConsultaMedica() {
+            this.$refs.formConsultaMedica.reset()
+            this.dialogoConsultaMedica = false
         },
-        async cargarPropiedadesCrias() { // carga los datos para los comboBox (v-select)
-            this.catRazas = null
-            this.catLotes = null
+        async cargarPropiedadesConsultasMedicas() { // carga los datos para los comboBox (v-select)
+            this.catMotivosAtencion = null
 
-            var response = await get("/catalogo/getCatalogosByCategoria/3") // obtiene razas
+            var response = await get("/catalogo/getCatalogosByCategoria/5")
 
             if (response.length === 0) {
-                this.$toast.warning("No se encuentran razas disponibles...")
+                this.$toast.warning("No se encuentran motivos disponibles...")
             } else {
-                this.catRazas = response
-            }
-
-            response = await get("/lote/getLotesByIdRancho/" + this.$session.get("user").idRancho) // obtiene lotes
-
-            if (response.length === 0) {
-                this.$toast.warning("No se encuentran lotes disponibles...")
-            } else {
-                this.catLotes = response
+                this.catMotivosAtencion = response
             }
         },
-        changeRaza(value) { // Cuando se selecciona algo de los comboBox (v-select)
-            this.cria.idRaza = value
-        },
-        changeLote(value) {
-            this.cria.idLote = value
-        },
-        changeSexo(value) {
-            if (value === 1) {
-                this.cria.sexo = "H"
-            } else {
-                this.cria.sexo = "M"
-            }
+        changeMotivosAtencion(value) { // Cuando se selecciona algo de los comboBox (v-select)
+            this.consultaMedica.idMotivoAtencion = value
         },
 
 
-        async cargarCriasByIdHato() { // carga crias en la tabla de crias
+        async cargarConsultasMedicasByIdHato() { // carga crias en la tabla de crias
             this.loader = true
-            this.datosCrias = []
+            this.datosConsultasMedicas = []
             //this.limpiarHato()
-            const response = await get("/cria/getCriasByIdHatoMadre/" + this.$props.idHatoSelec)
+            const response = await get("/consultaMedica/getConsultasMedicasByIdHato/" + this.$props.idHatoSelec)
             this.loader = false
 
             if (response.length === 0) {
-                this.$toast.info("No se encuentran crías registradas...")
+                this.$toast.info("No se encuentran consultas médicas registradas...")
             } else {
-                this.datosCrias = response
+                this.datosConsultasMedicas = response
             }
         },
 
-        async cargarCrias() { // carga crias en la tabla de crias
-            this.loader = true
-            this.datosCrias = []
-            //this.limpiarHato()
-            const response = await get("/cria/getCriasByIdRancho/" + this.$session.get("user").idRancho)
-            this.loader = false
-
-            if (response.length === 0) {
-                this.$toast.info("No se encuentran crías registradas...")
-            } else {
-                this.datosCrias = response
-            }
-            this.$toast.info("Todas las crías del rancho han sido cargadas")
-        },
-
-        limpiarCria() {
-            this.cria.idCria = null
-            this.cria.idHatoMadre = null
-            this.cria.sexo = null
-            this.cria.fechaNacimiento = null
-            this.cria.idRaza = null
-            this.cria.raza = null
-            this.cria.idEstatus = null
-            this.cria.estatus = null
-            this.cria.observaciones = null
-            this.cria.idRancho = null
-            this.cria.rancho = null
-            this.cria.fechaAlta = null
-            this.cria.idUsuarioAlta = null
-            this.cria.usuarioAlta = null
-            this.cria.fechaEdicion = null
-            this.cria.idUsuarioEditor = null
-            this.cria.usuarioEditor = null
-            this.switchEstatusHato = "Inactivo"
+        limpiarConsultaMedica() {
+            this.consultaMedica.idConsultaMedica = null
+            this.consultaMedica.idHato = null
+            this.consultaMedica.nombreVeterinario = null
+            this.consultaMedica.fechaAtencion = null
+            this.consultaMedica.observaciones = null
+            this.consultaMedica.idMotivoAtencion = null
+            this.consultaMedica.motivoAtencion = null
+            this.consultaMedica.cancelado = null
+            this.consultaMedica.idRancho = null
+            this.consultaMedica.rancho = null
+            this.consultaMedica.fechaAlta = null
+            this.consultaMedica.idUsuarioAlta = null
+            this.consultaMedica.usuarioAlta = null
+            this.consultaMedica.fechaEdicion = null
+            this.consultaMedica.idUsuarioEditor = null
+            this.consultaMedica.usuarioEditor = null
         }
     },
 };
