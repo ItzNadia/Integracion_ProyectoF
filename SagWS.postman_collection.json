@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "d591e98d-2980-4b21-bd7d-263ed61531fe",
+		"_postman_id": "9e813948-1263-41c5-abe6-0fad17b9f209",
 		"name": "SagWS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21050980"
 	},
 	"item": [
 		{
@@ -2271,6 +2272,216 @@
 								"ws",
 								"lote",
 								"editarEstatusLote"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Traspasos",
+			"item": [
+				{
+					"name": "getTraspasosByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/getTraspasosByIdRancho/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"getTraspasosByIdRancho",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarTraspaso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "busqueda",
+									"value": "Engorda",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/buscarTraspasos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"buscarTraspasos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarTraspaso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idLoteAnterior",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "idLoteDestino",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/registrarTraspaso/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"registrarTraspaso",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarTraspaso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idTraspaso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idLoteAnterior",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idLoteDestino",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/editarTraspaso/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"editarTraspaso",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelarTraspaso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idTraspaso",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "motivoCancelacion",
+									"value": "Prueba",
+									"type": "text"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/cancelarTraspaso/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"cancelarTraspaso",
+								""
 							]
 						}
 					},

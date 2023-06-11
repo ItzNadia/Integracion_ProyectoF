@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Traspaso">
+    <select id="getTraspasosByIdRancho" resultType="modelo.pojos.Traspaso" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getTraspasosByIdRancho(
+            #{idRancho, jdbcType=INTEGER,mode=IN})}
+    </select>
+    
+    <select id="buscarTraspasos" resultType="modelo.pojos.Traspaso" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_buscarTraspasos(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
+    <insert id="registrarTraspaso" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_registrarTraspaso(
+            #{idLoteAnterior, jdbcType=INTEGER,mode=IN},
+            #{idLoteDestino, jdbcType=INTEGER,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioAlta, jdbcType=INTEGER,mode=IN})}
+    </insert>
+    
+    <update id="editarTraspaso" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarTraspaso(
+            #{idTraspaso, jdbcType=INTEGER,mode=IN},
+            #{idLoteAnterior, jdbcType=INTEGER,mode=IN},
+            #{idLoteDestino, jdbcType=INTEGER,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+    
+    <update id="cancelarTraspaso" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_cancelarTraspaso(
+            #{idTraspaso, jdbcType=INTEGER,mode=IN},
+            #{motivoCancelacion, jdbcType=VARCHAR,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+    
+</mapper>
