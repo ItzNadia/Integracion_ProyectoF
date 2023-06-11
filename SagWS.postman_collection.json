@@ -1247,6 +1247,260 @@
 			]
 		},
 		{
+			"name": "Consultas médicas",
+			"item": [
+				{
+					"name": "getConsultasMedicasByIdRancho",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/consultaMedica/getConsultasMedicasByIdRancho/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"consultaMedica",
+								"getConsultasMedicasByIdRancho",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getConsultasMedicasByIdHato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/consultaMedica/getConsultasMedicasByIdHato/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"consultaMedica",
+								"getConsultasMedicasByIdHato",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarConsultaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idHato",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "nombreVeterinario",
+									"value": "José",
+									"type": "default"
+								},
+								{
+									"key": "fechaAtencion",
+									"value": "2023-01-01",
+									"type": "default"
+								},
+								{
+									"key": "observaciones",
+									"value": "Vacuna prueba",
+									"type": "default"
+								},
+								{
+									"key": "idMotivoAtencion",
+									"value": "504",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioAlta",
+									"value": "2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/consultaMedica/registrarConsultaMedica",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"consultaMedica",
+								"registrarConsultaMedica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarConsultaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idConsultaMedica",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "idHato",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "nombreVeterinario",
+									"value": "Josete",
+									"type": "default"
+								},
+								{
+									"key": "fechaAtencion",
+									"value": "2023-01-01",
+									"type": "default"
+								},
+								{
+									"key": "observaciones",
+									"value": "Vacuna prueba",
+									"type": "default"
+								},
+								{
+									"key": "idMotivoAtencion",
+									"value": "504",
+									"type": "default"
+								},
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/consultaMedica/editarConsultaMedica",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"consultaMedica",
+								"editarConsultaMedica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelarConsultaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idConsultaMedica",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "idUsuarioEditor",
+									"value": "2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/consultaMedica/cancelarConsultaMedica",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"consultaMedica",
+								"cancelarConsultaMedica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarConsultaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "busqueda",
+									"value": "n",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/consultaMedica/buscarConsultasMedicas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"consultaMedica",
+								"buscarConsultasMedicas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Hatos",
 			"item": [
 				{

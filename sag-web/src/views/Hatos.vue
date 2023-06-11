@@ -41,7 +41,7 @@
         <v-row>
             <v-col cols="12">
                 <v-data-table :headers="encabezadosHatos" :items="datosHatos" @click:row="onClickTablaHato"
-                    item-key="idHato" single-select :items-per-page="10" class="ml-5 mr-5" dense show-select>
+                    item-key="idHato" single-select :items-per-page="10" class="ml-5 mr-5" dense>
                     <template v-slot:item.acciones="{ item }">
                         <v-row>
                             <v-tooltip bottom>
@@ -60,7 +60,7 @@
                                         <v-icon color="green lighten-2" v-on="on">mdi-arrow-up-bold-outline</v-icon>
                                     </v-btn>
                                 </template>
-                                <span>Dar de alta</span>
+                                <span>Establecer como activo</span>
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
@@ -69,7 +69,7 @@
                                         <v-icon color="red lighten-2" v-on="on">mdi-arrow-down-bold-outline</v-icon>
                                     </v-btn>
                                 </template>
-                                <span>Dar de baja</span>
+                                <span>Establecer como inactivo</span>
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
@@ -94,12 +94,12 @@
             <v-tabs ref="wasd" centered icons-and-text>
                 <v-tabs-slider></v-tabs-slider>
 
-                <v-tab href="#tab-1" @click="componentCria = true; componentConsultaMedica = false">
+                <v-tab @click="componentCria = true; componentConsultaMedica = false">
                     Crías
                     <v-icon>mdi-baby-bottle-outline</v-icon>
                 </v-tab>
 
-                <v-tab href="#tab-2" @click="componentConsultaMedica = true; componentCria = false">
+                <v-tab @click="componentConsultaMedica = true; componentCria = false">
                     Consultas Médicas
                     <v-icon>mdi-medical-bag</v-icon>
                 </v-tab>
@@ -363,6 +363,7 @@ export default {
             // Dialogo de hato (baja)
             dialogoBajaHato: false,
 
+            // tabs
             idHatoSelec: null,
             componentCria: false,
             componentConsultaMedica: false,
@@ -400,7 +401,9 @@ export default {
             this.$refs.formBusqueda.reset()
             this.filtro.busqueda = ""
             this.idHatoSelec = null
-            this.rowSelected.select(false)
+            if (this.rowSelected != null) {
+                this.rowSelected.select(false)
+            }
             this.componentCria = false
             this.componentConsultaMedica = false
             this.cargarHatos()

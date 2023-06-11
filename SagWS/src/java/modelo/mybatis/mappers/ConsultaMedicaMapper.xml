@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ConsultaMedica">
+    <select id="getConsultasMedicasByIdHato" resultType="modelo.pojos.ConsultaMedica" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getConsultasMedicasByIdHato(#{idHato, jdbcType=INTEGER,mode=IN})}
+    </select>
+
+    <select id="getConsultasMedicasByIdRancho" resultType="modelo.pojos.ConsultaMedica" parameterType="int" statementType="CALLABLE">
+        {CALL sag.sp_getConsultasMedicasByIdRancho(#{idRancho, jdbcType=INTEGER,mode=IN})}
+    </select>
+
+    <select id="buscarConsultasMedicas" resultType="modelo.pojos.ConsultaMedica" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_buscarConsultasMedicas(
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{busqueda, jdbcType=VARCHAR,mode=IN})}
+    </select>
+    
+    <insert id="registrarConsultaMedica" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_registrarConsultaMedica(
+            #{idHato, jdbcType=INTEGER,mode=IN},
+            #{nombreVeterinario, jdbcType=VARCHAR,mode=IN},
+            #{fechaAtencion, jdbcType=VARCHAR,mode=IN},
+            #{observaciones, jdbcType=VARCHAR,mode=IN},
+            #{idMotivoAtencion, jdbcType=INTEGER,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioAlta, jdbcType=INTEGER,mode=IN})}
+    </insert>
+
+    <update id="editarConsultaMedica" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_editarConsultaMedica(
+            #{idConsultaMedica, jdbcType=INTEGER,mode=IN},
+            #{idHato, jdbcType=INTEGER,mode=IN},
+            #{nombreVeterinario, jdbcType=VARCHAR,mode=IN},
+            #{fechaAtencion, jdbcType=VARCHAR,mode=IN},
+            #{observaciones, jdbcType=VARCHAR,mode=IN},
+            #{idMotivoAtencion, jdbcType=INTEGER,mode=IN},
+            #{idRancho, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+
+    <update id="cancelarConsultaMedica" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_cancelarConsultaMedica(
+            #{idConsultaMedica, jdbcType=INTEGER,mode=IN},
+            #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
+    </update>
+</mapper>
