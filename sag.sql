@@ -120,12 +120,12 @@ CREATE TABLE IF NOT EXISTS cria(
 
 CREATE TABLE IF NOT EXISTS consultaMedica(
 	idConsultaMedica INT NOT NULL AUTO_INCREMENT,
-	idHato INT,
-	idCria INT,
+	idHato INT NOT NULL,
 	nombreVeterinario VARCHAR(100) NOT NULL,
 	fechaAtencion DATE NOT NULL,
 	observaciones VARCHAR(500) NOT NULL,
-	motivoAtencion VARCHAR(500) NOT NULL,
+	idMotivoAtencion INT NOT NULL,
+	cancelado BOOLEAN NOT NULL DEFAULT false,
 	idRancho INT NOT NULL,
 	fechaAlta DATE NOT NULL,
 	idUsuarioAlta INT NOT NULL,
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS consultaMedica(
 	idUsuarioEditor INT,
 	PRIMARY KEY (idConsultaMedica),
 	FOREIGN KEY (idHato) REFERENCES hato(idHato),
-	FOREIGN KEY (idCria) REFERENCES cria(idCria),
+	FOREIGN KEY (idMotivoAtencion) REFERENCES catalogo(idCatalogo),
 	FOREIGN KEY (idRancho) REFERENCES rancho(idRancho),
 	FOREIGN KEY (idUsuarioAlta) REFERENCES usuario(idUsuario),
 	FOREIGN KEY (idUsuarioEditor) REFERENCES usuario(idUsuario));
@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS traspaso(
 	idTraspaso INT NOT NULL AUTO_INCREMENT,
 	idLoteAnterior INT NOT NULL,
 	idLoteDestino INT NOT NULL,
+	cancelado BOOLEAN NOT NULL DEFAULT false,
 	fechaCancelacion DATE,
 	motivoCancelacion VARCHAR(300),
 	idRancho INT NOT NULL,
@@ -192,6 +193,7 @@ INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (2, NULL, "Rol de sistema", "S"),
 (3, NULL, "Raza", "S"),
 (4, NULL, "Movimiento", "S"),
+(5, NULL, "Motivos de atención médica", "S"),
 (101, 1, "Activo", "S"),
 (102, 1, "Inactivo", "S"),
 (103, 1, "Cancelado", "S"),
@@ -207,7 +209,11 @@ INSERT INTO catalogo(idCatalogo, idCategoria, nombre, activo) VALUES
 (401, 4, "Inversión en rancho", "S"),
 (402, 4, "Pago Nóminas", "S"),
 (403, 4, "Compra de productos", "S"),
-(404, 4, "Venta de productos", "S");
+(404, 4, "Venta de productos", "S"),
+(501, 5, "Revisión rutinaria", "S"),
+(502, 5, "Visita por enfermedad", "S"),
+(503, 5, "Visita de emergencia", "S"),
+(504, 5, "Vacunación", "S");
 
 INSERT INTO usuario(nombre, apellidoPaterno, apellidoMaterno, celular, usuario, contrasena, idRol, idEstatus, idRancho, fechaAlta, idUsuarioAlta) VALUES 
 ("Luis Enrique", "Zapata", "Lopez", "2281345788", "LuisZpt", "B5997B3AAA94FB20F581FFE549FE79F2F5F9DCF61BCE39B033A2A7556A82180633BE1320E64D3B4B03DA9B7A56BD5E8C5B51CF1C99C7F543AF36B0ED9E116D8A", 201, 101, 1, "2023-04-22", 1),
@@ -257,6 +263,9 @@ INSERT INTO movimiento(cantidadVenta, tipo, idConcepto, fecha, observaciones, id
 (20000, "Egreso", 402,"2023-04-21", "Apenas lo compramos y ya les pagamos a los trabajadores :/", 1, "2023-04-23", 2),
 (5000, "Ingreso", 404, "2023-04-23", "Venta de productos lácteos", 1, "2023-04-21", 2),
 (5000000, "Ingreso", 401, "2023-04-20", "Ingreso inicial", 2, "2023-05-14", 3);
+
+INSERT INTO consultamedica(idHato, nombreVeterinario, fechaAtencion, observaciones, idMotivoAtencion, idRancho, fechaAlta, idUsuarioAlta) VALUES
+(1, "Paco", CURDATE(), "Estaba enfermita", 501, 1, "2023-06-10", 1);
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -432,11 +441,12 @@ CREATE OR REPLACE VIEW consultasmedicasfullinfo AS
 	SELECT
 		cm.idConsultaMedica,
 		cm.idHato,
-		cm.idCria,
 		cm.nombreVeterinario,
 		DATE_FORMAT(cm.fechaAtencion, "%d-%m-%Y") AS fechaAtencion,
 		cm.observaciones,
-		cm.motivoAtencion,
+		cm.idMotivoAtencion,
+		ca.nombre AS motivoAtencion,
+		cm.cancelado,
 		cm.idRancho,
 		r.nombre AS rancho,
 		DATE_FORMAT(cm.fechaAlta, "%d-%m-%Y") AS fechaAlta,
@@ -447,6 +457,7 @@ CREATE OR REPLACE VIEW consultasmedicasfullinfo AS
 		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
 	FROM consultaMedica cm
 		INNER JOIN rancho r ON cm.idRancho=r.idRancho
+		INNER JOIN catalogo ca ON cm.idMotivoAtencion=ca.idCatalogo
 		INNER JOIN usuario ua ON cm.idUsuarioAlta=ua.idUsuario
 		LEFT JOIN usuario ue ON cm.idUsuarioEditor=ue.idUsuario
 	ORDER BY cm.idConsultaMedica;
@@ -951,9 +962,9 @@ END$$
 
 -- ############################################################################################################################################## --
 
-CREATE PROCEDURE sp_getAllConsultasMedicas()
+CREATE PROCEDURE sp_getConsultasMedicasByIdHato(IN idHato INT)
 BEGIN
-	SELECT * FROM consultasmedicasfullinfo;
+	SELECT * FROM consultasmedicasfullinfo c WHERE c.idHato=idHato;
 END$$
 
 -- ############################################################################################################################################## --
@@ -967,23 +978,22 @@ END$$
 
 CREATE PROCEDURE sp_buscarConsultasMedicas(IN idRancho INT, IN busqueda VARCHAR(30))
 BEGIN
-	SELECT * FROM consultasmedicasfullinfo c WHERE (c.idConsultaMedica=busqueda OR LOCATE(busqueda, c.fechaAtencion)) AND c.idRancho=idRancho;
+	SELECT * FROM consultasmedicasfullinfo c WHERE (c.idConsultaMedica=busqueda OR LOCATE(busqueda, c.motivoAtencion)) AND c.idRancho=idRancho;
 END$$
 
 -- ############################################################################################################################################## --
 
 CREATE PROCEDURE sp_registrarConsultaMedica(
 	IN idHato INT,
-	IN idCria INT,
 	IN nombreVeterinario VARCHAR(100),
 	IN fechaAtencion DATE,
 	IN observaciones VARCHAR(500),
-	IN motivoAtencion VARCHAR(500),
+	IN idMotivoAtencion INT,
 	IN idRancho INT,
 	IN idUsuarioAlta INT)
 BEGIN
-	INSERT INTO consultaMedica(idHato, idCria, nombreVeterinario, fechaAtencion, observaciones, motivoAtencion, idRancho, fechaAlta, idUsuarioAlta) VALUES
-	(idHato, idCria, nombreVeterinario, fechaAtencion, observaciones, motivoAtencion, idRancho, CURDATE(), idUsuarioAlta);
+	INSERT INTO consultaMedica(idHato, nombreVeterinario, fechaAtencion, observaciones, idMotivoAtencion, idRancho, fechaAlta, idUsuarioAlta) VALUES
+	(idHato, nombreVeterinario, fechaAtencion, observaciones, idMotivoAtencion, idRancho, CURDATE(), idUsuarioAlta);
 END$$
 
 -- ############################################################################################################################################## --
@@ -991,16 +1001,26 @@ END$$
 CREATE PROCEDURE sp_editarConsultaMedica(
 	IN idConsultaMedica INT,
 	IN idHato INT,
-	IN idCria INT,
 	IN nombreVeterinario VARCHAR(100),
 	IN fechaAtencion DATE,
 	IN observaciones VARCHAR(500),
-	IN motivoAtencion VARCHAR(500),
+	IN idMotivoAtencion INT,
 	IN idRancho INT,
 	IN idUsuarioEditor INT)
 BEGIN
 	UPDATE consultaMedica cm
-	SET cm.idHato=idHato, cm.idCria=idCria, cm.nombreVeterinario=nombreVeterinario, cm.fechaAtencion=fechaAtencion, cm.observaciones=observaciones, cm.motivoAtencion=motivoAtencion, cm.idRancho=idRancho, cm.fechaEdicion=CURDATE(), cm.idUsuarioEditor=idUsuarioEditor
+	SET cm.idHato=idHato, cm.nombreVeterinario=nombreVeterinario, cm.fechaAtencion=fechaAtencion, cm.observaciones=observaciones, cm.idMotivoAtencion=idMotivoAtencion, cm.idRancho=idRancho, cm.fechaEdicion=CURDATE(), cm.idUsuarioEditor=idUsuarioEditor
+	WHERE cm.idConsultaMedica=idConsultaMedica;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_cancelarConsultaMedica(
+	IN idConsultaMedica INT,
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE consultaMedica cm
+	SET cm.cancelado=true, cm.idUsuarioEditor=idUsuarioEditor
 	WHERE cm.idConsultaMedica=idConsultaMedica;
 END$$
 

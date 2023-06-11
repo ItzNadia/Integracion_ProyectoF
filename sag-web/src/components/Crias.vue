@@ -263,7 +263,6 @@ export default {
         };
     },
     created() {
-        console.log("Crías, idHato: " + this.$props.idHatoSelec)
         if (this.$props.idHatoSelec != null) {
             this.cargarCriasByIdHato()
         } else {
@@ -281,7 +280,7 @@ export default {
             this.loader = false
 
             if (resBusqueda.length < 1) {
-                this.$toast.info("No se encuentraron crías...")
+                this.$toast.info("No se encontraron crías...")
             } else {
                 this.datosCrias = resBusqueda
             }
