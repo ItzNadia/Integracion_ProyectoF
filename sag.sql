@@ -267,6 +267,11 @@ INSERT INTO movimiento(cantidadVenta, tipo, idConcepto, fecha, observaciones, id
 INSERT INTO consultamedica(idHato, nombreVeterinario, fechaAtencion, observaciones, idMotivoAtencion, idRancho, fechaAlta, idUsuarioAlta) VALUES
 (1, "Paco", CURDATE(), "Estaba enfermita", 501, 1, "2023-06-10", 1);
 
+INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('1', '1', '2', '1', '2023-06-10', '1');
+INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('2', '3', '1', '1', '2023-06-10', '2');
+INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('3', '4', '2', '1', '2023-06-10', '1');
+INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('4', '2', '1', '2', '2023-06-10', '2');
+
 SET FOREIGN_KEY_CHECKS=1;
 
 -- ############################################################################################################################################## --
@@ -489,6 +494,34 @@ CREATE OR REPLACE VIEW movimientosfullinfo AS
 		INNER JOIN usuario ua ON m.idUsuarioAlta=ua.idUsuario
 		LEFT JOIN usuario ue ON m.idUsuarioEditor=ue.idUsuario
 	ORDER BY m.fecha DESC;
+
+-- ############################################################################################################################################## --
+
+CREATE OR REPLACE VIEW traspasosfullinfo AS
+	SELECT
+		t.idTraspaso,
+    	t.idLoteAnterior,
+    	la.nombre AS loteAnterior,
+    	t.idLoteDestino,
+    	ld.nombre AS loteDestino,
+    	t.cancelado,
+    	DATE_FORMAT(t.fechaCancelacion, "%d-%m-%Y") AS fechaCancelacion,
+    	t.motivoCancelacion,
+    	t.idRancho,
+		r.nombre AS rancho,
+		DATE_FORMAT(t.fechaAlta, "%d-%m-%Y") AS fechaAlta,
+		t.idUsuarioAlta,
+		CONCAT(ua.nombre, " ", ua.apellidoPaterno, " ", ua.apellidoMaterno) AS usuarioAlta,
+		DATE_FORMAT(t.fechaEdicion, "%d-%m-%Y") AS fechaEdicion,
+		t.idUsuarioEditor,
+		CONCAT(ue.nombre, " ", ue.apellidoPaterno, " ", ue.apellidoMaterno) AS usuarioEditor
+
+	FROM traspaso t
+		INNER JOIN lote la ON t.idLoteAnterior=la.idLote
+		INNER JOIN lote ld ON t.idLoteDestino=ld.idLote
+		INNER JOIN rancho r ON t.idRancho=r.idRancho
+		INNER JOIN usuario ua ON t.idUsuarioAlta=ua.idUsuario
+		LEFT JOIN usuario ue ON t.idUsuarioEditor=ue.idUsuario;
 
 -- ############################################################################################################################################## --
 
@@ -1113,5 +1146,62 @@ BEGIN
 	WHERE m.idMovimiento=idMovimiento;
 END$$
 
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_buscarTraspasos(IN idRancho INT, IN busqueda VARCHAR(100))
+BEGIN
+	SELECT * FROM traspasosfullinfo t WHERE (t.idTraspaso=busqueda OR LOCATE(busqueda, t.loteAnterior) OR LOCATE(busqueda, t.loteDestino)) AND t.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_registrarTraspaso(
+	IN idLoteAnterior INT,
+	IN idLoteDestino INT,
+	IN idRancho INT,
+	IN idUsuarioAlta INT)	
+BEGIN
+	INSERT INTO traspaso(idLoteAnterior, idLoteDestino, idRancho, fechaAlta, idUsuarioAlta) VALUES
+	(idLoteAnterior, idLoteDestino, idRancho, CURDATE(), idUsuarioAlta);
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_editarTraspaso(
+	IN idTraspaso INT,
+	IN idLoteAnterior INT,
+	IN idLoteDestino INT,
+	IN idRancho INT,
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE traspaso t
+	SET t.idLoteAnterior=idLoteAnterior, t.idLoteDestino=idLoteDestino, t.idRancho=idRancho, t.fechaEdicion=CURDATE(), t.idUsuarioEditor=idUsuarioEditor
+	WHERE t.idTraspaso=idTraspaso;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_cancelarTraspaso(
+	IN idTraspaso INT,
+	IN motivoCancelacion VARCHAR(300),
+	IN idUsuarioEditor INT)
+BEGIN
+	UPDATE traspaso t
+	SET t.cancelado=true, t.fechaCancelacion=CURDATE(), t.motivoCancelacion=motivoCancelacion, t.fechaEdicion=CURDATE(), t.idUsuarioEditor=idUsuarioEditor
+	WHERE t.idTraspaso=idTraspaso;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getTraspasosByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM traspasosfullinfo t WHERE t.idRancho=idRancho;
+END$$
+
 
 DELIMITER ;
+
+
+
+
+

@@ -23,6 +23,7 @@ public class ApplicationConfig extends Application {
         resources.add(servicios.MovimientoWS.class);
         resources.add(servicios.RanchoWS.class);
         resources.add(servicios.SesionWS.class);
+        resources.add(servicios.TraspasoWS.class);
         resources.add(servicios.UsuarioWS.class);
     }
     

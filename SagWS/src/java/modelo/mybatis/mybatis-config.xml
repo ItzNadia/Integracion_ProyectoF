@@ -30,5 +30,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
        <mapper resource="modelo/mybatis/mappers/LoteMapper.xml"/>
        <mapper resource="modelo/mybatis/mappers/CriaMapper.xml"/>
        <mapper resource="modelo/mybatis/mappers/ConsultaMedicaMapper.xml"/>
+       <mapper resource="modelo/mybatis/mappers/TraspasoMapper.xml"/>
     </mappers>
 </configuration>
