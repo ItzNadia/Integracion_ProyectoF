@@ -308,6 +308,7 @@ export default {
             this.dialogoConsultaMedica = true
         },
         async onClickCancelarConsultaMedica(item) {
+            if(confirm('¿Seguro que quiere cancelar esta consulta medica?')){
             this.loader = true
 
             const response = await post("/consultaMedica/cancelarConsultaMedica", { idConsultaMedica: item.idConsultaMedica, idUsuarioEditor: this.$session.get("user").idUsuario })
@@ -320,6 +321,7 @@ export default {
             }
 
             this.loader = false
+        } 
         },
         async onClickGuardarDialogoConsultaMedica() {
             if (this.$refs.formConsultaMedica.validate()) {

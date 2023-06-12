@@ -327,6 +327,7 @@ export default {
             this.dialogoCria = true
         },
         async onClickCambiarEstatusCria(item, band) {
+            if(confirm('¿Seguro que quiere cambiar el estatus de esta cria?')){
             this.loader = true
 
             var respuestaForm
@@ -349,6 +350,7 @@ export default {
             }
 
             this.loader = false
+        }
         },
         async onClickGuardarDialogoCria() {
             console.log(this.cria)

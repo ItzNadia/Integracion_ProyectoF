@@ -455,6 +455,8 @@ export default {
             }
         },
         async onClickCambiarEstatusHato(item, band) {
+            if(confirm('¿Seguro que quiere cambiar el estatus de este hato?')){
+            
             this.loader = true
 
             var respuestaForm
@@ -473,6 +475,7 @@ export default {
             }
 
             this.loader = false
+        }
         },
         async cargarPropiedadesHatos() { // carga los datos para los comboBox (v-select)
             this.catRazas = null
@@ -548,6 +551,7 @@ export default {
 
         // Dialogo baja hato
         async onClickBajaHato(item) {
+            if(confirm('¿Seguro que quiere dar de baja este hato?')){
             if (item.idEstatus === 103) {
                 this.$toast.error("Este hato ya se encuentra cancelado...")
             } else {
@@ -559,6 +563,7 @@ export default {
                 this.loader = false
                 this.dialogoBajaHato = true
             }
+        }
         },
         async onClickGuardarBajaHato() {
             if (this.$refs.formBajaHato.validate()) {

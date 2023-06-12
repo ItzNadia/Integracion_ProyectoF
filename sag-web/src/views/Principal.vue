@@ -1,7 +1,7 @@
 <template>
     <v-container>
-        <v-col>
             <Menu />
+        <v-col>
         </v-col>
         <v-col>
             <v-img class="mx-auto" contain max-height="450" max-width="550"

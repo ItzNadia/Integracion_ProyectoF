@@ -461,8 +461,10 @@ export default {
             this.dialogoVerHatosDelTraspaso = true
         },
         async onClickCancelarTraspaso(item) {
+            if(confirm('¿Seguro que quiere cancelar  esta Traspaso?')){
             this.traspaso.idTraspaso = item.idTraspaso
             this.dialogoCancelar = true
+            }
         },
         onClickCerrarHatosDelTraspaso() {
             this.datosHatos = []

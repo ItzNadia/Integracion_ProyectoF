@@ -1,8 +1,12 @@
 <template>
-    <v-container>
+    <div>
         <v-card elevation="12">
             <v-navigation-drawer app permanent expand-on-hover>
                 <v-list-item>
+                    <v-list-item-avatar>
+                        <v-img class="mx-auto" contain max-height="35" max-width="35"
+                        :src="require('../assets/logo__sag.png')"></v-img>
+                    </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title class="text-h6">
                             S A G
@@ -75,15 +79,17 @@
                 </v-list>
             </v-navigation-drawer>
         </v-card>
-    </v-container>
+    </div>
 </template>
 
 <script>
 export default {
     methods: {
         onClickCerrarSesion() {
+            if(confirm('¿Seguro que quiere cerrar sesión?')){
             this.$session.destroy();
             this.$router.push({ name: "Login" })
+            }
         }
     },
 };

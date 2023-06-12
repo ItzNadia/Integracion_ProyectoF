@@ -3,8 +3,13 @@
         <!-- Panel de busqueda -->
         <v-row cols="12">
             <v-col cols="12" sm="7" class="mx-auto">
+                <br>
+                <br>
                 <v-card elevation="15" outlined shaped>
-                    <v-card-title>Bienvenido al sistema administrativo de ganado</v-card-title>
+                    <div margin:auto>
+                        <br>
+                        <h1>Bienvenido al sistema administrativo de ganado</h1>
+                    </div>
                     <v-img class="mx-auto" contain max-height="450" max-width="550"
                         :src="require('../assets/logo__sag.png')"></v-img>
                     <v-card-text class="text-md-center">
