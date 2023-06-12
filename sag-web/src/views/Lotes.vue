@@ -295,6 +295,7 @@ export default {
             this.dialogoLote = true
         },
         async onClickCambiarEstatusLote(item, band) {
+            if(confirm('¿Seguro que quiere cambiar el estatus de este Lote?')){
             this.loader = true
 
             var respuestaForm
@@ -313,6 +314,7 @@ export default {
             }
 
             this.loader = false
+        }
         },
         async onClickGuardarDialogoLote() {
             console.log(this.lote)
