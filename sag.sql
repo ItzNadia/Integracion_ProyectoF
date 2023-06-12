@@ -267,10 +267,17 @@ INSERT INTO movimiento(cantidadVenta, tipo, idConcepto, fecha, observaciones, id
 INSERT INTO consultamedica(idHato, nombreVeterinario, fechaAtencion, observaciones, idMotivoAtencion, idRancho, fechaAlta, idUsuarioAlta) VALUES
 (1, "Paco", CURDATE(), "Estaba enfermita", 501, 1, "2023-06-10", 1);
 
-INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('1', '1', '2', '1', '2023-06-10', '1');
-INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('2', '3', '1', '1', '2023-06-10', '2');
-INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('3', '4', '2', '1', '2023-06-10', '1');
-INSERT INTO `sag`.`traspaso` (`idTraspaso`, `idLoteAnterior`, `idLoteDestino`, `idRancho`, `fechaAlta`, `idUsuarioAlta`) VALUES ('4', '2', '1', '2', '2023-06-10', '2');
+INSERT INTO traspaso(idLoteAnterior, idLoteDestino, idRancho, fechaAlta, idUsuarioAlta) VALUES
+(2, 5, 1, "2023-06-10", 1),
+(3, 4, 1, "2023-06-10", 2),
+(4, 2, 1, "2023-06-10", 1),
+(2, 1, 2, "2023-06-10", 2);
+
+INSERT INTO hatosTraspaso(idHato, idTraspaso) VALUES
+(3, 1),
+(6, 1),
+(10, 1),
+(4, 2);
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -862,6 +869,13 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_getHatosByIdLote(IN idRancho INT, IN idLote INT)
+BEGIN
+	SELECT * FROM hatosfullinfo h WHERE h.idLote=idLote AND h.idRancho=idRancho AND h.idEstatus=101;
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_buscarHatos(IN idRancho INT, IN busqueda VARCHAR(106))
 BEGIN
 	SELECT * FROM hatosfullinfo h WHERE (h.idHato=busqueda OR LOCATE(busqueda, h.diio)) AND h.idRancho=idRancho;
@@ -1148,6 +1162,31 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_getIdSiguienteTraspaso()
+BEGIN
+	SELECT COUNT(t.idTraspaso)+1 AS idTraspaso FROM traspasosfullinfo t;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getTraspasosByIdRancho(IN idRancho INT)
+BEGIN
+	SELECT * FROM traspasosfullinfo t WHERE t.idRancho=idRancho;
+END$$
+
+-- ############################################################################################################################################## --
+
+CREATE PROCEDURE sp_getHatosByIdTraspaso(IN idRancho INT, IN idTraspaso INT)
+BEGIN
+	SELECT hf.idHato, hf.diio, hf.raza, hf.sexo, hf.descripcion
+	FROM hatosfullinfo hf
+		INNER JOIN hatosTraspaso ht ON hf.idHato = ht.idHato
+	    INNER JOIN traspaso t ON ht.idTraspaso = t.idTraspaso
+	WHERE hf.idRancho=idRancho AND ht.idTraspaso=idTraspaso;
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_buscarTraspasos(IN idRancho INT, IN busqueda VARCHAR(100))
 BEGIN
 	SELECT * FROM traspasosfullinfo t WHERE (t.idTraspaso=busqueda OR LOCATE(busqueda, t.loteAnterior) OR LOCATE(busqueda, t.loteDestino)) AND t.idRancho=idRancho;
@@ -1181,6 +1220,21 @@ END$$
 
 -- ############################################################################################################################################## --
 
+CREATE PROCEDURE sp_agregarHatosTraspaso(
+	IN idHato INT,
+	IN idTraspaso INT,
+	IN idLoteDestino INT)
+BEGIN
+	INSERT INTO hatosTraspaso(idHato, idTraspaso) VALUES
+	(idHato, idTraspaso);
+
+	UPDATE hato h
+	SET h.idLote=idLoteDestino
+	WHERE h.idHato = idHato;
+END$$
+
+-- ############################################################################################################################################## --
+
 CREATE PROCEDURE sp_cancelarTraspaso(
 	IN idTraspaso INT,
 	IN motivoCancelacion VARCHAR(300),
@@ -1191,17 +1245,5 @@ BEGIN
 	WHERE t.idTraspaso=idTraspaso;
 END$$
 
--- ############################################################################################################################################## --
-
-CREATE PROCEDURE sp_getTraspasosByIdRancho(IN idRancho INT)
-BEGIN
-	SELECT * FROM traspasosfullinfo t WHERE t.idRancho=idRancho;
-END$$
-
 
 DELIMITER ;
-
-
-
-
-

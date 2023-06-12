@@ -1,199 +1,209 @@
 <template>
     <v-container fluid>
-        <!--Panel de búsqueda-->
         <v-row>
-            <v-col>
-                <v-card elevation="2" width="100%" outlined shaped dense class="ml-20 mr-20">
-                    <v-card-title>Buscar Hato</v-card-title>
-                    <v-card-text>
-                        <v-form ref="formBusqueda" v-model="valid">
-                            <v-row>
-                                <v-col cols="12" md="4" sm="6">
-                                    <v-text-field v-model="filtro.busqueda" label="NDH o DIIO" maxlength="106" counter
-                                        required />
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer />
-                        <v-btn @click="onClickBuscarHato" rounded color="primary" dark small>
-                            <v-icon dark left>mdi-magnify</v-icon>
-                            Buscar
+            <v-col cols="1">
+                <Menu />
+            </v-col>
+            <v-col cols="11">
+                <!--Panel de búsqueda-->
+                <v-row>
+                    <v-col>
+                        <v-card elevation="2" width="100%" outlined shaped dense class="ml-20 mr-20">
+                            <v-card-title>Buscar Hato</v-card-title>
+                            <v-card-text>
+                                <v-form ref="formBusqueda" v-model="valid">
+                                    <v-row>
+                                        <v-col cols="12" md="4" sm="6">
+                                            <v-text-field v-model="filtro.busqueda" label="NDH o DIIO" maxlength="106"
+                                                counter required />
+                                        </v-col>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer />
+                                <v-btn @click="onClickBuscarHato" rounded color="primary" dark small>
+                                    <v-icon dark left>mdi-magnify</v-icon>
+                                    Buscar
+                                </v-btn>
+                                <v-btn @click="onClickLimpiarHato" rounded color="orange" dark small>
+                                    <v-icon dark left>mdi-backspace</v-icon>
+                                    Limpiar
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <!--Sección tabla principal-->
+                <v-row align="start" justify="start">
+                    <v-col cols="2">
+                        <v-btn rounded color="primary" dark small @click="onClickNuevoHato">
+                            <v-icon dark left>mdi-plus-circle-outline</v-icon>
+                            Nuevo Hato
                         </v-btn>
-                        <v-btn @click="onClickLimpiarHato" rounded color="orange" dark small>
-                            <v-icon dark left>mdi-backspace</v-icon>
-                            Limpiar
-                        </v-btn>
-                    </v-card-actions>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12">
+                        <v-data-table :headers="encabezadosHatos" :items="datosHatos" @click:row="onClickTablaHato"
+                            item-key="idHato" single-select :items-per-page="10" class="ml-5 mr-5" dense>
+                            <template v-slot:item.acciones="{ item }">
+                                <v-row>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-if="item.idEstatus != 103" icon v-bind="attrs"
+                                                @click="onClickEditarHato(item)">
+                                                <v-icon color="primary" v-on="on">mdi-pencil</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Editar</span>
+                                    </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-if="item.idEstatus === 102"
+                                                @click="onClickCambiarEstatusHato(item, true)" icon v-bind="attrs">
+                                                <v-icon color="green lighten-2" v-on="on">mdi-arrow-up-bold-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Establecer como activo</span>
+                                    </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-if="item.idEstatus === 101"
+                                                @click="onClickCambiarEstatusHato(item, false)" icon v-bind="attrs">
+                                                <v-icon color="red lighten-2" v-on="on">mdi-arrow-down-bold-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Establecer como inactivo</span>
+                                    </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-if="item.idEstatus != 103" icon v-bind="attrs"
+                                                @click="onClickBajaHato(item)">
+                                                <v-icon color="gray" v-on="on">mdi-cow-off</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Dar de baja</span>
+                                    </v-tooltip>
+                                </v-row>
+                            </template>
+                            <template v-slot:item.estatus="{ item }">
+                                <v-card-text v-if="item.idEstatus === 101" class="green--text">{{ item.estatus
+                                }}</v-card-text>
+                                <v-card-text v-if="item.idEstatus === 102" class="red--text">{{ item.estatus
+                                }}</v-card-text>
+                                <v-card-text v-if="item.idEstatus === 103" class="orange--text">{{ item.estatus
+                                }}</v-card-text>
+                            </template>
+                        </v-data-table>
+                    </v-col>
+                </v-row>
+
+                <v-card elevation="10">
+                    <v-tabs ref="wasd" centered icons-and-text>
+                        <v-tabs-slider></v-tabs-slider>
+
+                        <v-tab @click="onClickTabCria">
+                            Crías
+                            <v-icon>mdi-baby-bottle-outline</v-icon>
+                        </v-tab>
+
+                        <v-tab @click="onClickTabConsultaMedica">
+                            Consultas Médicas
+                            <v-icon>mdi-medical-bag</v-icon>
+                        </v-tab>
+                    </v-tabs>
+
+                    <Crias v-if="componentCria" :idHatoSelec="idHatoSelec" />
+                    <ConsultasMedicas v-if="componentConsultaMedica" :idHatoSelec="idHatoSelec" />
                 </v-card>
+
+                <!--Sección detalle-->
+                <v-dialog v-model="dialogoHato" persistent max-width="1000" transition="dialog-transition">
+                    <v-card>
+                        <v-card-title>Hato</v-card-title>
+                        <v-card-text>
+                            <v-form ref="formHato" v-model="valid">
+                                <v-row justify="start">
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-text-field v-model="hato.diio" label="DIIO*" :rules="required" maxlength="106"
+                                            counter required />
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-switch v-model="switchEstatusHato" :label="`Estatus*: ${switchEstatusHato}`"
+                                            true-value="Activo" false-value="Inactivo"></v-switch>
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-select :items="catRazas" label="Raza*" item-value="idCatalogo" item-text="nombre"
+                                            @change="changeRaza" :rules="required" v-model="idRazaSelec"></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-select :items="catSexo" label="Sexo*" item-value="idSexo" item-text="nombre"
+                                            @change="changeSexo" :rules="required" v-model="idSexoSelec"></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-text-field v-model="hato.descripcion" label="Descripción*" :rules="required"
+                                            maxlength="250" counter required />
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-select :items="catLotes" label="Lote*" item-value="idLote" item-text="nombre"
+                                            @change="changeLote" :rules="required" v-model="idLoteSelec"
+                                            v-if="isNewHato"></v-select>
+                                    </v-col>
+                                </v-row>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn @click="onClickGuardarHato" elevation="0" dark rounded width="120"
+                                class="green px13 font-weight-regular pr-4" small>
+                                <v-icon left>mdi-check</v-icon>
+                                Guardar
+                            </v-btn>
+                            <v-btn @click="onClickCerrarHato" elevation="0" rounded text width="100"
+                                class="red--text px13 font-weight-bold" small>
+                                <v-icon left>mdi-close-circle</v-icon>
+                                Cerrar
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <v-dialog v-model="dialogoBajaHato" persistent max-width="1000" transition="dialog-transition">
+                    <v-card>
+                        <v-card-title>Baja hato</v-card-title>
+                        <v-card-text>
+                            <v-form ref="formBajaHato" v-model="valid">
+                                <p>Fecha Baja*</p>
+                                <v-row justify="center">
+                                    <v-date-picker v-model="hato.fechaBaja"
+                                        :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                                        elevation="5" />
+                                </v-row>
+                                <br /><br />
+                                <v-row>
+                                    <v-textarea v-model="hato.motivoBaja" label="Motivo de la baja*" maxlength="500" counter
+                                        required auto-grow filled :rules="required" />
+                                </v-row>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn @click="onClickGuardarBajaHato" elevation="0" dark rounded width="120"
+                                class="green px13 font-weight-regular pr-4" small>
+                                <v-icon left>mdi-check</v-icon>
+                                Guardar
+                            </v-btn>
+                            <v-btn @click="onClickCerrarBajaHato" elevation="0" rounded text width="100"
+                                class="red--text px13 font-weight-bold" small>
+                                <v-icon left>mdi-close-circle</v-icon>
+                                Cerrar
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-col>
         </v-row>
-        <!--Sección tabla principal-->
-        <v-row align="start" justify="start">
-            <v-col cols="2">
-                <v-btn rounded color="primary" dark small @click="onClickNuevoHato">
-                    <v-icon dark left>mdi-plus-circle-outline</v-icon>
-                    Nuevo Hato
-                </v-btn>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12">
-                <v-data-table :headers="encabezadosHatos" :items="datosHatos" @click:row="onClickTablaHato"
-                    item-key="idHato" single-select :items-per-page="10" class="ml-5 mr-5" dense>
-                    <template v-slot:item.acciones="{ item }">
-                        <v-row>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="item.idEstatus != 103" icon v-bind="attrs"
-                                        @click="onClickEditarHato(item)">
-                                        <v-icon color="primary" v-on="on">mdi-pencil</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Editar</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="item.idEstatus === 102" @click="onClickCambiarEstatusHato(item, true)" icon
-                                        v-bind="attrs">
-                                        <v-icon color="green lighten-2" v-on="on">mdi-arrow-up-bold-outline</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Establecer como activo</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="item.idEstatus === 101" @click="onClickCambiarEstatusHato(item, false)"
-                                        icon v-bind="attrs">
-                                        <v-icon color="red lighten-2" v-on="on">mdi-arrow-down-bold-outline</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Establecer como inactivo</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="item.idEstatus != 103" icon v-bind="attrs" @click="onClickBajaHato(item)">
-                                        <v-icon color="gray" v-on="on">mdi-cow-off</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Dar de baja</span>
-                            </v-tooltip>
-                        </v-row>
-                    </template>
-                    <template v-slot:item.estatus="{ item }">
-                        <v-card-text v-if="item.idEstatus === 101" class="green--text">{{ item.estatus }}</v-card-text>
-                        <v-card-text v-if="item.idEstatus === 102" class="red--text">{{ item.estatus }}</v-card-text>
-                        <v-card-text v-if="item.idEstatus === 103" class="orange--text">{{ item.estatus }}</v-card-text>
-                    </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
-
-        <v-card elevation="10">
-            <v-tabs ref="wasd" centered icons-and-text>
-                <v-tabs-slider></v-tabs-slider>
-
-                <v-tab @click="onClickTabCria">
-                    Crías
-                    <v-icon>mdi-baby-bottle-outline</v-icon>
-                </v-tab>
-
-                <v-tab @click="onClickTabConsultaMedica">
-                    Consultas Médicas
-                    <v-icon>mdi-medical-bag</v-icon>
-                </v-tab>
-            </v-tabs>
-
-            <Crias v-if="componentCria" :idHatoSelec="idHatoSelec" />
-            <ConsultasMedicas v-if="componentConsultaMedica" :idHatoSelec="idHatoSelec" />
-        </v-card>
-
-        <!--Sección detalle-->
-
-        <v-dialog v-model="dialogoHato" persistent max-width="1000" transition="dialog-transition">
-            <v-card>
-                <v-card-title>Hato</v-card-title>
-                <v-card-text>
-                    <v-form ref="formHato" v-model="valid">
-                        <v-row justify="start">
-                            <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.diio" label="DIIO*" :rules="required" maxlength="106" counter
-                                    required />
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
-                                <v-switch v-model="switchEstatusHato" :label="`Estatus*: ${switchEstatusHato}`"
-                                    true-value="Activo" false-value="Inactivo"></v-switch>
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catRazas" label="Raza*" item-value="idCatalogo" item-text="nombre"
-                                    @change="changeRaza" :rules="required" v-model="idRazaSelec"></v-select>
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catSexo" label="Sexo*" item-value="idSexo" item-text="nombre"
-                                    @change="changeSexo" :rules="required" v-model="idSexoSelec"></v-select>
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="hato.descripcion" label="Descripción*" :rules="required"
-                                    maxlength="250" counter required />
-                            </v-col>
-                            <v-col cols="12" md="6" sm="4">
-                                <v-select :items="catLotes" label="Lote*" item-value="idLote" item-text="nombre"
-                                    @change="changeLote" :rules="required" v-model="idLoteSelec"
-                                    v-if="isNewHato"></v-select>
-                            </v-col>
-                        </v-row>
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn @click="onClickGuardarHato" elevation="0" dark rounded width="120"
-                        class="green px13 font-weight-regular pr-4" small>
-                        <v-icon left>mdi-check</v-icon>
-                        Guardar
-                    </v-btn>
-                    <v-btn @click="onClickCerrarHato" elevation="0" rounded text width="100"
-                        class="red--text px13 font-weight-bold" small>
-                        <v-icon left>mdi-close-circle</v-icon>
-                        Cerrar
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-        <v-dialog v-model="dialogoBajaHato" persistent max-width="1000" transition="dialog-transition">
-            <v-card>
-                <v-card-title>Baja hato</v-card-title>
-                <v-card-text>
-                    <v-form ref="formBajaHato" v-model="valid">
-                        <p>Fecha Baja*</p>
-                        <v-row justify="center">
-                            <v-date-picker v-model="hato.fechaBaja"
-                                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                                elevation="5" />
-                        </v-row>
-                        <br /><br />
-                        <v-row>
-                            <v-textarea v-model="hato.motivoBaja" label="Motivo de la baja*" maxlength="500" counter
-                                required auto-grow filled :rules="required" />
-                        </v-row>
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn @click="onClickGuardarBajaHato" elevation="0" dark rounded width="120"
-                        class="green px13 font-weight-regular pr-4" small>
-                        <v-icon left>mdi-check</v-icon>
-                        Guardar
-                    </v-btn>
-                    <v-btn @click="onClickCerrarBajaHato" elevation="0" rounded text width="100"
-                        class="red--text px13 font-weight-bold" small>
-                        <v-icon left>mdi-close-circle</v-icon>
-                        Cerrar
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
 
         <dialogoCarga :loader="loader" />
     </v-container>
@@ -202,12 +212,14 @@
 <script>
 import { get, post } from "../api/Requests"
 import dialogoCarga from '../components/DialogoCarga.vue'
+import Menu from "@/components/Menu.vue";
 import ConsultasMedicas from "@/components/ConsultasMedicas.vue";
 import Crias from "@/components/Crias.vue";
 export default {
     name: "Hatos",
     components: {
         dialogoCarga,
+        Menu,
         ConsultasMedicas,
         Crias,
     },

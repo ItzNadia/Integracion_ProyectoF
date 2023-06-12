@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "9e813948-1263-41c5-abe6-0fad17b9f209",
+		"_postman_id": "6402638b-23b1-4cd3-8f53-6aadcd407129",
 		"name": "SagWS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21050980"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -1709,6 +1708,80 @@
 					"response": []
 				},
 				{
+					"name": "GetHatosByIdLote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idLote",
+									"value": "5",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/getHatosByIdLote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"getHatosByIdLote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHatosByIdTraspaso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idRancho",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "idTraspaso",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/hato/getHatosByIdTraspaso",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"hato",
+								"getHatosByIdTraspaso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "BajaHato",
 					"request": {
 						"method": "POST",
@@ -2306,6 +2379,28 @@
 					"response": []
 				},
 				{
+					"name": "getIdSiguienteTraspaso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/getIdSiguienteTraspaso",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"getIdSiguienteTraspaso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "BuscarTraspaso",
 					"request": {
 						"method": "POST",
@@ -2326,7 +2421,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8084/SagWS/ws/traspaso/buscarTraspasos/",
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/buscarTraspasos",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2336,8 +2431,44 @@
 								"SagWS",
 								"ws",
 								"traspaso",
-								"buscarTraspasos",
-								""
+								"buscarTraspasos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregarHatosTraspaso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "idHato",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "idTraspaso",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/SagWS/ws/traspaso/agregarHatosTraspaso",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"SagWS",
+								"ws",
+								"traspaso",
+								"agregarHatosTraspaso"
 							]
 						}
 					},
