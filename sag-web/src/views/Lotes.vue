@@ -1,117 +1,131 @@
 <template>
     <v-container fluid>
-        <!--Panel de búsqueda-->
         <v-row>
-            <v-col>
-                <v-card elevation="2" width="100%" outlined shaped dense class="ml-20 mr-20">
-                    <v-card-title>Buscar Lote</v-card-title>
-                    <v-card-text>
-                        <v-form ref="formBusqueda" v-model="valid">
-                            <v-row>
-                                <v-col cols="12" md="4" sm="6">
-                                    <v-text-field v-model="filtro.busqueda" label="NDL o Nombre" maxlength="9" counter
-                                        required />
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer />
-                        <v-btn @click="onClickBuscarLote" rounded color="primary" dark small>
-                            <v-icon dark left>mdi-magnify</v-icon>
-                            Buscar
+            <v-col cols="1">
+                <Menu />
+            </v-col>
+            <v-col cols="11">
+                <!--Panel de búsqueda-->
+                <v-row>
+                    <v-col>
+                        <v-card elevation="2" width="100%" outlined shaped dense class="ml-20 mr-20">
+                            <v-card-title>Buscar Lote</v-card-title>
+                            <v-card-text>
+                                <v-form ref="formBusqueda" v-model="valid">
+                                    <v-row>
+                                        <v-col cols="12" md="4" sm="6">
+                                            <v-text-field v-model="filtro.busqueda" label="NDL o Nombre" maxlength="100"
+                                                counter required />
+                                        </v-col>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer />
+                                <v-btn @click="onClickBuscarLote" rounded color="primary" dark small>
+                                    <v-icon dark left>mdi-magnify</v-icon>
+                                    Buscar
+                                </v-btn>
+                                <v-btn @click="onClickLimpiarLote" rounded color="orange" dark small>
+                                    <v-icon dark left>mdi-backspace</v-icon>
+                                    Limpiar
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <!--Sección tabla principal-->
+                <v-row align="start" justify="start">
+                    <v-col cols="2">
+                        <v-btn rounded color="primary" dark small @click="onClickNuevoLote">
+                            <v-icon dark left>mdi-plus-circle-outline</v-icon>
+                            Nuevo Lote
                         </v-btn>
-                        <v-btn @click="onClickLimpiarLote" rounded color="orange" dark small>
-                            <v-icon dark left>mdi-backspace</v-icon>
-                            Limpiar
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-col>
-        </v-row>
-        <!--Sección tabla principal-->
-        <v-row align="start" justify="start">
-            <v-col cols="2">
-                <v-btn rounded color="primary" dark small @click="onClickNuevoLote">
-                    <v-icon dark left>mdi-plus-circle-outline</v-icon>
-                    Nuevo Lote
-                </v-btn>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12">
-                <v-data-table :headers="encabezadosLote" :items="datosLotes" :items-per-page="10" class="ml-5 mr-5" dense>
-                    <template v-slot:item.acciones="{ item }">
-                        <v-row>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon v-bind="attrs" @click="onClickEditarLote(item)">
-                                        <v-icon color="primary" v-on="on">mdi-pencil</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Editar</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="item.idEstatus === 102" @click="onClickCambiarEstatusLote(item, true)" icon
-                                        v-bind="attrs">
-                                        <v-icon color="green lighten-2" v-on="on">mdi-arrow-up-bold-outline</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Activar</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn v-if="item.idEstatus === 101" @click="onClickCambiarEstatusLote(item, false)"
-                                        icon v-bind="attrs">
-                                        <v-icon color="red lighten-2" v-on="on">mdi-arrow-down-bold-outline</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Desactivar</span>
-                            </v-tooltip>
-                        </v-row>
-                    </template>
-                    <template v-slot:item.estatus="{ item }">
-                        <v-card-text v-if="item.idEstatus === 101" class="green--text">{{item.estatus}}</v-card-text>
-                        <v-card-text v-if="item.idEstatus === 102" class="red--text">{{item.estatus}}</v-card-text>
-                    </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12">
+                        <v-data-table :headers="encabezadosLote" :items="datosLotes" :items-per-page="10" class="ml-5 mr-5"
+                            dense>
+                            <template v-slot:item.acciones="{ item }">
+                                <v-row>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" @click="onClickEditarLote(item)">
+                                                <v-icon color="primary" v-on="on">mdi-pencil</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Editar</span>
+                                    </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-if="item.idEstatus === 102"
+                                                @click="onClickCambiarEstatusLote(item, true)" icon v-bind="attrs">
+                                                <v-icon color="green lighten-2" v-on="on">mdi-arrow-up-bold-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Activar</span>
+                                    </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn v-if="item.idEstatus === 101"
+                                                @click="onClickCambiarEstatusLote(item, false)" icon v-bind="attrs">
+                                                <v-icon color="red lighten-2" v-on="on">mdi-arrow-down-bold-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Desactivar</span>
+                                    </v-tooltip>
+                                </v-row>
+                            </template>
+                            <template v-slot:item.estatus="{ item }">
+                                <v-card-text v-if="item.idEstatus === 101" class="green--text">{{ item.estatus
+                                }}</v-card-text>
+                                <v-card-text v-if="item.idEstatus === 102" class="red--text">{{ item.estatus
+                                }}</v-card-text>
+                            </template>
+                        </v-data-table>
+                    </v-col>
+                </v-row>
 
-        <!--Sección detalle-->
-        <v-dialog v-model="dialogoLote" persistent max-width="1000" transition="dialog-transition">
-            <v-card>
-                <v-card-title>Cría</v-card-title>
-                <v-card-text>
-                    <v-form ref="formLote" v-model="valid">
-                        <v-row justify="start">
-                            <v-col cols="12" md="6" sm="4">
-                                <v-text-field v-model="lote.nombre" label="Nombre*" :rules="required"
-                                    maxlength="250" counter required /><br>
-                                    <v-text-field v-model="lote.descripcion" label="Descripción*" :rules="required"
-                                    maxlength="250" counter required /><br>
-                                <v-switch v-model="switchEstatusLote" :label="`Estatus*: ${switchEstatusLote}`"
-                                    true-value="Activo" false-value="Inactivo" />
-                            </v-col>
-                        </v-row><br>
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn @click="onClickGuardarDialogoLote" elevation="0" dark rounded width="120"
-                        class="green px13 font-weight-regular pr-4" small>
-                        <v-icon left>mdi-check</v-icon>
-                        Guardar
-                    </v-btn>
-                    <v-btn @click="onClickCerrarDialogoLote" elevation="0" rounded text width="100"
-                        class="red--text px13 font-weight-bold" small>
-                        <v-icon left>mdi-close-circle</v-icon>
-                        Cerrar
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+                <!--Sección detalle-->
+                <v-dialog v-model="dialogoLote" persistent max-width="1000" transition="dialog-transition">
+                    <v-card>
+                        <v-card-title>Lote</v-card-title>
+                        <v-card-text>
+                            <v-form ref="formLote" v-model="valid">
+                                <v-row justify="start" md="6">
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-text-field v-model="lote.nombre" label="Nombre*" :rules="required"
+                                            maxlength="250" counter required />
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-text-field v-model="lote.descripcion" label="Descripción*" :rules="required"
+                                            maxlength="250" counter required />
+                                    </v-col>
+                                    <v-col cols="12" md="6" sm="4">
+                                        <v-switch v-model="switchEstatusLote" :label="`Estatus*: ${switchEstatusLote}`"
+                                            true-value="Activo" false-value="Inactivo" />
+                                    </v-col>
+                                </v-row><br>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn @click="onClickGuardarDialogoLote" elevation="0" dark rounded width="120"
+                                class="green px13 font-weight-regular pr-4" small>
+                                <v-icon left>mdi-check</v-icon>
+                                Guardar
+                            </v-btn>
+                            <v-btn @click="onClickCerrarDialogoLote" elevation="0" rounded text width="100"
+                                class="red--text px13 font-weight-bold" small>
+                                <v-icon left>mdi-close-circle</v-icon>
+                                Cerrar
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-col>
+        </v-row>
 
         <dialogoCarga :loader="loader" />
     </v-container>
@@ -119,10 +133,12 @@
 
 <script>
 import { get, post } from "../api/Requests"
+import Menu from "@/components/Menu.vue";
 import dialogoCarga from '../components/DialogoCarga.vue'
 export default {
     name: "Lotes",
     components: {
+        Menu,
         dialogoCarga,
     },
     props: [],
@@ -192,7 +208,7 @@ export default {
                     align: 'center',
                     sortable: true,
                     width: 40,
-                },{
+                }, {
                     text: 'Fecha de alta',
                     value: 'fechaAlta',
                     align: 'start',
@@ -261,11 +277,11 @@ export default {
 
         // Dialogo lote
         async onClickNuevoLote() {
-                this.loader = true
-                this.isNewLote = true
-                this.switchEstatusLote = "Inactivo"
-                this.loader = false
-                this.dialogoLote = true
+            this.loader = true
+            this.isNewLote = true
+            this.switchEstatusLote = "Inactivo"
+            this.loader = false
+            this.dialogoLote = true
         },
         async onClickEditarLote(item) {
             this.loader = true
@@ -367,7 +383,7 @@ export default {
             this.lote.idUsuarioEditor = null
             this.lote.usuarioEditor = null
             this.switchEstatusLote = "Inactivo"
-        }
+        },
     },
 };
 </script>

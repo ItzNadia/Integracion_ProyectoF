@@ -29,19 +29,69 @@ public class HatoWS {
     @GET
     @Path("getHatosByIdRancho/{idRancho}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Hato> getHatosByIdRancho(@PathParam("idRancho") Integer idRancho){
-    List<Hato> list = new LinkedList<>();
-    SqlSession conn = null;
-    try{    
-        conn=MyBatisUtil.getSession();
-        list=conn.selectList("Hato.getHatosByIdRancho", idRancho);
-    }catch(Exception ex){
-        ex.printStackTrace();
-    }finally{
-        if(conn!=null){
-            conn.close();
+    public List<Hato> getHatosByIdRancho(@PathParam("idRancho") Integer idRancho) {
+        List<Hato> list = new LinkedList<>();
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtil.getSession();
+            list = conn.selectList("Hato.getHatosByIdRancho", idRancho);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
         }
+        return list;
     }
+
+    @POST
+    @Path("getHatosByIdLote")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Hato> getHatosByIdLote(
+            @FormParam("idRancho") Integer idRancho,
+            @FormParam("idLote") Integer idLote) {
+        List<Hato> list = new LinkedList<>();
+        SqlSession conn = null;
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("idRancho", idRancho);
+            param.put("idLote", idLote);
+
+            conn = MyBatisUtil.getSession();
+            list = conn.selectList("Hato.getHatosByIdLote", param);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    @POST
+    @Path("getHatosByIdTraspaso")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Hato> getHatosByIdTraspaso(
+            @FormParam("idRancho") Integer idRancho,
+            @FormParam("idTraspaso") Integer idTraspaso) {
+        List<Hato> list = new LinkedList<>();
+        SqlSession conn = null;
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("idRancho", idRancho);
+            param.put("idTraspaso", idTraspaso);
+
+            conn = MyBatisUtil.getSession();
+            list = conn.selectList("Hato.getHatosByIdTraspaso", param);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
         return list;
     }
 
@@ -49,25 +99,25 @@ public class HatoWS {
     @Path("buscarHatos")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Hato> buscarHatos(
-            @FormParam("idRancho") String idRancho,
-            @FormParam("busqueda") String busqueda){
+            @FormParam("idRancho") Integer idRancho,
+            @FormParam("busqueda") String busqueda) {
         List<Hato> list = new LinkedList<>();
         SqlSession conn = null;
-        try{
-            HashMap<String,Object> param = new HashMap<String, Object>();
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idRancho", idRancho);
             param.put("busqueda", busqueda);
-            
+
             conn = MyBatisUtil.getSession();
             list = conn.selectList("Hato.buscarHatos", param);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             conn.close();
         }
         return list;
     }
-    
+
     @POST
     @Path("registrarHato")
     @Produces(MediaType.APPLICATION_JSON)
@@ -79,11 +129,11 @@ public class HatoWS {
             @FormParam("idEstatus") Integer idEstatus,
             @FormParam("descripcion") String descripcion,
             @FormParam("idRancho") Integer idRancho,
-            @FormParam("idUsuarioAlta") Integer idUsuarioAlta){
+            @FormParam("idUsuarioAlta") Integer idUsuarioAlta) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
-            HashMap<String,Object> param = new HashMap<String, Object>();
+        try {
+            HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("diio", diio);
             param.put("idRaza", idRaza);
             param.put("idLote", idLote);
@@ -92,17 +142,17 @@ public class HatoWS {
             param.put("descripcion", descripcion);
             param.put("idRancho", idRancho);
             param.put("idUsuarioAlta", idUsuarioAlta);
-            
+
             conn.insert("Hato.registrarHato", param);
             conn.commit();
-            
+
             res.setError(false);
             res.setMensaje("¡Hato registrado correctamente!");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error de conexión, favor de intentar más tarde.");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;
@@ -120,10 +170,10 @@ public class HatoWS {
             @FormParam("idEstatus") Integer idEstatus,
             @FormParam("descripcion") String descripcion,
             @FormParam("idRancho") Integer idRancho,
-            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
+        try {
             HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idHato", idHato);
             param.put("diio", diio);
@@ -134,22 +184,22 @@ public class HatoWS {
             param.put("descripcion", descripcion);
             param.put("idRancho", idRancho);
             param.put("idUsuarioEditor", idUsuarioEditor);
-            
+
             conn.update("Hato.editarHato", param);
             conn.commit();
-            
+
             res.setError(false);
             res.setMensaje("¡Hato editado correctamente!");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error de conexión, favor de intentar más tarde.");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;
     }
-    
+
     @POST
     @Path("bajaHato")
     @Produces(MediaType.APPLICATION_JSON)
@@ -157,26 +207,26 @@ public class HatoWS {
             @FormParam("idHato") Double idHato,
             @FormParam("fechaBaja") String fechaBaja,
             @FormParam("motivoBaja") String motivoBaja,
-            @FormParam("idUsuarioEditor") Integer idUsuarioEditor){
+            @FormParam("idUsuarioEditor") Integer idUsuarioEditor) {
         Respuesta res = new Respuesta();
         SqlSession conn = MyBatisUtil.getSession();
-        try{
+        try {
             HashMap<String, Object> param = new HashMap<String, Object>();
             param.put("idHato", idHato);
             param.put("fechaBaja", fechaBaja);
             param.put("motivoBaja", motivoBaja);
             param.put("idUsuarioEditor", idUsuarioEditor);
-            
+
             conn.update("Hato.bajaHato", param);
             conn.commit();
-            
+
             res.setError(false);
             res.setMensaje("¡Hato dado de baja correctamente!");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.setError(true);
             res.setMensaje("Error de conexión, favor de intentar más tarde.");
-        }finally{
+        } finally {
             conn.close();
         }
         return res;

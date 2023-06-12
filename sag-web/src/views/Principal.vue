@@ -1,14 +1,22 @@
 <template>
     <v-container>
-        Selecciona una página
-        <br>
-        <v-btn @click="onClickCerrarSesion">Cerrar sesión</v-btn>
+        <v-col>
+            <Menu />
+        </v-col>
+        <v-col>
+            <v-img class="mx-auto" contain max-height="450" max-width="550"
+                :src="require('../assets/titulo_sag.png')"></v-img>
+        </v-col>
     </v-container>
 </template>
 
 <script>
+import Menu from "@/components/Menu.vue";
 export default {
     name: "Principal",
+    components: {
+        Menu,
+    },
     props: {},
     data() {
         return {};
@@ -18,11 +26,11 @@ export default {
             this.$router.push({ name: "Login" })
         }
     },
-    mounted() {},
+    mounted() { },
     computed: {},
     watch: {},
     methods: {
-        onClickCerrarSesion(){
+        onClickCerrarSesion() {
             this.$session.destroy();
             this.$router.push({ name: "Login" })
         }

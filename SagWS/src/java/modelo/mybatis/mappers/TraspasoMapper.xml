@@ -39,4 +39,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{idUsuarioEditor, jdbcType=INTEGER,mode=IN})}
     </update>
     
+    <insert id="agregarHatosTraspaso" parameterType="map" statementType="CALLABLE">
+        {CALL sag.sp_agregarHatosTraspaso(
+            #{idHato, jdbcType=INTEGER,mode=IN},
+            #{idTraspaso, jdbcType=INTEGER,mode=IN},
+            #{idLoteDestino, jdbcType=INTEGER,mode=IN})}
+    </insert>
+
+    <select id="getIdSiguienteTraspaso" resultType="modelo.pojos.Traspaso" statementType="CALLABLE">
+        {CALL sag.sp_getIdSiguienteTraspaso()}
+    </select>
 </mapper>

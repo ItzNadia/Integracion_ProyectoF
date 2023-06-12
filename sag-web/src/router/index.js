@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Principal from '../views/Principal.vue'
 import Hatos from '../views/Hatos.vue'
 import Lotes from '../views/Lotes.vue'
+import Traspasos from '../views/Traspasos.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/lotes',
     name: 'Lotes',
     component: Lotes
+  },
+  {
+    path: '/traspasos',
+    name: 'Traspasos',
+    component: Traspasos
   },
 ]
 
