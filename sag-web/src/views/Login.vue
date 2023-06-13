@@ -82,10 +82,14 @@ export default {
                 return;
             }
             else {
-                console.log(response)
-                this.$session.start()
-                this.$session.set("user", JSON.parse(response.respuesta))
-                this.$router.push({ name: "Principal" })
+                if((JSON.parse(response.respuesta)).idEstatus != 101){
+                    this.$toast.warning("Este usuario no se encuentra activo...")
+                } else {
+                    console.log(response)
+                    this.$session.start()
+                    this.$session.set("user", JSON.parse(response.respuesta))
+                    this.$router.push({ name: "Principal" })
+                }
             }
         },
     },
